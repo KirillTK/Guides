@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LandingPageComponent} from './pages/langing-page/landing-page';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -14,17 +14,23 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {FileService} from './shared/services/File.service';
 import {MaterialComponentsModule} from './shared/modules/MaterialComponentsModule';
-import { TagInputModule } from 'ngx-chips';
+import {TagInputModule} from 'ngx-chips';
 import {RatingModule} from 'ngx-rating';
 import {LoginPageComponent} from './pages/login-page/login-page';
 import {RegistrationPageComponent} from './pages/registration-page/registration-page';
+import {UserPageComponent} from './pages/user-page/user-page';
+import {AdminPageComponent} from './pages/admin-page/admin-page';
+import {UserPageRouteGuard} from './shared/guards/UserPageRouteGuard';
+import {AdminPageRouteGuard} from './shared/guards/AdminPageRouteGuard';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
     LoginPageComponent,
-    RegistrationPageComponent
+    RegistrationPageComponent,
+    UserPageComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,8 @@ import {RegistrationPageComponent} from './pages/registration-page/registration-
     RatingModule,
     TagInputModule
   ],
-  providers: [FileService],
+  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
