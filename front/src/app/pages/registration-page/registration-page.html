@@ -1,2 +1,17 @@
-<span>registration</span>
+<div class="registration-container">
 
+    <form [formGroup]="registrationForm" (submit)="submitLogin()" class="registration-form">
+        <mat-form-field>
+            <input matInput placeholder="Email" type="email" formControlName="email">
+            <mat-error *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">Invalid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Password" type="password" formControlName="password">
+            <mat-error *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched">Invalid password</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" class="submit-btn">Create an account</button>
+    </form>
+
+</div>
