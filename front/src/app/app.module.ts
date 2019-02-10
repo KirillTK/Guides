@@ -22,6 +22,8 @@ import {UserPageComponent} from './pages/user-page/user-page';
 import {AdminPageComponent} from './pages/admin-page/admin-page';
 import {UserPageRouteGuard} from './shared/guards/UserPageRouteGuard';
 import {AdminPageRouteGuard} from './shared/guards/AdminPageRouteGuard';
+import {ListInstructionComponent} from './pages/user-page/components/list-instruction/list-instruction.component';
+import {WriteInstructionComponent} from './pages/user-page/components/write-instruction/write-instruction.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {AdminPageRouteGuard} from './shared/guards/AdminPageRouteGuard';
     LoginPageComponent,
     RegistrationPageComponent,
     UserPageComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    ListInstructionComponent,
+    WriteInstructionComponent
   ],
   imports: [
     BrowserModule,
