@@ -24,6 +24,8 @@ import {UserPageRouteGuard} from './shared/guards/UserPageRouteGuard';
 import {AdminPageRouteGuard} from './shared/guards/AdminPageRouteGuard';
 import {ListInstructionComponent} from './pages/user-page/components/list-instruction/list-instruction.component';
 import {WriteInstructionComponent} from './pages/user-page/components/write-instruction/write-instruction.component';
+import {FileDropModule} from 'ngx-file-drop';
+import {AutosizeModule} from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import {WriteInstructionComponent} from './pages/user-page/components/write-inst
     AngularFireStorageModule,
     MaterialComponentsModule,
     RatingModule,
-    TagInputModule
+    TagInputModule,
+    FileDropModule,
+    AutosizeModule
   ],
   providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard],
   bootstrap: [AppComponent]
