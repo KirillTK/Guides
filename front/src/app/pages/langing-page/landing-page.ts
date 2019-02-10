@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
-import {FileService} from "../../shared/services/File.service";
-import {AngularFireStorage} from "@angular/fire/storage";
+import {FileService} from '../../shared/services/File.service';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-root',
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.css']
 })
-export class LandingPage {
+export class LandingPageComponent {
+  public rate = 3.34;
+
 
   constructor(private file: FileService, private storage: AngularFireStorage) {
   }
@@ -19,8 +21,8 @@ export class LandingPage {
       const ref = this.storage.ref(filePath);
       const downloadURL = ref.getDownloadURL().subscribe(url => {
         console.log(url);
-      })
-    })
+      });
+    });
   }
 
 

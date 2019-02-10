@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LandingPage} from "../../pages/langing-page/landing-page";
+import {LandingPageComponent} from '../../pages/langing-page/landing-page';
 
 
 const routes: Routes = [
-  {path: '', component: LandingPage}
+  {path: '', component: LandingPageComponent}
   // {path: 'film/:id', component: FilmComponent}
 ];
 
