@@ -9,6 +9,9 @@ import {AngularFireStorage} from '@angular/fire/storage';
 })
 export class LandingPageComponent {
   public rate = 3.34;
+  public tag;
+  options: string[] = ['One', 'Two', 'Three'];
+  public items = [1, 2, 3, 4];
 
 
   constructor(private file: FileService, private storage: AngularFireStorage) {

@@ -2,3 +2,24 @@
     width: 70%;
     margin: 0 auto;
 }
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.toolbar-item {
+    padding: 0 14px;
+}
+
+.navigation-btn {
+    width: 100px;
+}
+
+.sign_up_btn {
+    border: 1px solid white;
+}
+
+.toolbar-container {
+    width: 70%;
+    margin: 0 auto;
+}
