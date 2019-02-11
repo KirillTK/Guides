@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatIconModule,
-  MatInputModule, MatListModule, MatPaginatorModule, MatSelectModule, MatTableModule, MatTabsModule,
+  MatInputModule, MatListModule, MatPaginatorModule, MatSelectModule, MatSortModule, MatTableModule, MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
@@ -20,7 +20,8 @@ import {NgModule} from '@angular/core';
     MatSelectModule,
     MatListModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports: [
     MatToolbarModule,
@@ -33,7 +34,8 @@ import {NgModule} from '@angular/core';
     MatSelectModule,
     MatListModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class MaterialComponentsModule {
