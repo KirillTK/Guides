@@ -26,6 +26,9 @@ import {ListInstructionComponent} from './pages/user-page/components/list-instru
 import {WriteInstructionComponent} from './pages/user-page/components/write-instruction/write-instruction.component';
 import {FileDropModule} from 'ngx-file-drop';
 import {AutosizeModule} from 'ngx-autosize';
+import {InputFileConfig, InputFileModule} from 'ngx-input-file';
+
+const config: InputFileConfig = {};
 
 @NgModule({
   declarations: [
@@ -53,7 +56,8 @@ import {AutosizeModule} from 'ngx-autosize';
     RatingModule,
     TagInputModule,
     FileDropModule,
-    AutosizeModule
+    AutosizeModule,
+    InputFileModule.forRoot(config)
   ],
   providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard],
   bootstrap: [AppComponent]

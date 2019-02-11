@@ -1,15 +1,13 @@
 .instruction-container {
     width: 80%;
     height: 800px;
-    /*border: 1px solid black;*/
     margin: 10px auto;
 }
 
 .instruction_img {
-    width: 40%;
-    height: 40%;
+    width: 20%;
+    height: 20%;
     min-width: 210px;
-    /*border: 1px solid red;*/
 }
 
 .instruction-description {
@@ -21,7 +19,7 @@
 }
 
 .info {
-    width: 50%;
+    width: 70%;
 }
 
 .info-item {

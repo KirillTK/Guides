@@ -1,26 +1,31 @@
 <section class="instruction-container">
 
-    <form>
+    <form [formGroup]="instructionForm" (submit)="postInstruction()">
         <section class="instruction-description">
             <div class="instruction_img">
-                <file-drop headertext="Drop image here" (onFileDrop)="dropped($event)"
-                           (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" *ngIf="!url">
-                </file-drop>
+                <!--<file-drop headertext="Drop image here" (onFileDrop)="dropped($event)"-->
+                           <!--(onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" *ngIf="!url">-->
+                <!--</file-drop>-->
 
-                <img *ngIf="url" [src]="url" class="img">
+                <input-file
+                        placeholder="Pictures"
+                        formControlName="imageInstruction">
+                </input-file>
+
+                <!--<img *ngIf="url" [src]="url" class="img">-->
             </div>
 
             <div class="info">
                 <mat-form-field class="info-item">
-                    <input matInput placeholder="Title">
+                    <input matInput placeholder="Title" formControlName="title">
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <textarea matInput placeholder="Description" autosize></textarea>
+                    <textarea matInput placeholder="Description" autosize formControlName="description"></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <mat-select placeholder="Theme">
+                    <mat-select placeholder="Theme" formControlName="theme">
                         <mat-option value="option">Option</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -28,7 +33,7 @@
             </div>
         </section>
 
-        <tag-input class="tag-input"></tag-input>
+        <tag-input class="tag-input" formControlName="tags"></tag-input>
 
 
         <span class="steps-title">Steps:</span>
@@ -39,11 +44,11 @@
                 <span class="number-item">{{i + 1}}:</span>
                 <div class="step-values">
                     <mat-form-field class="step-item">
-                        <input matInput placeholder="Title step">
+                        <input matInput placeholder="Title step" formControlName="stepTitle">
                     </mat-form-field>
 
                     <mat-form-field class="step-item">
-                        <textarea matInput placeholder="Description step" autosize></textarea>
+                        <textarea matInput placeholder="Description step" autosize formControlName="descriptionTitle"></textarea>
                     </mat-form-field>
 
                 </div>
@@ -55,14 +60,14 @@
 
             <div>
                 <button mat-fab color="primary">
-                    <mat-icon>plus_one</mat-icon>
+                    <mat-icon (click)="addStep()">plus_one</mat-icon>
                 </button>
                 <button mat-fab color="warn">
-                    <mat-icon>exposure_neg_1</mat-icon>
+                    <mat-icon (click)="deleteStep()">exposure_neg_1</mat-icon>
                 </button>
             </div>
 
-            <button mat-stroked-button color="primary" class="post-btn">Post</button>
+            <button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">Post</button>
 
         </section>
 
