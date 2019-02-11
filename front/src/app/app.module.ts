@@ -28,8 +28,6 @@ import {FileDropModule} from 'ngx-file-drop';
 import {AutosizeModule} from 'ngx-autosize';
 import {InputFileConfig, InputFileModule} from 'ngx-input-file';
 import {InstructionComponent} from './pages/user-page/components/instruction/instruction.component';
-import {TestComponent} from './pages/user-page/components/test/test';
-import {Test2Component} from './pages/user-page/components/test2/test2';
 
 const config: InputFileConfig = {};
 
@@ -43,8 +41,7 @@ const config: InputFileConfig = {};
     AdminPageComponent,
     ListInstructionComponent,
     WriteInstructionComponent,
-    InstructionComponent,
-    TestComponent
+    InstructionComponent
   ],
   imports: [
     BrowserModule,
