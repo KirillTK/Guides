@@ -27,6 +27,7 @@ import {WriteInstructionComponent} from './pages/user-page/components/write-inst
 import {FileDropModule} from 'ngx-file-drop';
 import {AutosizeModule} from 'ngx-autosize';
 import {InputFileConfig, InputFileModule} from 'ngx-input-file';
+import {InstructionComponent} from './pages/user-page/components/instruction/instruction.component';
 
 const config: InputFileConfig = {};
 
@@ -39,7 +40,8 @@ const config: InputFileConfig = {};
     UserPageComponent,
     AdminPageComponent,
     ListInstructionComponent,
-    WriteInstructionComponent
+    WriteInstructionComponent,
+    InstructionComponent
   ],
   imports: [
     BrowserModule,
