@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatIconModule,
-  MatInputModule, MatTabsModule,
+  MatInputModule, MatListModule, MatSelectModule, MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
@@ -16,7 +16,9 @@ import {NgModule} from '@angular/core';
     MatAutocompleteModule,
     MatIconModule,
     MatButtonModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatListModule
   ],
   exports: [
     MatToolbarModule,
@@ -25,7 +27,9 @@ import {NgModule} from '@angular/core';
     MatAutocompleteModule,
     MatIconModule,
     MatButtonModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatListModule
   ]
 })
 export class MaterialComponentsModule {
