@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatIconModule,
-  MatInputModule, MatListModule, MatSelectModule, MatTabsModule,
+  MatInputModule, MatListModule, MatPaginatorModule, MatSelectModule, MatTableModule, MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
@@ -18,7 +18,9 @@ import {NgModule} from '@angular/core';
     MatButtonModule,
     MatTabsModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   exports: [
     MatToolbarModule,
@@ -29,7 +31,9 @@ import {NgModule} from '@angular/core';
     MatButtonModule,
     MatTabsModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialComponentsModule {
