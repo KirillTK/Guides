@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-write-instruction',
@@ -11,20 +11,27 @@ export class WriteInstructionComponent implements OnInit {
 
   public files: UploadFile[] = [];
   public url;
-  public steps = [1];
   public instructionForm: FormGroup;
+  public steps: FormArray;
+
+
+  constructor(private formBuilder: FormBuilder) {
+  }
 
 
   ngOnInit(): void {
-    this.instructionForm = new FormGroup({
+    this.instructionForm = this.formBuilder.group({
       imageInstruction: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       theme: new FormControl(null, [Validators.required]),
       tags: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-      stepTitle: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)]),
+      steps: this.formBuilder.array([this.createStepFormControl()])
+      // stepTitle: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      // descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     });
+    this.steps = this.instructionForm.get('steps') as FormArray;
+    console.log('here', this.instructionForm);
   }
 
 
@@ -61,15 +68,25 @@ export class WriteInstructionComponent implements OnInit {
   }
 
   addStep(): void {
-    this.steps.push(1);
+    this.steps.push(this.createStepFormControl());
   }
 
   deleteStep(): void {
-    this.steps = this.steps.slice(0, this.steps.length - 1);
+    if (this.steps.length !== 1) {
+      this.steps.removeAt(this.steps.length - 1);
+      console.log(this.instructionForm);
+    }
   }
 
   postInstruction(): void {
     console.log(this.instructionForm);
+  }
+
+  createStepFormControl(): FormGroup {
+    return this.formBuilder.group({
+      stepTitle: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)])
+    });
   }
 
 }

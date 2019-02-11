@@ -39,20 +39,21 @@
         <span class="steps-title">Steps:</span>
 
         <section class="steps-container">
-            <div class="step" *ngFor="let step of steps;let i = index">
+            <div class="step" *ngFor="let step of instructionForm.get('steps').controls;let i = index" formArrayName="steps">
 
-                <span class="number-item">{{i + 1}}:</span>
-                <div class="step-values">
-                    <mat-form-field class="step-item">
-                        <input matInput placeholder="Title step" formControlName="stepTitle">
-                    </mat-form-field>
+                <div [formGroupName]="i" class="step-item">
+                    <span class="number-item">{{i + 1}}:</span>
+                    <div class="step-values">
+                        <mat-form-field class="step-item">
+                            <input matInput placeholder="Title step" formControlName="stepTitle">
+                        </mat-form-field>
 
-                    <mat-form-field class="step-item">
-                        <textarea matInput placeholder="Description step" autosize formControlName="descriptionTitle"></textarea>
-                    </mat-form-field>
+                        <mat-form-field class="step-item">
+                            <textarea matInput placeholder="Description step" autosize formControlName="descriptionTitle"></textarea>
+                        </mat-form-field>
 
+                    </div>
                 </div>
-
             </div>
         </section>
 
