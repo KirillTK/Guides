@@ -1,44 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const session = require('express-session');
 const {insertUsers, deleteAllUsers} = require('../public/scripts/users');
 const {sendEmail} = require('../public/scripts/sendEmail');
 const uniqid = require('uniqid');
 
 const connectionString = 'mongodb://admin:kirill201299@ds135255.mlab.com:35255/instructions';
-const users = [];
 
-router.post('/registration', async (req, res) => {
+router.post('/registration', (req, res) => {
 
-  sendEmail(req.sessionID);
-
-  MongoClient.connect(connectionString, {useNewUrlParser: true}, (err, client) => {
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
     const db = client.db('instructions');
     const user = req.body;
     user.isActivate = false;
     user.isAdmin = false;
-    db.collection('users').insertOne(user);
-    user.token = req.sessionID;
-    users.push(user);
+    const existingUsers = await db.collection('users').find({email: user.email}).toArray();
+    if (existingUsers.length === 0) {
+      const insertedUser = await db.collection('users').insertOne(user);
+      sendEmail(insertedUser.insertedId);
+    } else {
+      sendEmail(existingUsers[0]._id);
+    }
+
+    res.send({result: 'inserted!'});
     client.close();
   });
-  res.send({sessionID: req.sessionID});
+
 });
 
 
 router.get('/verify/:token', (req, res) => {
-  const user = users.find((user) => user.token === req.params.token);
-  if (user) {
 
-    MongoClient.connect(connectionString, {useNewUrlParser: true}, (err, client) => {
-      const db = client.db('instructions');
-      const col = db.collection('users');
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
+    const db = client.db('instructions');
+    const col = db.collection('users');
+    console.log('token', req.params.token);
+    const existingUsers = await db.collection('users').find({_id: ObjectId(req.params.token)}).toArray();
+    if (existingUsers.length !== 0) {
+      const user = existingUsers[0];
       col.updateOne({_id: user._id}, {$set: {isActivate: true}});
-      client.close();
-    });
-  }
-  res.send({token: req.params.token});
+      res.send({result: 'activated!'});
+    } else {
+      res.send({result: 'incorrect token'});
+    }
+    client.close();
+  });
 });
 
 router.get('/generateData', (req, res) => {
