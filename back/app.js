@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 cors = require('cors');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const uniqid = require('uniqid');
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -18,20 +20,6 @@ const corsOptions = {
   credentials: true
 };
 
-// MongoClient.connect('mongodb://admin:kirill201299@ds135255.mlab.com:35255/instructions', (err, client) => {
-//
-//   console.log("Connected successfully to server");
-//
-//   const db = client.db('list');
-//
-//   const col = db.collection('gameConfiguration');
-//
-//   col.find().toArray((err, docs) =>{
-//     console.log(docs);
-//   });
-//
-//   client.close();
-// });
 
 const indexRouter = require('./routes/index');
 const api = require('./routes/api');
@@ -48,10 +36,12 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(session({
-  secret: "uidasjkdasd",
+  secret: uniqid(),
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: new MongoStore({url:'mongodb://admin:kirill201299@ds135255.mlab.com:35255/instructions'})
 }));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 

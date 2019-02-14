@@ -12,7 +12,7 @@ const users = [
 ];
 
 const insertUsers = () => {
-  MongoClient.connect(connectionString, async (err, client) => {
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
     const db = client.db('instructions');
     const r = await db.collection('users').insertMany(users);
     // console.log('r', r);
@@ -21,7 +21,7 @@ const insertUsers = () => {
 };
 
 const deleteAllUsers = () => {
-  MongoClient.connect(connectionString, (err, client) => {
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, (err, client) => {
     const db = client.db('instructions');
     users.forEach((user) => db.collection('users').deleteMany(user));
     client.close();
