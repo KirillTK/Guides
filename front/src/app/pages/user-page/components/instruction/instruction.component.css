@@ -1,6 +1,9 @@
 .instruction-container {
     width: 100%;
     margin: 10px auto;
+    /*-webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);*/
+    /*-moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);*/
+    /*box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);*/
 }
 
 .instruction_img {

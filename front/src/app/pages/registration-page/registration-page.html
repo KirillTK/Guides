@@ -1,6 +1,6 @@
 <div class="registration-container">
 
-    <form [formGroup]="registrationForm" (submit)="submitLogin()" class="registration-form">
+    <form [formGroup]="registrationForm" (submit)="submitRegistration()" class="registration-form">
         <mat-form-field>
             <input matInput placeholder="Email" type="email" formControlName="email">
             <mat-error *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">Invalid email</mat-error>
