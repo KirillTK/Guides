@@ -1,0 +1,67 @@
+<div class="mat-elevation-z8">
+
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Checkbox Column -->
+        <!--<ng-container matColumnDef="select">-->
+            <!--<th mat-header-cell *matHeaderCellDef>-->
+                <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
+                              <!--[checked]="selection.hasValue() && isAllSelected()"-->
+                              <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+                <!--</mat-checkbox>-->
+            <!--</th>-->
+            <!--<td mat-cell *matCellDef="let row" [ngClass]="row.isDisable ? 'is_disable': ''">-->
+                <!--<mat-checkbox (click)="$event.stopPropagation()"-->
+                              <!--(change)="$event ? selection.toggle(row) : null"-->
+                              <!--[checked]="selection.isSelected(row)">-->
+                <!--</mat-checkbox>-->
+            <!--</td>-->
+        <!--</ng-container>-->
+
+
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="element.isDisable ? 'is_disable': ''"> {{element.name}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="lastLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of last login</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="element.isDisable ? 'is_disable': ''"> {{element.lastLogin}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="isDisable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Disable</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="element.isDisable ? 'is_disable': ''"> {{element.isDisable}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="element.isDisable ? 'is_disable': ''">
+                <div class="action-container">
+                    <button mat-stroked-button color="warn" (click)="action(element)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-stroked-button color="accent">
+                        <mat-icon>lock</mat-icon>
+                    </button>
+
+                    <button mat-stroked-button color="primary">
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row)">
+        </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

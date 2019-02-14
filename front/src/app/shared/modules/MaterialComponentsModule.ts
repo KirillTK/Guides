@@ -1,7 +1,7 @@
 import {
   MatAutocompleteModule,
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatCheckboxModule,
   MatIconModule,
   MatInputModule, MatListModule, MatPaginatorModule, MatSelectModule, MatSortModule, MatTableModule, MatTabsModule,
   MatToolbarModule
@@ -21,7 +21,8 @@ import {NgModule} from '@angular/core';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCheckboxModule
   ],
   exports: [
     MatToolbarModule,
@@ -35,7 +36,8 @@ import {NgModule} from '@angular/core';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialComponentsModule {

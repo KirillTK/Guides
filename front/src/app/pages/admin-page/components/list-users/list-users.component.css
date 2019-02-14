@@ -1,0 +1,39 @@
+.mat-column-select {
+    overflow: initial;
+}
+
+table {
+    margin: 40px auto;
+    width: 100%;
+}
+
+.is_disable {
+    color: red;
+}
+
+
+.icon {
+    cursor: pointer;
+    padding: 0 14px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.icon:active {
+    transform: scale(0.7);
+}
+
+.home_btn {
+    cursor: pointer;
+}
+
+.action-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 40%;
+    /*margin: 0 auto;*/
+}

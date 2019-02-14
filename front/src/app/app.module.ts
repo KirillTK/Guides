@@ -28,6 +28,8 @@ import {FileDropModule} from 'ngx-file-drop';
 import {AutosizeModule} from 'ngx-autosize';
 import {InputFileConfig, InputFileModule} from 'ngx-input-file';
 import {InstructionComponent} from './pages/user-page/components/instruction/instruction.component';
+import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
+import {UserService} from './shared/services/User.service';
 
 const config: InputFileConfig = {};
 
@@ -41,7 +43,8 @@ const config: InputFileConfig = {};
     AdminPageComponent,
     ListInstructionComponent,
     WriteInstructionComponent,
-    InstructionComponent
+    InstructionComponent,
+    ListUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ const config: InputFileConfig = {};
     AutosizeModule,
     InputFileModule.forRoot(config)
   ],
-  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard],
+  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
