@@ -41,7 +41,7 @@ router.get('/verify/:token', (req, res) => {
     if (existingUsers.length !== 0) {
       const user = existingUsers[0];
       col.updateOne({_id: user._id}, {$set: {isActivate: true}});
-      res.send({result: 'activated!'});
+      res.redirect('http://localhost:4200/');
     } else {
       res.send({result: 'incorrect token'});
     }
