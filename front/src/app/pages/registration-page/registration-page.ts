@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/User.service';
+import {User} from '../../shared/model/User';
 
 @Component({
   selector: 'app-registration',
@@ -10,6 +11,7 @@ import {UserService} from '../../shared/services/User.service';
 export class RegistrationPageComponent implements OnInit {
 
   public registrationForm: FormGroup;
+  public isAlreadyBeenRegistered = false;
 
   constructor(private userService: UserService) {
   }
@@ -21,9 +23,29 @@ export class RegistrationPageComponent implements OnInit {
     });
   }
 
-  submitRegistration() {
+  submitRegistration(): void {
     console.log('here', this.registrationForm.value);
-    this.userService.registerUser(this.registrationForm.value).subscribe(data => console.log(data));
+    const user: User = this.registrationForm.value;
+    this.userService.registerUser(user).subscribe((isAlreadyBeenRegistered: boolean) => {
+      if (isAlreadyBeenRegistered) {
+        console.log(isAlreadyBeenRegistered);
+        this.showUserAlert();
+      }
+    });
+    this.resetForm();
+  }
+
+  private showUserAlert(): void {
+    this.isAlreadyBeenRegistered = true;
+    setTimeout(() => this.isAlreadyBeenRegistered = false, 3000);
+  }
+
+  private resetForm(): void {
+    this.registrationForm.reset();
+
+    Object.keys(this.registrationForm.controls).forEach(control => {
+      this.registrationForm.controls[control].setErrors(null);
+    });
   }
 
 }

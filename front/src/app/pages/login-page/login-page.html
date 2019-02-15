@@ -3,15 +3,22 @@
     <form [formGroup]="loginForm" (submit)="submitLogin()" class="login-form">
         <mat-form-field>
             <input matInput placeholder="Email" type="email" formControlName="email">
-            <mat-error *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">Invalid email</mat-error>
+            <mat-error *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">Invalid email
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <input matInput placeholder="Password" type="password" formControlName="password">
-            <mat-error *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">Invalid password</mat-error>
+            <mat-error *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">Invalid password
+            </mat-error>
         </mat-form-field>
+
+        <span class="no-user" *ngIf="isLoginFail">
+        Incorrect username or password
+        </span>
 
         <button mat-raised-button color="primary" [disabled]="loginForm.invalid" class="submit-btn">Login</button>
     </form>
+
 
 </div>
