@@ -30,7 +30,7 @@ export class LoginPageComponent implements OnInit {
 
       if (user) {
         this.route.navigate(['/user', user._id]);
-        console.log(user);
+        this.userService.user = user;
       } else {
         this.showUserAlert();
       }
