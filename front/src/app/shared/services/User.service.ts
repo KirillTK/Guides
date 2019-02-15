@@ -8,6 +8,7 @@ export class UserService {
 
   private _user: User;
 
+
   get user(): User {
     return this._user;
   }
@@ -17,6 +18,13 @@ export class UserService {
   }
 
   constructor(private http: HttpClient) {
+    this.user = {
+      _id: '5c65e435c9320605e4eaa48b',
+      email: '123@gmail.com',
+      password: '111111',
+      isActivate: true,
+      isAdmin: false
+    };
   }
 
   registerUser(user: User) {

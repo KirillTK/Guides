@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {UploadFile} from 'ngx-file-drop';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Instruction} from '../../../../shared/model/Instruction';
 
 @Component({
   selector: 'app-instruction',
@@ -9,10 +9,10 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 })
 export class InstructionComponent implements OnInit {
 
+  @Input() instruction: Instruction;
   public instructionForm: FormGroup;
   public steps: FormArray;
   public isEdit = false;
-
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -21,14 +21,16 @@ export class InstructionComponent implements OnInit {
   ngOnInit(): void {
     this.instructionForm = this.formBuilder.group({
       imageInstruction: new FormControl(null, [Validators.required]),
-      title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       theme: new FormControl(null, [Validators.required]),
       tags: new FormControl(null, [Validators.required, Validators.minLength(1)]),
       steps: this.formBuilder.array([this.createStepFormControl()])
     });
     this.steps = this.instructionForm.get('steps') as FormArray;
-    this.disableForm();
+    // this.instructionForm.patchValue(this.instruction);
+    this.loadDataToForm();
+    // this.disableForm();
   }
 
 
@@ -67,6 +69,13 @@ export class InstructionComponent implements OnInit {
       this.isEdit = true;
       this.instructionForm.get(key).enable();
     });
+  }
+
+  loadDataToForm(): void {
+  }
+
+  update() {
+    console.log(this.instructionForm.value);
   }
 
 }

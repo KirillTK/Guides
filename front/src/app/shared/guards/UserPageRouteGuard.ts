@@ -9,6 +9,7 @@ export class UserPageRouteGuard implements CanActivate {
   }
 
   canActivate() {
-    return !!this.userService.user;
+    // return !!this.userService.user;
+    return true;
   }
 }

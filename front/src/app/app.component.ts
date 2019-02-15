@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements AfterViewChecked {
   title = 'Exam-Front';
-  public isAuthenticated: boolean;
+  public isAuthenticated = false;
 
   constructor(private userService: UserService, private route: Router) {
   }

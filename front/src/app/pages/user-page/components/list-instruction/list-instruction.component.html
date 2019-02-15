@@ -1,4 +1,4 @@
-<section class="container">
+<section class="container" *ngIf="isLoaded">
 
     <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -18,7 +18,7 @@
                 <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
                     <div class="example-element-detail"
                          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                        <app-instruction></app-instruction>
+                        <app-instruction [instruction]="element"></app-instruction>
                     </div>
                 </td>
             </ng-container>
@@ -37,4 +37,8 @@
     </div>
 
 </section>
+
+<div class="spinner" *ngIf="!isLoaded">
+    <mat-spinner></mat-spinner>
+</div>
 

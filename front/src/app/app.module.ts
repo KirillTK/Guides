@@ -30,6 +30,7 @@ import {InputFileConfig, InputFileModule} from 'ngx-input-file';
 import {InstructionComponent} from './pages/user-page/components/instruction/instruction.component';
 import {UserService} from './shared/services/User.service';
 import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
+import {InstructionService} from './shared/services/Instruction.service';
 
 const config: InputFileConfig = {};
 
@@ -64,7 +65,7 @@ const config: InputFileConfig = {};
     AutosizeModule,
     InputFileModule.forRoot(config)
   ],
-  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService],
+  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService, InstructionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

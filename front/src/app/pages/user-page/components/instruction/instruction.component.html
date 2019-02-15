@@ -13,15 +13,15 @@
 
             <div class="info">
                 <mat-form-field class="info-item">
-                    <input matInput placeholder="Title" formControlName="title">
+                    <input matInput placeholder="Title" formControlName="name" [value]="instruction.name">
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <textarea matInput placeholder="Description" autosize formControlName="description"></textarea>
+                    <textarea matInput placeholder="Description" autosize formControlName="description" [value]="instruction.description"></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <mat-select placeholder="Theme" formControlName="theme">
+                    <mat-select placeholder="Theme" formControlName="theme" [value]="instruction.theme">
                         <mat-option value="option">Option</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -69,7 +69,7 @@
 
             <!--<button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">Post</button>-->
             <button mat-stroked-button color="primary" class="post-btn" (click)="enableForm()" *ngIf="!isEdit">Edit</button>
-            <button mat-stroked-button color="primary" class="post-btn" *ngIf="isEdit">Update</button>
+            <button mat-stroked-button color="primary" class="post-btn" *ngIf="isEdit" (click)="update()">Update</button>
             <button mat-stroked-button color="warn" class="post-btn" (click)="disableForm()" *ngIf="isEdit">Cancel
             </button>
 
