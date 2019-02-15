@@ -28,8 +28,8 @@ import {FileDropModule} from 'ngx-file-drop';
 import {AutosizeModule} from 'ngx-autosize';
 import {InputFileConfig, InputFileModule} from 'ngx-input-file';
 import {InstructionComponent} from './pages/user-page/components/instruction/instruction.component';
-import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
 import {UserService} from './shared/services/User.service';
+import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
 
 const config: InputFileConfig = {};
 
