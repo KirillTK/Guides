@@ -1,6 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {InstructionService} from '../../../../shared/services/Instruction.service';
+import {UserService} from '../../../../shared/services/User.service';
 
 @Component({
   selector: 'app-write-instruction',
@@ -15,7 +17,7 @@ export class WriteInstructionComponent implements OnInit {
   public steps: FormArray;
 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private instructionService: InstructionService, private user: UserService) {
   }
 
 
@@ -79,7 +81,7 @@ export class WriteInstructionComponent implements OnInit {
   }
 
   postInstruction(): void {
-    console.log(this.instructionForm);
+    this.instructionService.postInstruction(this.user.user._id, this.instructionForm.value).subscribe(data => console.log(data));
   }
 
   createStepFormControl(): FormGroup {

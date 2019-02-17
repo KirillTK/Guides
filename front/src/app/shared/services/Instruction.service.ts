@@ -13,4 +13,8 @@ export class InstructionService {
     return this.http.get(`http://localhost:3000/api/getUserInstructions/${id}`);
   }
 
+  postInstruction(id: string, instruction) {
+    return this.http.post(`http://localhost:3000/api/postInstruction/${id}`, instruction);
+  }
+
 }
