@@ -20,11 +20,12 @@ router.post('/registration', (req, res) => {
     if (existingUsers.length === 0) {
       const insertedUser = await db.collection('users').insertOne(user);
       sendEmail(insertedUser.insertedId);
+      res.send(false);
     } else {
       sendEmail(existingUsers[0]._id);
+      res.send(true);
     }
 
-    res.send({result: 'inserted!'});
     client.close();
   });
 
@@ -48,6 +49,56 @@ router.get('/verify/:token', (req, res) => {
     client.close();
   });
 });
+
+router.post('/login', (req, res) => {
+
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
+    const db = client.db('instructions');
+    const user = req.body;
+    const existingUsers = await db.collection('users').find({email: user.email, password: user.password}).toArray();
+    console.log('here', existingUsers);
+    if (existingUsers.length !== 0) {
+      res.send(existingUsers[0]);
+    } else {
+      res.send(false);
+    }
+    client.close();
+  });
+
+});
+
+
+router.get('/getUserInstructions/:id', (req, res) => {
+
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
+    const db = client.db('instructions');
+    const existingUsers = await db.collection('users').find({_id: ObjectId(req.params.id)}).toArray();
+    if (existingUsers.length !== 0) {
+      console.log(existingUsers[0]);
+      const instructions = await db.collection('instructions').find({idUser: req.params.id}).toArray();
+      res.send(instructions);
+    } else {
+      res.send(false);
+    }
+    client.close();
+  });
+
+});
+
+router.post('/postInstruction/:id', (req, res) => {
+  MongoClient.connect(connectionString, {useNewUrlParser: true}, async (err, client) => {
+    const db = client.db('instructions');
+    const existingUsers = await db.collection('users').find({_id: ObjectId(req.params.id)}).toArray();
+    if (existingUsers.length !== 0) {
+      await db.collection('instructions').insertOne(req.body);
+      res.send({name: 'KirillTK'});
+    }
+
+    client.close();
+  });
+
+});
+
 
 router.get('/generateData', (req, res) => {
   insertUsers();
