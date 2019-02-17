@@ -14,7 +14,7 @@
         </mat-form-field>
 
         <span class="no-user" *ngIf="isLoginFail">
-        Incorrect username or password
+        {{failMessage}}
         </span>
 
         <button mat-raised-button color="primary" [disabled]="loginForm.invalid" class="submit-btn">Login</button>

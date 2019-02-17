@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/User.service';
 import {User} from '../../shared/model/User';
 import {Router} from '@angular/router';
+import {LoginResponse} from '../../shared/model/LoginResponse';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ export class LoginPageComponent implements OnInit {
 
   public loginForm: FormGroup;
   public isLoginFail = false;
+  public failMessage: string;
 
   constructor(private userService: UserService, private route: Router) {
   }
@@ -26,21 +28,21 @@ export class LoginPageComponent implements OnInit {
 
   submitLogin(): void {
     const registrationUser: User = this.loginForm.value;
-    this.userService.loginUser(registrationUser).subscribe((user: User) => {
+    this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
-      if (user) {
-        this.route.navigate(['/user', user._id]);
-        this.userService.user = user;
+      if (response.user) {
+        this.userService.user = response.user;
+        // this.route.navigate(['']);
       } else {
-        this.showUserAlert();
+         this.showUserAlert(response.message);
       }
-
     });
     this.resetForm();
   }
 
-  private showUserAlert(): void {
+  private showUserAlert(message: string): void {
     this.isLoginFail = true;
+    this.failMessage = message;
     setTimeout(() => this.isLoginFail = false, 3000);
   }
 
