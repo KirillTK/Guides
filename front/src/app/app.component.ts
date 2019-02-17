@@ -15,7 +15,7 @@ export class AppComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.isAuthenticated = this.userService.isAuthenticated();
+    // this.isAuthenticated = this.userService.isAuthenticated();
   }
 
   logout() {

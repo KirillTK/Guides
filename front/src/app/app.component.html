@@ -4,7 +4,7 @@
         <span class="spacer"></span>
         <a [routerLink]="['/login']" mat-button class="navigation-btn" *ngIf="!isAuthenticated">Sign in</a>
         <a [routerLink]="['/registration']"  mat-button class="navigation-btn sign_up_btn" *ngIf="!isAuthenticated">Sign up</a>
-        <a mat-button class="navigation-btn" *ngIf="isAuthenticated" (click)="logout()">Log out</a>
+        <!--<a mat-button class="navigation-btn" *ngIf="isAuthenticated" (click)="logout()">Log out</a>-->
     </mat-toolbar-row>
 </mat-toolbar>
 
