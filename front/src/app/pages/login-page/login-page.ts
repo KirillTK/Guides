@@ -30,11 +30,11 @@ export class LoginPageComponent implements OnInit {
     const registrationUser: User = this.loginForm.value;
     this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
-      if (response.user) {
+      if (response.user && response.user.isActivate) {
         this.userService.user = response.user;
-        // this.route.navigate(['']);
+        this.route.navigate(['user', this.userService.user._id]);
       } else {
-         this.showUserAlert(response.message);
+        this.showUserAlert(response.message);
       }
     });
     this.resetForm();

@@ -31,6 +31,7 @@ import {InstructionComponent} from './pages/user-page/components/instruction/ins
 import {UserService} from './shared/services/User.service';
 import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
 import {InstructionService} from './shared/services/Instruction.service';
+import {AuthService} from './shared/services/AuthService';
 
 const config: InputFileConfig = {};
 
@@ -65,7 +66,7 @@ const config: InputFileConfig = {};
     AutosizeModule,
     InputFileModule.forRoot(config)
   ],
-  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService, InstructionService],
+  providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService, InstructionService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
