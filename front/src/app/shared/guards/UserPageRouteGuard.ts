@@ -14,6 +14,6 @@ export class UserPageRouteGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.auth.isLoggedIn && !this.user.user.isAdmin;
+    return this.auth.isLoggedIn;
   }
 }

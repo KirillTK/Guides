@@ -32,6 +32,8 @@ import {UserService} from './shared/services/User.service';
 import {ListUsersComponent} from './pages/admin-page/components/list-users/list-user.component';
 import {InstructionService} from './shared/services/Instruction.service';
 import {AuthService} from './shared/services/AuthService';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
 
 const config: InputFileConfig = {};
 
@@ -64,7 +66,8 @@ const config: InputFileConfig = {};
     TagInputModule,
     FileDropModule,
     AutosizeModule,
-    InputFileModule.forRoot(config)
+    InputFileModule.forRoot(config),
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'kirilltk'}),
   ],
   providers: [FileService, UserPageRouteGuard, AdminPageRouteGuard, UserService, InstructionService, AuthService],
   bootstrap: [AppComponent]

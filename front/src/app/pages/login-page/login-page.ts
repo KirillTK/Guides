@@ -4,6 +4,7 @@ import {UserService} from '../../shared/services/User.service';
 import {User} from '../../shared/model/User';
 import {Router} from '@angular/router';
 import {LoginResponse} from '../../shared/model/LoginResponse';
+import {AuthService} from '../../shared/services/AuthService';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginPageComponent implements OnInit {
   public isLoginFail = false;
   public failMessage: string;
 
-  constructor(private userService: UserService, private route: Router) {
+  constructor(private userService: UserService, private route: Router, private auth: AuthService) {
   }
 
   ngOnInit(): void {
@@ -31,8 +32,10 @@ export class LoginPageComponent implements OnInit {
     this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
       if (response.user && response.user.isActivate) {
-        this.userService.user = response.user;
-        this.route.navigate(['user', this.userService.user._id]);
+        console.log('user', response.user);
+        // this.userService.user = response.user;
+        this.auth.setLoggedIn(true);
+        this.route.navigate(['/user', response.user._id]);
       } else {
         this.showUserAlert(response.message);
       }

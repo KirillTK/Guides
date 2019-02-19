@@ -4,7 +4,7 @@
         <section class="instruction-description">
             <div class="instruction_img">
                 <!--<file-drop headertext="Drop image here" (onFileDrop)="dropped($event)"-->
-                           <!--(onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" *ngIf="!url">-->
+                <!--(onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" *ngIf="!url">-->
                 <!--</file-drop>-->
 
                 <input-file
@@ -39,7 +39,8 @@
         <span class="steps-title">Steps:</span>
 
         <section class="steps-container">
-            <div class="step" *ngFor="let step of instructionForm.get('steps').controls;let i = index" formArrayName="steps">
+            <div class="step" *ngFor="let step of instructionForm.get('steps').controls;let i = index"
+                 formArrayName="steps">
 
                 <div [formGroupName]="i" class="step-item">
                     <span class="number-item">{{i + 1}}:</span>
@@ -49,7 +50,8 @@
                         </mat-form-field>
 
                         <mat-form-field class="step-item">
-                            <textarea matInput placeholder="Description step" autosize formControlName="descriptionTitle"></textarea>
+                            <textarea matInput placeholder="Description step" autosize
+                                      formControlName="descriptionTitle"></textarea>
                         </mat-form-field>
 
                     </div>
@@ -60,16 +62,15 @@
         <section class="action-container">
 
             <div>
-                <button mat-fab color="primary">
-                    <mat-icon (click)="addStep()">plus_one</mat-icon>
+                <button mat-fab color="primary" type="button" (click)="addStep()">
+                    <mat-icon>plus_one</mat-icon>
                 </button>
-                <button mat-fab color="warn">
-                    <mat-icon (click)="deleteStep()">exposure_neg_1</mat-icon>
+                <button mat-fab color="warn" type="button" (click)="deleteStep()">
+                    <mat-icon>exposure_neg_1</mat-icon>
                 </button>
             </div>
 
             <button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">Post</button>
-
         </section>
 
 

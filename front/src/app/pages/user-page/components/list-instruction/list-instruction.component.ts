@@ -30,13 +30,12 @@ export class ListInstructionComponent {
 
   constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
     const id: string = this.route.snapshot.paramMap.get('id');
-    this.instructionService.getUserInstruction(id).subscribe((instructions: Instruction[]) => {
-      this.dataSource = new MatTableDataSource(instructions);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.isLoaded = true;
-    });
-
+    // this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
+    //   this.dataSource = new MatTableDataSource(instructions);
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    //   this.isLoaded = true;
+    // });
   }
 
   applyFilter(filterValue: string) {
