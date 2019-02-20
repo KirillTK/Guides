@@ -34,7 +34,7 @@ export class WriteInstructionComponent implements OnInit {
       steps: this.formBuilder.array([this.createStepFormControl()])
     });
     this.steps = this.instructionForm.get('steps') as FormArray;
-    console.log('here', this.instructionForm);
+    console.log(this.user.user);
   }
 
   upload(event) {
@@ -70,12 +70,13 @@ export class WriteInstructionComponent implements OnInit {
         const {description, theme, tags, steps, title} = this.instructionForm.value;
         this.instructionService.postInstruction({
           name: title,
-          description,
           theme,
           tags,
           steps,
           imgHref: imageUrl,
           idUser,
+          description,
+          author: this.user.user.email
         }).subscribe(() => this.resetForm());
       });
     });

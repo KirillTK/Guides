@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
 
       if (response.user && response.user.isActivate) {
         console.log('user', response.user);
-        // this.userService.user = response.user;
+        this.userService.user = response.user;
         this.auth.setLoggedIn(true);
         this.route.navigate(['/user', response.user._id]);
       } else {

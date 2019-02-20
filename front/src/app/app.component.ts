@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewChecked {
   ngAfterViewChecked(): void {
     this.userService.isLoggedIn().subscribe(response => {
       this.auth.setLoggedIn(response.status);
+      this.userService.user = response.user;
       this.isAuthenticated = response.status;
     });
   }

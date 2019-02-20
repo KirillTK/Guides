@@ -1,4 +1,5 @@
 import {Tag} from './Tag';
+import {Comment} from './Comment';
 import {InstructionStep} from './InstructionStep';
 
 export interface Instruction {
@@ -10,5 +11,8 @@ export interface Instruction {
   idUser: string;
   tags: Tag[];
   steps: InstructionStep[];
+  score: number;
+  comments: Comment[];
+  author: string;
 }
 

@@ -10,7 +10,7 @@ export class InstructionService {
   }
 
   getUserInstructions(id: string) {
-    return this.http.get(`/api/getUserInstructions/${id}`);
+    return this.http.get(`/api/getUserInstructions`);
   }
 
   postInstruction(instruction) {
