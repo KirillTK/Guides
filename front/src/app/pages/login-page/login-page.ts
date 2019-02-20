@@ -32,10 +32,11 @@ export class LoginPageComponent implements OnInit {
     this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
       if (response.user && response.user.isActivate) {
-        console.log('user', response.user);
-        this.userService.user = response.user;
-        this.auth.setLoggedIn(true);
-        this.route.navigate(['/user', response.user._id]);
+        if (response.user) {
+          this.userService.user = response.user;
+          this.route.navigate(['/user', response.user._id]);
+        }
+        this.auth.setLoggedIn(response.success);
       } else {
         this.showUserAlert(response.message);
       }
