@@ -5,7 +5,7 @@ import {
   MatCheckboxModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
+  MatListModule, MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSelectModule,
@@ -31,7 +31,8 @@ import {NgModule} from '@angular/core';
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   exports: [
     MatToolbarModule,
@@ -47,7 +48,8 @@ import {NgModule} from '@angular/core';
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ]
 })
 export class MaterialComponentsModule {

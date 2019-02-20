@@ -23,7 +23,7 @@ export class ListInstructionComponent {
   public isLoaded = false;
 
   dataSource: MatTableDataSource<Instruction>;
-  columnsToDisplay = ['name', 'theme', 'description'];
+  columnsToDisplay = ['name', 'theme', 'score'];
   expandedElement: Instruction | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

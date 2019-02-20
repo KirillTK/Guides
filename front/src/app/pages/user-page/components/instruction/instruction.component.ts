@@ -12,7 +12,6 @@ export class InstructionComponent implements OnInit {
   @Input() instruction: Instruction;
   public instructionForm: FormGroup;
   public steps: FormArray;
-  public isEdit = false;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -28,9 +27,8 @@ export class InstructionComponent implements OnInit {
       steps: this.formBuilder.array([this.createStepFormControl()])
     });
     this.steps = this.instructionForm.get('steps') as FormArray;
-    // this.instructionForm.patchValue(this.instruction);
-    this.loadDataToForm();
-    // this.disableForm();
+    this.instructionForm.patchValue(this.instruction);
+    this.instructionForm.controls.imageInstruction.setValue(this.instruction.imgHref);
   }
 
 
@@ -59,14 +57,12 @@ export class InstructionComponent implements OnInit {
   disableForm() {
     this.instructionForm.reset();
     Object.keys(this.instructionForm.controls).forEach((key) => {
-      this.isEdit = false;
       this.instructionForm.get(key).disable();
     });
   }
 
   enableForm() {
     Object.keys(this.instructionForm.controls).forEach((key) => {
-      this.isEdit = true;
       this.instructionForm.get(key).enable();
     });
   }

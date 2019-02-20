@@ -17,6 +17,12 @@ export class UserPageRouteGuard implements CanActivate {
     if (!this.auth.isLoggedIn) {
       this.router.navigate(['/login']);
     }
+    //
+    // // console.log(this.user.user, this.auth.isLoggedIn);
+    //
+    // if (this.user.user && this.auth.isLoggedIn) {
+    //   this.router.navigate(['/user', this.user.user._id]);
+    // }
     return this.auth.isLoggedIn;
   }
 }

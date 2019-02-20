@@ -12,6 +12,7 @@ import {map} from 'rxjs/operators';
 export class AppComponent implements AfterViewChecked {
   title = 'Exam-Front';
   public isAuthenticated = false;
+  public userID: string;
 
   constructor(private userService: UserService, private route: Router, private auth: AuthService) {
   }
@@ -20,6 +21,7 @@ export class AppComponent implements AfterViewChecked {
     this.userService.isLoggedIn().subscribe(response => {
       this.auth.setLoggedIn(response.status);
       this.userService.user = response.user;
+      this.userID = response.user._id;
       this.isAuthenticated = response.status;
     });
   }
