@@ -22,7 +22,8 @@
                             <button mat-stroked-button color="warn" (click)="deleteInstruction($event,element)">
                                 <mat-icon>delete</mat-icon>
                             </button>
-                            <button mat-stroked-button color="primary" (click)="goToInstruction($event,element)">
+                            <!--<button mat-stroked-button color="primary" (click)="goToInstruction($event,element)">-->
+                            <button mat-stroked-button color="primary" [routerLink]="['/instruction',element._id]">
                                 <mat-icon>label</mat-icon>
                             </button>
                         </div>
