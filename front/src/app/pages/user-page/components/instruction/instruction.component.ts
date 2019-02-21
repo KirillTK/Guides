@@ -30,9 +30,22 @@ export class InstructionComponent implements OnInit {
       tags: new FormControl(null, [Validators.required, Validators.minLength(1)]),
       steps: this.formBuilder.array([this.createStepFormControl()])
     });
+
     this.steps = this.instructionForm.get('steps') as FormArray;
     this.instructionForm.patchValue(this.instruction);
     this.instructionForm.controls.imageInstruction.setValue(this.instruction.imgHref);
+    this.initFormArray();
+  }
+
+  private initFormArray() {
+    const {steps} = this.instruction;
+    for (let i = 1; i < steps.length; i++) {
+      console.log(steps[i].stepTitle, steps[i].descriptionTitle);
+      this.steps.push(this.formBuilder.group({
+        stepTitle: [steps[i].stepTitle, Validators.compose([Validators.required, Validators.minLength(3)])],
+        descriptionTitle: [steps[i].descriptionTitle, Validators.compose([Validators.required, Validators.minLength(5)])]
+      }));
+    }
   }
 
 
@@ -43,7 +56,6 @@ export class InstructionComponent implements OnInit {
   deleteStep(): void {
     if (this.steps.length !== 1) {
       this.steps.removeAt(this.steps.length - 1);
-      console.log(this.instructionForm);
     }
   }
 
