@@ -33,4 +33,8 @@ export class InstructionService {
     return this.http.delete<Instruction[]>(`/api/deleteInstruction/${id}`);
   }
 
+  updateInstruction(id: string, instruction: Instruction) {
+    return this.http.put(`/api/updateInstruction/${id}`, instruction);
+  }
+
 }

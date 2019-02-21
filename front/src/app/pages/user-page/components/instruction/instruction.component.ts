@@ -3,6 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
+import {InstructionService} from '../../../../shared/services/Instruction.service';
 
 @Component({
   selector: 'app-instruction',
@@ -17,7 +18,7 @@ export class InstructionComponent implements OnInit {
   public instructionForm: FormGroup;
   public steps: FormArray;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private instructionService: InstructionService) {
   }
 
 
@@ -60,7 +61,7 @@ export class InstructionComponent implements OnInit {
   }
 
   postInstruction(): void {
-    console.log(this.instructionForm);
+    this.instructionService.updateInstruction(this.instruction._id, this.instructionForm.value).subscribe();
   }
 
   createStepFormControl(): FormGroup {
@@ -86,8 +87,5 @@ export class InstructionComponent implements OnInit {
   loadDataToForm(): void {
   }
 
-  update() {
-    console.log(this.instructionForm.value);
-  }
 
 }
