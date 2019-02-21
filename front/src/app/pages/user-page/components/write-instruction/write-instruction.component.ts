@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import {UserService} from '../../../../shared/services/User.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ActivatedRoute} from '@angular/router';
+import {Theme} from '../../../../shared/model/Theme';
+import {Tag} from '../../../../shared/model/Tag';
 
 @Component({
   selector: 'app-write-instruction',
@@ -14,6 +16,8 @@ export class WriteInstructionComponent implements OnInit {
 
   public instructionForm: FormGroup;
   public steps: FormArray;
+  @Input() themes: Theme[];
+  @Input() tags: Tag[];
 
 
   constructor(private formBuilder: FormBuilder,

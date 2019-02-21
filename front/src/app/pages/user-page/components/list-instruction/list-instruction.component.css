@@ -42,3 +42,11 @@ tr.example-element-row:not(.example-expanded-row):active {
     margin-top: 30px;
 }
 
+.action-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 35%;
+}
+

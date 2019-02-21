@@ -5,8 +5,8 @@
             <div class="instruction_img">
 
                 <!--<input-file-->
-                        <!--placeholder="Pictures"-->
-                        <!--formControlName="imageInstruction">-->
+                <!--placeholder="Pictures"-->
+                <!--formControlName="imageInstruction">-->
                 <!--</input-file>-->
 
                 <img [src]="instruction.imgHref" alt="" class="instruction_img">
@@ -24,7 +24,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <mat-select placeholder="Theme" formControlName="theme"  [(ngModel)]="instruction.theme">
+                    <mat-select placeholder="Theme" formControlName="theme" [(ngModel)]="instruction.theme">
                         <mat-option [value]="option.value" *ngFor="let option of themes">{{option.value}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -32,7 +32,7 @@
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags"  [(ngModel)]="instruction.tags">
+        <tag-input class="tag-input" formControlName="tags" [(ngModel)]="instruction.tags">
             <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
             </tag-input-dropdown>
         </tag-input>
@@ -63,12 +63,12 @@
 
         <section class="action-container">
 
-            <div *ngIf="isEdit">
-                <button mat-fab color="primary">
-                    <mat-icon (click)="addStep()">plus_one</mat-icon>
+            <div>
+                <button mat-fab color="primary" (click)="addStep()">
+                    <mat-icon>plus_one</mat-icon>
                 </button>
-                <button mat-fab color="warn">
-                    <mat-icon (click)="deleteStep()">exposure_neg_1</mat-icon>
+                <button mat-fab color="warn" (click)="deleteStep()">
+                    <mat-icon>exposure_neg_1</mat-icon>
                 </button>
             </div>
 

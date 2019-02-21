@@ -26,14 +26,17 @@
 
                 <mat-form-field class="info-item">
                     <mat-select placeholder="Theme" formControlName="theme">
-                        <mat-option value="option">Option</mat-option>
+                        <mat-option [value]="option.value" *ngFor="let option of themes">{{option.value}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags"></tag-input>
+        <tag-input class="tag-input" formControlName="tags">
+            <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
+            </tag-input-dropdown>
+        </tag-input>
 
 
         <span class="steps-title">Steps:</span>
