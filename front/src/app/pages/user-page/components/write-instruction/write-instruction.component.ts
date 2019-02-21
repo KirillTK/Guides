@@ -98,6 +98,20 @@ export class WriteInstructionComponent implements OnInit {
     Object.keys(this.instructionForm.controls).forEach(control => {
       this.instructionForm.controls[control].setErrors(null);
     });
+    this.clearSteps();
+  }
+
+  private clearSteps(): void {
+    Object.keys(this.steps.controls).forEach(control => {
+      console.log(this.steps.controls[control]);
+      this.steps.controls[control].setErrors(null);
+
+      Object.keys(this.steps.controls[control].controls).forEach(index => {
+        console.log(this.steps.controls[control].controls[index]);
+        this.steps.controls[control].controls[index].setErrors(null);
+      });
+
+    });
   }
 
 }
