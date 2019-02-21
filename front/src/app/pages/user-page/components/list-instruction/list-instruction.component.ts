@@ -1,9 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import {ActivatedRoute} from '@angular/router';
 import {Instruction} from '../../../../shared/model/Instruction';
+import {Theme} from '../../../../shared/model/Theme';
+import {Tag} from '../../../../shared/model/Tag';
 
 @Component({
   selector: 'app-list-instruction',
@@ -21,9 +23,11 @@ import {Instruction} from '../../../../shared/model/Instruction';
 export class ListInstructionComponent {
 
   public isLoaded = false;
+  @Input() themes: Theme[];
+  @Input() tags: Tag[];
 
   dataSource: MatTableDataSource<Instruction>;
-  columnsToDisplay = ['name', 'theme', 'score'];
+  columnsToDisplay = ['name', 'theme', 'score', 'activity'];
   expandedElement: Instruction | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,9 +35,10 @@ export class ListInstructionComponent {
   constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
     const id: string = this.route.snapshot.paramMap.get('id');
     this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
-      this.dataSource = new MatTableDataSource(instructions);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      // this.dataSource = new MatTableDataSource(instructions);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
+      this.initTable(instructions);
       this.isLoaded = true;
     });
   }
@@ -44,5 +49,25 @@ export class ListInstructionComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  deleteInstruction(event: Event, instruction: Instruction) {
+    this.instructionService.deleteInstruction(instruction._id).subscribe((instructions: Instruction[]) => {
+      this.initTable(instructions);
+    });
+    event.stopPropagation();
+  }
+
+  goToInstruction(event: Event, instruction: Instruction) {
+
+    event.stopPropagation();
+  }
+
+
+  private initTable(instructions: Instruction[]) {
+    this.dataSource = new MatTableDataSource(instructions);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.isLoaded = true;
   }
 }

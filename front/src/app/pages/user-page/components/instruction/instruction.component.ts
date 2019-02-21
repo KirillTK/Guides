@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Instruction} from '../../../../shared/model/Instruction';
+import {Theme} from '../../../../shared/model/Theme';
+import {Tag} from '../../../../shared/model/Tag';
 
 @Component({
   selector: 'app-instruction',
@@ -10,6 +12,8 @@ import {Instruction} from '../../../../shared/model/Instruction';
 export class InstructionComponent implements OnInit {
 
   @Input() instruction: Instruction;
+  @Input() themes: Theme[];
+  @Input() tags: Tag[];
   public instructionForm: FormGroup;
   public steps: FormArray;
 

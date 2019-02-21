@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Theme} from '../../shared/model/Theme';
+import {Tag} from '../../shared/model/Tag';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -10,13 +12,19 @@ import {Theme} from '../../shared/model/Theme';
 export class UserPageComponent implements OnInit {
 
   public themes: Theme[];
+  public tags: Tag[];
+  public isLoaded: boolean;
 
   constructor(private instruction: InstructionService) {
   }
 
   ngOnInit(): void {
-    // this.instruction.getThemeInstruction().subscribe((themes: Theme[]) => {
-    //   this.themes = themes;
-    // });
+    const theme = this.instruction.getThemeInstruction();
+    const tags = this.instruction.getTags();
+    forkJoin([theme, tags]).subscribe(results => {
+      this.themes = results[0];
+      this.tags = results[1];
+      this.isLoaded = true;
+    });
   }
 }
