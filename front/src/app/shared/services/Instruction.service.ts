@@ -37,4 +37,8 @@ export class InstructionService {
     return this.http.put(`/api/updateInstruction/${id}`, instruction);
   }
 
+  getInstructionById(id: string) {
+    return this.http.get<Instruction>(`/api/getInstructionById/${id}`);
+  }
+
 }

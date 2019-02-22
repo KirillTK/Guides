@@ -9,7 +9,7 @@ import {
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSelectModule,
-  MatSortModule,
+  MatSortModule, MatStepperModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -32,7 +32,8 @@ import {NgModule} from '@angular/core';
     MatSortModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule
   ],
   exports: [
     MatToolbarModule,
@@ -49,7 +50,8 @@ import {NgModule} from '@angular/core';
     MatSortModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule
   ]
 })
 export class MaterialComponentsModule {

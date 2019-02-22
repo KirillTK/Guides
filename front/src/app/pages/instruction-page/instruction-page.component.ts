@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {InstructionService} from '../../shared/services/Instruction.service';
+import {Instruction} from '../../shared/model/Instruction';
 
 @Component({
   selector: 'app-instruction-page',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InstructionPageComponent implements OnInit {
 
-  constructor() { }
+  public instruction: Instruction;
+  public isLoaded = false;
+
+  constructor(private route: ActivatedRoute, private instructionService: InstructionService) {
+  }
 
   ngOnInit() {
+    const id: string = this.route.snapshot.paramMap.get('id');
+    this.instructionService.getInstructionById(id).subscribe((instruction: Instruction) => {
+      this.instruction = instruction;
+      this.isLoaded = true;
+    });
+    // this.instructionService.getInstructionById(id).subscribe((instruction: Instruction) => console.log(instruction));
   }
 
 }
