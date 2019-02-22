@@ -4,13 +4,14 @@ import {Observable} from 'rxjs';
 import {Theme} from '../model/Theme';
 import {Tag} from '../model/Tag';
 import {Instruction} from '../model/Instruction';
+import {AuthService} from './AuthService';
 
 
 @Injectable()
 export class InstructionService {
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService) {
   }
 
   getUserInstructions(id: string) {
@@ -18,7 +19,8 @@ export class InstructionService {
   }
 
   postInstruction(instruction) {
-    return this.http.post(`/api/postInstruction`, instruction);
+    console.log('auth token', this.auth.token);
+    return this.http.post(`/api/postInstruction/${this.auth.token}`, instruction);
   }
 
   getThemeInstruction(): Observable<Theme[]> {
@@ -30,11 +32,11 @@ export class InstructionService {
   }
 
   deleteInstruction(id: string): Observable<Instruction[]> {
-    return this.http.delete<Instruction[]>(`/api/deleteInstruction/${id}`);
+    return this.http.delete<Instruction[]>(`/api/deleteInstruction/${id}/${this.auth.token}`);
   }
 
   updateInstruction(id: string, instruction: Instruction) {
-    return this.http.put(`/api/updateInstruction/${id}`, instruction);
+    return this.http.put(`/api/updateInstruction/${id}/${this.auth.token}`, instruction);
   }
 
   getInstructionById(id: string) {

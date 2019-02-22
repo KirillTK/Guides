@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 interface IsLoggedIn {
   status: boolean;
   user: User;
+  token?: string;
 }
 
 @Injectable()

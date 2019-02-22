@@ -23,6 +23,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
       if (response.user) {
         this.userService.user = response.user;
         this.userID = response.user._id;
+        this.auth.token = response.token;
       }
       this.isAuthenticated = response.status;
     });

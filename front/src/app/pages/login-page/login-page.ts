@@ -34,6 +34,8 @@ export class LoginPageComponent implements OnInit {
       if (response.user && response.user.isActivate) {
         if (response.user) {
           this.userService.user = response.user;
+          this.auth.token = response.token;
+          console.log(response.token);
           this.route.navigate(['/user', response.user._id]);
         }
         this.auth.setLoggedIn(response.success);
