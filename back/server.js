@@ -33,6 +33,7 @@ app.use(bodyParser.json());
 const User = require('./models/users');
 const Instruction = require('./models/instruction');
 const Theme = require('./models/theme');
+const Comment = require('./models/comment');
 
 
 app.post('/api/login', async (req, res) => {
