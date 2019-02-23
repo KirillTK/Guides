@@ -7,7 +7,7 @@
 }
 
 .instruction_image_container {
-    width: 40%;
+    width: 30%;
 }
 
 .instruction_image {
@@ -16,7 +16,7 @@
 }
 
 .instruction-description {
-    width: 50%;
+    width: 60%;
     word-wrap: break-word;
 }
 
@@ -32,6 +32,11 @@
 .comment {
     display: flex;
     flex-direction: column;
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    padding: 20px 20px;
+    margin-bottom: 20px;
 }
 
 .review-form-field {
@@ -48,4 +53,12 @@
 .user-info > span {
     font-size: 1.3em;
     font-weight: bold;
+}
+
+
+
+@media only screen and (max-device-width: 600px){
+    .stars {
+        font-size: 0.7em;
+    }
 }
