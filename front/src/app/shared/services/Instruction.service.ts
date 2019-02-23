@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Theme} from '../model/Theme';
 import {Tag} from '../model/Tag';
 import {Instruction} from '../model/Instruction';
+import {Comment} from '../model/Comment';
 import {AuthService} from './AuthService';
 
 
@@ -41,6 +42,14 @@ export class InstructionService {
 
   getInstructionById(id: string) {
     return this.http.get<Instruction>(`/api/getInstructionById/${id}`);
+  }
+
+  postComment(comment: Comment) {
+    return this.http.post(`/api/postComment/${this.auth.token}`, comment);
+  }
+
+  getCommentsByIdInstruction(id: string): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`/api/getComments/${id}`);
   }
 
 }

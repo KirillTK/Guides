@@ -12,7 +12,7 @@ export interface Instruction {
   tags: Tag[];
   steps: InstructionStep[];
   score: number;
-  comments: Comment[];
+  // comments: Comment[];
   author: string;
 }
 

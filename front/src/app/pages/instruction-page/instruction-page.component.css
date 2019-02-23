@@ -23,3 +23,29 @@
 .title {
     text-align: center;
 }
+
+.comments {
+    width: 100%;
+}
+
+
+.comment {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-form-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info > span {
+    font-size: 1.3em;
+    font-weight: bold;
+}
