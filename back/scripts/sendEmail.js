@@ -1,4 +1,4 @@
-const emailConfig = require('../emailConfig');
+const emailConfig = require('./emailConfig');
 const nodemailer = require('nodemailer');
 
 const sendEmail = async (token) => {

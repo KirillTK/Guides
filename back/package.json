@@ -1,24 +1,22 @@
 {
-  "name": "examback",
-  "version": "0.0.0",
-  "private": true,
+  "name": "backendforexamtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "connect-mongo": "^2.0.3",
-    "cookie-parser": "~1.4.3",
+    "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
-    "ejs": "~2.5.7",
-    "express": "~4.16.0",
+    "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "http-errors": "~1.6.2",
-    "mongodb": "^3.1.13",
-    "mongoose": "^5.4.12",
-    "morgan": "~1.9.0",
-    "nodemailer": "^5.1.1",
-    "uniqid": "^5.0.3"
+    "lodash": "^4.17.11",
+    "mongoose": "^5.4.13",
+    "nodemailer": "^5.1.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

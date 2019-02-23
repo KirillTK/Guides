@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import {UserService} from '../../../../shared/services/User.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ActivatedRoute} from '@angular/router';
+import {Theme} from '../../../../shared/model/Theme';
+import {Tag} from '../../../../shared/model/Tag';
 
 @Component({
   selector: 'app-write-instruction',
@@ -14,6 +16,8 @@ export class WriteInstructionComponent implements OnInit {
 
   public instructionForm: FormGroup;
   public steps: FormArray;
+  @Input() themes: Theme[];
+  @Input() tags: Tag[];
 
 
   constructor(private formBuilder: FormBuilder,
@@ -93,6 +97,20 @@ export class WriteInstructionComponent implements OnInit {
     this.instructionForm.reset();
     Object.keys(this.instructionForm.controls).forEach(control => {
       this.instructionForm.controls[control].setErrors(null);
+    });
+    this.clearSteps();
+  }
+
+  private clearSteps(): void {
+    Object.keys(this.steps.controls).forEach(control => {
+      console.log(this.steps.controls[control]);
+      this.steps.controls[control].setErrors(null);
+
+      Object.keys(this.steps.controls[control].controls).forEach(index => {
+        console.log(this.steps.controls[control].controls[index]);
+        this.steps.controls[control].controls[index].setErrors(null);
+      });
+
     });
   }
 
