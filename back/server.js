@@ -6,6 +6,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const {sendEmail} = require('./scripts/sendEmail');
 const _ = require('lodash');
+const http = require('http');
+const server = http.createServer(app);
+const WebsocketServer = require('ws').Server;
+
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -18,7 +22,6 @@ const corsOptions = {
   },
   credentials: true
 };
-
 
 app.use(session({
   secret: 'sakdhnasjkdhjk1i2j3huj2uyjasldjkasdjaslkdaasd1k',
@@ -145,4 +148,36 @@ app.get('/api/getInstructionById/:id', async (req, res) => {
 });
 
 
-app.listen(3000, () => console.log('listen 3000 port'));
+app.post('/api/postComment/:token', async (req, res) => {
+  if (req.session.id === req.params.token) {
+    const comment = new Comment(req.body);
+    await comment.save();
+    const comments = await Comment.find({instructionID: req.body.instructionID});
+    const score = _.sumBy(comments, 'score') / comments.length;
+    await Instruction.updateOne({_id: req.body.instructionID}, {$set: {score: score}});
+    res.json({status: true});
+  } else {
+    res.json({status: false});
+  }
+});
+
+app.get('/api/getComments/:idInstruction', async (req, res) => {
+  const comments = await Comment.find({instructionID: req.params.idInstruction});
+  res.json(comments);
+});
+
+
+server.listen(3000, () => console.log('listen 3000 port'));
+
+//
+// var wss = new WebsocketServer({server: server, path: "/comments"});
+// // var wss = new WebsocketServer({server: server});
+//
+// wss.on('connection', (ws) => {
+//   ws.on('message', async (message) => {
+//     const instructions = await Instruction.find({});
+//     const tags = _.flattenDeep(instructions.map((inst) => inst.tags));
+//     const _tags = _.map(tags, tag => _.pick(tag, ['display', 'value']));
+//     ws.send(JSON.stringify(_.uniq(_tags)));
+//   });
+// });

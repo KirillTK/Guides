@@ -5,7 +5,8 @@ const CommentSchema = new mongoose.Schema({
   comment: String,
   userName: String,
   userID: String,
-  score: Number
+  score: Number,
+  instructionID: String
 });
 
 const Comment = mongoose.model('comments', CommentSchema);
