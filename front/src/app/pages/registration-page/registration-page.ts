@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/User.service';
 import {User} from '../../shared/model/User';
+import {RegistrationResponse} from '../../shared/model/RegistrationResponse';
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +12,7 @@ import {User} from '../../shared/model/User';
 export class RegistrationPageComponent implements OnInit {
 
   public registrationForm: FormGroup;
-  public isAlreadyBeenRegistered = false;
+  public registrationMessage: RegistrationResponse;
 
   constructor(private userService: UserService) {
   }
@@ -26,18 +27,15 @@ export class RegistrationPageComponent implements OnInit {
   submitRegistration(): void {
     console.log('here', this.registrationForm.value);
     const user: User = this.registrationForm.value;
-    this.userService.registerUser(user).subscribe((isAlreadyBeenRegistered: boolean) => {
-      if (isAlreadyBeenRegistered) {
-        console.log(isAlreadyBeenRegistered);
-        this.showUserAlert();
-      }
+    this.userService.registerUser(user).subscribe((response: RegistrationResponse) => {
+      this.showUserAlert(response);
     });
     this.resetForm();
   }
 
-  private showUserAlert(): void {
-    this.isAlreadyBeenRegistered = true;
-    setTimeout(() => this.isAlreadyBeenRegistered = false, 3000);
+  private showUserAlert(response: RegistrationResponse): void {
+    this.registrationMessage = response;
+    setTimeout(() => this.registrationMessage = null, 3000);
   }
 
   private resetForm(): void {

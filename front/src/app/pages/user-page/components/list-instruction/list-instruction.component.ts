@@ -23,20 +23,19 @@ export class ListInstructionComponent {
   public isLoaded = false;
 
   dataSource: MatTableDataSource<Instruction>;
-  columnsToDisplay = ['name', 'theme', 'description'];
+  columnsToDisplay = ['name', 'theme', 'score'];
   expandedElement: Instruction | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
     const id: string = this.route.snapshot.paramMap.get('id');
-    this.instructionService.getUserInstruction(id).subscribe((instructions: Instruction[]) => {
+    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
       this.dataSource = new MatTableDataSource(instructions);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoaded = true;
     });
-
   }
 
   applyFilter(filterValue: string) {

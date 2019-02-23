@@ -1,7 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../model/User';
+import {Observable} from 'rxjs';
 
+interface IsLoggedIn {
+  status: boolean;
+  user: User;
+}
 
 @Injectable()
 export class UserService {
@@ -18,30 +23,23 @@ export class UserService {
   }
 
   constructor(private http: HttpClient) {
-    this.user = {
-      _id: '5c65e435c9320605e4eaa48b',
-      email: '123@gmail.com',
-      password: '111111',
-      isActivate: true,
-      isAdmin: false
-    };
   }
 
   registerUser(user: User) {
     console.log('service', user);
-    return this.http.post('http://localhost:3000/api/registration', user);
+    return this.http.post('/api/registration', user);
   }
 
   loginUser(user: User) {
-    return this.http.post('http://localhost:3000/api/login', user);
+    return this.http.post('/api/login', user);
   }
 
-  isAuthenticated(): boolean {
-    return !!this.user;
+  isLoggedIn(): Observable<IsLoggedIn> {
+    return this.http.get<IsLoggedIn>('/api/isLoggedin');
   }
 
-  logOut(): void {
-    this.user = null;
+  logOut() {
+    return this.http.get('/api/logout');
   }
 
 

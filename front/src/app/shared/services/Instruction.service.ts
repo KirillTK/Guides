@@ -9,12 +9,12 @@ export class InstructionService {
   constructor(private http: HttpClient) {
   }
 
-  getUserInstruction(id: string) {
-    return this.http.get(`http://localhost:3000/api/getUserInstructions/${id}`);
+  getUserInstructions(id: string) {
+    return this.http.get(`/api/getUserInstructions`);
   }
 
-  postInstruction(id: string, instruction) {
-    return this.http.post(`http://localhost:3000/api/postInstruction/${id}`, instruction);
+  postInstruction(instruction) {
+    return this.http.post(`/api/postInstruction`, instruction);
   }
 
 }

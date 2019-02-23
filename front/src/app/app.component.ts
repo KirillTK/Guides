@@ -1,6 +1,8 @@
 import {AfterViewChecked, Component} from '@angular/core';
 import {UserService} from './shared/services/User.service';
 import {Router} from '@angular/router';
+import {AuthService} from './shared/services/AuthService';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +12,22 @@ import {Router} from '@angular/router';
 export class AppComponent implements AfterViewChecked {
   title = 'Exam-Front';
   public isAuthenticated = false;
+  public userID: string;
 
-  constructor(private userService: UserService, private route: Router) {
+  constructor(private userService: UserService, private route: Router, private auth: AuthService) {
   }
 
   ngAfterViewChecked(): void {
-    this.isAuthenticated = this.userService.isAuthenticated();
+    this.userService.isLoggedIn().subscribe(response => {
+      this.auth.setLoggedIn(response.status);
+      this.userService.user = response.user;
+      this.userID = response.user._id;
+      this.isAuthenticated = response.status;
+    });
   }
 
   logout() {
-    this.userService.logOut();
+    this.userService.logOut().subscribe();
     this.route.navigate(['/']);
   }
 

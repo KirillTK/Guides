@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import {UserService} from '../../../../shared/services/User.service';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-write-instruction',
@@ -11,13 +12,15 @@ import {UserService} from '../../../../shared/services/User.service';
 })
 export class WriteInstructionComponent implements OnInit {
 
-  public files: UploadFile[] = [];
-  public url;
   public instructionForm: FormGroup;
   public steps: FormArray;
 
 
-  constructor(private formBuilder: FormBuilder, private instructionService: InstructionService, private user: UserService) {
+  constructor(private formBuilder: FormBuilder,
+              private instructionService: InstructionService,
+              private user: UserService,
+              private storage: AngularFireStorage,
+              private route: ActivatedRoute) {
   }
 
 
@@ -29,44 +32,20 @@ export class WriteInstructionComponent implements OnInit {
       theme: new FormControl(null, [Validators.required]),
       tags: new FormControl(null, [Validators.required, Validators.minLength(1)]),
       steps: this.formBuilder.array([this.createStepFormControl()])
-      // stepTitle: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      // descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     });
     this.steps = this.instructionForm.get('steps') as FormArray;
-    console.log('here', this.instructionForm);
+    console.log(this.user.user);
   }
 
-
-  // public dropped(event: UploadEvent) {
-  //   this.files = event.files;
-  //   for (const droppedFile of event.files) {
-  //
-  //     if (droppedFile.fileEntry.isFile) {
-  //       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-  //       fileEntry.file((file: File) => {
-  //
-  //         const reader = new FileReader();
-  //         reader.readAsDataURL(file);
-  //         reader.onload = (ev) => {
-  //           this.url = ev.target.result;
-  //         };
-  //
-  //         console.log(droppedFile.relativePath, file);
-  //
-  //       });
-  //     } else {
-  //       const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-  //       console.log(droppedFile.relativePath, fileEntry);
-  //     }
-  //   }
-  // }
-
-  public fileOver(event) {
-    console.log(event);
-  }
-
-  public fileLeave(event) {
-    console.log(event);
+  upload(event) {
+    const file = event.target.files[0];
+    const filePath = Math.random().toString(36).substring(2);
+    const task = this.storage.upload(filePath, file).then(() => {
+      const ref = this.storage.ref(filePath);
+      const downloadURL = ref.getDownloadURL().subscribe(url => {
+        console.log(url);
+      });
+    });
   }
 
   addStep(): void {
@@ -76,18 +55,44 @@ export class WriteInstructionComponent implements OnInit {
   deleteStep(): void {
     if (this.steps.length !== 1) {
       this.steps.removeAt(this.steps.length - 1);
-      console.log(this.instructionForm);
     }
   }
 
   postInstruction(): void {
-    this.instructionService.postInstruction(this.user.user._id, this.instructionForm.value).subscribe(data => console.log(data));
+    const {imageInstruction} = this.instructionForm.value;
+    const idUser = this.route.snapshot.paramMap.get('id');
+    console.log(idUser);
+    const file = imageInstruction[0].file;
+    const filePath = Math.random().toString(36).substring(2);
+    const task = this.storage.upload(filePath, file).then(() => {
+      const ref = this.storage.ref(filePath);
+      const downloadURL = ref.getDownloadURL().subscribe((imageUrl: string) => {
+        const {description, theme, tags, steps, title} = this.instructionForm.value;
+        this.instructionService.postInstruction({
+          name: title,
+          theme,
+          tags,
+          steps,
+          imgHref: imageUrl,
+          idUser,
+          description,
+          author: this.user.user.email
+        }).subscribe(() => this.resetForm());
+      });
+    });
   }
 
   createStepFormControl(): FormGroup {
     return this.formBuilder.group({
       stepTitle: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)])
+    });
+  }
+
+  private resetForm(): void {
+    this.instructionForm.reset();
+    Object.keys(this.instructionForm.controls).forEach(control => {
+      this.instructionForm.controls[control].setErrors(null);
     });
   }
 
