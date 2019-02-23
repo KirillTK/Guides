@@ -8,6 +8,7 @@ import {AdminPageComponent} from '../../pages/admin-page/admin-page';
 import {UserPageRouteGuard} from '../guards/UserPageRouteGuard';
 import {AdminPageRouteGuard} from '../guards/AdminPageRouteGuard';
 import {InstructionPageComponent} from '../../pages/instruction-page/instruction-page.component';
+import {UserProfileComponent} from '../../pages/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationPageComponent},
   {path: 'user/:id', component: UserPageComponent, canActivate: [UserPageRouteGuard]},
   {path: 'admin', component: AdminPageComponent, canActivate: [AdminPageRouteGuard]},
-  {path: 'instruction/:id', component: InstructionPageComponent}
+  {path: 'instruction/:id', component: InstructionPageComponent},
+  {path: 'profile/:id', component: UserProfileComponent},
 ];
 
 

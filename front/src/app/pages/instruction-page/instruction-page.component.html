@@ -54,8 +54,9 @@
     <section class="comments">
         <div class="comment" *ngFor="let comment of comments">
             <div class="user-info">
-                <span>{{comment.userName}}</span>
-                <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"  [readonly]="true"></rating>
+                <a [routerLink]="['/profile',comment.userID]">{{comment.userName}}</a>
+                <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
+                        [readonly]="true"></rating>
             </div>
             <p>{{comment.comment}}</p>
         </div>
@@ -65,5 +66,4 @@
 
 </section>
 
-
-<mat-spinner *ngIf="!isLoaded"></mat-spinner>
+<mat-spinner *ngIf="!isLoaded" class="spinner"></mat-spinner>

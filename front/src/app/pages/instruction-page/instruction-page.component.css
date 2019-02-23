@@ -50,9 +50,19 @@
     flex-direction: column;
 }
 
-.user-info > span {
+.user-info > a {
     font-size: 1.3em;
     font-weight: bold;
+    outline: none;
+    text-decoration: none;
+    color: black;
+}
+
+.spinner {
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 
