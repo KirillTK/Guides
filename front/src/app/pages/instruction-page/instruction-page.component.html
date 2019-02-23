@@ -1,3 +1,69 @@
-<p>
-  instruction-page works!
-</p>
+<section *ngIf="isLoaded">
+    <h1 class="title">{{instruction.name}}</h1>
+
+    <section class="instruction_info_container">
+        <div class="instruction_image_container">
+            <img [src]="instruction.imgHref" [alt]="instruction.name" class="instruction_image">
+            <rating [(ngModel)]="instruction.score"
+                    [readonly]="true"
+                    [float]="true"
+                    [titles]="['one', 'two', 'three', 'four', 'five']" class="stars">
+            </rating>
+        </div>
+        <div class="instruction-description"><p>{{instruction.description}} </p></div>
+    </section>
+
+    <h2>Steps:</h2>
+    <mat-vertical-stepper>
+        <mat-step *ngFor="let step of instruction.steps;let i = index" [label]="i" [completed]="false">
+            <ng-template matStepLabel>{{step.stepTitle}}</ng-template>
+            <p style="word-wrap: break-word">{{step.descriptionTitle}}</p>
+        </mat-step>
+
+    </mat-vertical-stepper>
+
+
+    <mat-accordion *ngIf="!isHidden">
+        <form [formGroup]="reviewForm" (submit)="publishReview()">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Write review
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <section class="review-form-field">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Review" autosize formControlName="comment"></textarea>
+                    </mat-form-field>
+
+                    <rating [(ngModel)]="score" [titles]="['one', 'two', 'three', 'four', 'five']"
+                            formControlName="score"></rating>
+                </section>
+
+
+                <mat-action-row>
+                    <button mat-button color="primary" [disabled]="reviewForm.invalid">Publish</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </form>
+    </mat-accordion>
+
+    <h2>Comments:</h2>
+
+    <section class="comments">
+        <div class="comment" *ngFor="let comment of comments">
+            <div class="user-info">
+                <a [routerLink]="['/profile',comment.userID]">{{comment.userName}}</a>
+                <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
+                        [readonly]="true"></rating>
+            </div>
+            <p>{{comment.comment}}</p>
+        </div>
+
+    </section>
+
+
+</section>
+
+<mat-spinner *ngIf="!isLoaded" class="spinner"></mat-spinner>

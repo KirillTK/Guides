@@ -2,14 +2,14 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
-  MatCheckboxModule,
+  MatCheckboxModule, MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatListModule, MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSelectModule,
-  MatSortModule,
+  MatSortModule, MatStepperModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -32,7 +32,9 @@ import {NgModule} from '@angular/core';
     MatSortModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatExpansionModule
   ],
   exports: [
     MatToolbarModule,
@@ -49,7 +51,9 @@ import {NgModule} from '@angular/core';
     MatSortModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatExpansionModule
   ]
 })
 export class MaterialComponentsModule {

@@ -35,6 +35,7 @@ import {AuthService} from './shared/services/AuthService';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as  Cloudinary from 'cloudinary-core';
 import { InstructionPageComponent } from './pages/instruction-page/instruction-page.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const config: InputFileConfig = {};
 
@@ -50,7 +51,8 @@ const config: InputFileConfig = {};
     WriteInstructionComponent,
     InstructionComponent,
     ListUsersComponent,
-    InstructionPageComponent
+    InstructionPageComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

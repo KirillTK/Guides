@@ -14,11 +14,6 @@ const InstructionSchema = new mongoose.Schema({
   imgHref: String,
   idUser: String,
   score: {type: Number, default: 0},
-  comments: {
-    type: [
-      {comment: String, userID: String, userName: String, score: Number}
-    ], default: null
-  },
   author: String,
   description: String
 });

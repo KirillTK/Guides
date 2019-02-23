@@ -6,6 +6,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const {sendEmail} = require('./scripts/sendEmail');
 const _ = require('lodash');
+const http = require('http');
+const server = http.createServer(app);
+const WebsocketServer = require('ws').Server;
+
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -18,7 +22,6 @@ const corsOptions = {
   },
   credentials: true
 };
-
 
 app.use(session({
   secret: 'sakdhnasjkdhjk1i2j3huj2uyjasldjkasdjaslkdaasd1k',
@@ -33,6 +36,7 @@ app.use(bodyParser.json());
 const User = require('./models/users');
 const Instruction = require('./models/instruction');
 const Theme = require('./models/theme');
+const Comment = require('./models/comment');
 
 
 app.post('/api/login', async (req, res) => {
@@ -48,7 +52,7 @@ app.post('/api/login', async (req, res) => {
   }
   // req.session.user = req.body.email;
   req.session.user = user;
-  res.json({user: user, success: true, message: 'correct details'});
+  res.json({user: user, success: true, message: 'correct details', token: req.session.id});
 });
 
 app.post('/api/registration', async (req, res) => {
@@ -74,7 +78,7 @@ app.get('/api/verify/:token', async (req, res) => {
 
 app.get('/api/isLoggedin', (req, res) => {
   if (req.session.user) {
-    res.json({status: !!req.session.user, user: req.session.user})
+    res.json({status: !!req.session.user, user: req.session.user, token: req.session.id})
   } else {
     res.json({status: !!req.session.user})
   }
@@ -90,10 +94,14 @@ app.get('/api/logout', async (req, res) => {
   req.session.destroy();
 });
 
-app.post('/api/postInstruction', async (req, res) => {
-  const instruction = new Instruction(req.body);
-  const i = await instruction.save();
-  res.json({status: true, message: 'posted'});
+app.post('/api/postInstruction/:token', async (req, res) => {
+  if (req.session.id === req.params.token) {
+    const instruction = new Instruction(req.body);
+    const i = await instruction.save();
+    res.json({status: true, message: 'posted'});
+  } else {
+    res.json({status: false, message: 'invalid token'});
+  }
 });
 
 app.get('/api/getUserInstructions', async (req, res) => {
@@ -111,21 +119,27 @@ app.get('/api/getTags', async (req, res) => {
   const instructions = await Instruction.find({});
   const tags = _.flattenDeep(instructions.map((inst) => inst.tags));
   const _tags = _.map(tags, tag => _.pick(tag, ['display', 'value']));
-  const object = {'a': 1, 'b': '2', 'c': 3};
   res.json(_.uniq(_tags));
 });
 
-app.delete('/api/deleteInstruction/:id', async (req, res) => {
-  await Instruction.deleteOne({_id: req.params.id});
-  const uid = req.session.user._id;
-  const instructions = await Instruction.find({idUser: uid});
-  res.json(instructions)
+app.delete('/api/deleteInstruction/:id/:token', async (req, res) => {
+  if (req.session.id === req.params.token) {
+    await Instruction.deleteOne({_id: req.params.id});
+    const uid = req.session.user._id;
+    const instructions = await Instruction.find({idUser: uid});
+    res.json(instructions)
+  } else {
+    res.json({status: false});
+  }
 });
 
-app.put('/api/updateInstruction/:id', async (req, res) => {
-  console.log(req.params.id, req.body);
-  const result = await Instruction.updateOne({_id: req.params.id}, req.body);
-  console.log(result);
+app.put('/api/updateInstruction/:id/:token', async (req, res) => {
+  if (req.session.id === req.params.token) {
+    const result = await Instruction.updateOne({_id: req.params.id}, req.body);
+    res.json({status: true});
+  } else {
+    res.json({status: false});
+  }
 });
 
 app.get('/api/getInstructionById/:id', async (req, res) => {
@@ -134,4 +148,36 @@ app.get('/api/getInstructionById/:id', async (req, res) => {
 });
 
 
-app.listen(3000, () => console.log('listen 3000 port'));
+app.post('/api/postComment/:token', async (req, res) => {
+  if (req.session.id === req.params.token) {
+    const comment = new Comment(req.body);
+    await comment.save();
+    const comments = await Comment.find({instructionID: req.body.instructionID});
+    const score = _.sumBy(comments, 'score') / comments.length;
+    await Instruction.updateOne({_id: req.body.instructionID}, {$set: {score: score}});
+    res.json({status: true});
+  } else {
+    res.json({status: false});
+  }
+});
+
+app.get('/api/getComments/:idInstruction', async (req, res) => {
+  const comments = await Comment.find({instructionID: req.params.idInstruction});
+  res.json(comments);
+});
+
+
+server.listen(3000, () => console.log('listen 3000 port'));
+
+//
+// var wss = new WebsocketServer({server: server, path: "/comments"});
+// // var wss = new WebsocketServer({server: server});
+//
+// wss.on('connection', (ws) => {
+//   ws.on('message', async (message) => {
+//     const instructions = await Instruction.find({});
+//     const tags = _.flattenDeep(instructions.map((inst) => inst.tags));
+//     const _tags = _.map(tags, tag => _.pick(tag, ['display', 'value']));
+//     ws.send(JSON.stringify(_.uniq(_tags)));
+//   });
+// });
