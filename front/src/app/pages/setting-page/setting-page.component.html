@@ -1,0 +1,8 @@
+<div [class.alternative]="otherTheme">
+    <button mat-raised-button color="primary">asdljkasdjaskld</button>
+
+    <button mat-button (click)="changeTheme()">Ok</button>
+
+    <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme</mat-slide-toggle>
+</div>
+
