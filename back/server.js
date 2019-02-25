@@ -76,11 +76,18 @@ app.get('/api/verify/:token', async (req, res) => {
   res.json({success: true, message: 'Your account been activated!'});
 });
 
-app.get('/api/isLoggedin', (req, res) => {
-  if (req.session.user) {
-    res.json({status: !!req.session.user, user: req.session.user, token: req.session.id})
+app.get('/api/isLoggedin/:token', (req, res) => {
+  // if (req.session.user._id === req.params.token) {
+
+  if (req.session) {
+    console.log(req.session.user._id, req.params.token);
+    if (req.session.user._id === req.params.token) {
+      res.json({status: !!req.session.user, user: req.session.user, token: req.session.id})
+    } else {
+      res.json({status: false})
+    }
   } else {
-    res.json({status: !!req.session.user})
+    res.json({status: false})
   }
 });
 
@@ -104,10 +111,16 @@ app.post('/api/postInstruction/:token', async (req, res) => {
   }
 });
 
-app.get('/api/getUserInstructions', async (req, res) => {
-  const uid = req.session.user._id;
+app.get('/api/getUserInstructions/:uid', async (req, res) => {
+  const uid = req.params.uid;
   const instructions = await Instruction.find({idUser: uid});
   res.json(instructions)
+});
+
+app.get('/api/getUserInfo/:uid', async (req, res) => {
+  const uid = req.params.uid;
+  const user = await User.findOne({_id: uid});
+  res.json(user.email);
 });
 
 app.get('/api/getThemes', async (req, res) => {
