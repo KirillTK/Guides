@@ -34,6 +34,6 @@ table {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 40%;
+    width: 100%;
     /*margin: 0 auto;*/
 }

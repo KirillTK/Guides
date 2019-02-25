@@ -53,7 +53,12 @@
                     <button mat-stroked-button color="primary" (click)="changeRole(element)">
                         <mat-icon>account_circle</mat-icon>
                     </button>
+
+                    <button mat-stroked-button color="primary" [routerLink]="['/user',element._id]">
+                        <mat-icon>label</mat-icon>
+                    </button>
                 </div>
+
             </td>
         </ng-container>
 
