@@ -44,6 +44,13 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   ngOnInit(): void {
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme.subscribe(result => {
+      if (result) {
+        document.body.classList.add('dark-theme', 'mat-app-background');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }
+    });
   }
 
   logout() {

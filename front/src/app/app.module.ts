@@ -39,6 +39,7 @@ import {UserProfileComponent} from './pages/user-profile/user-profile.component'
 import {AdminService} from './shared/services/Admin.service';
 import {SettingPageComponent} from './pages/setting-page/setting-page.component';
 import {ThemeService} from './shared/services/Theme.service';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 const config: InputFileConfig = {};
 
@@ -76,6 +77,7 @@ const config: InputFileConfig = {};
     AutosizeModule,
     InputFileModule.forRoot(config),
     CloudinaryModule.forRoot(Cloudinary, {cloud_name: 'kirilltk'}),
+    FlexLayoutModule
   ],
   providers: [
     FileService,
