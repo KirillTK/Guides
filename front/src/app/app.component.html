@@ -11,6 +11,11 @@
                 <span>Profile</span>
             </button>
 
+            <button mat-menu-item [routerLink]="['/admin/'+ userID]" *ngIf="isAdmin">
+                <mat-icon>account_box</mat-icon>
+                <span>Admin page</span>
+            </button>
+
             <button mat-menu-item (click)="logout()">
                 <mat-icon>input</mat-icon>
                 <span>Log out</span>
@@ -20,7 +25,8 @@
 
 
         <a [routerLink]="['/login']" mat-button class="navigation-btn" *ngIf="!isAuthenticated">Sign in</a>
-        <a [routerLink]="['/registration']" mat-button class="navigation-btn sign_up_btn" *ngIf="!isAuthenticated">Sign up</a>
+        <a [routerLink]="['/registration']" mat-button class="navigation-btn sign_up_btn" *ngIf="!isAuthenticated">Sign
+            up</a>
     </mat-toolbar-row>
 </mat-toolbar>
 

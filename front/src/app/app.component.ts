@@ -13,6 +13,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
   title = 'Exam-Front';
   public isAuthenticated = false;
   public userID: string;
+  public isAdmin: boolean;
 
   constructor(private userService: UserService, private route: Router, private auth: AuthService) {
   }
@@ -30,8 +31,9 @@ export class AppComponent implements AfterViewChecked, OnInit {
     if (this.auth.isLoggedIn) {
       this.userID = this.userService.user._id;
       this.isAuthenticated = true;
+      this.isAdmin = this.userService.user.isAdmin;
     } else {
-      this.isAuthenticated = true;
+      this.isAuthenticated = false;
     }
   }
 
@@ -41,6 +43,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
   }
 
   logout() {
+    this.auth.setLoggedIn(false);
     this.userService.logOut().subscribe();
     this.route.navigate(['/']);
   }

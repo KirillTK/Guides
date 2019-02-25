@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {path: 'registration', component: RegistrationPageComponent},
   {path: 'user/:id', component: UserPageComponent, canActivate: [UserPageRouteGuard]},
-  {path: 'admin', component: AdminPageComponent, canActivate: [AdminPageRouteGuard]},
+  {path: 'admin/:id', component: AdminPageComponent, canActivate: [AdminPageRouteGuard]},
   {path: 'instruction/:id', component: InstructionPageComponent},
   {path: 'profile/:id', component: UserProfileComponent},
 ];

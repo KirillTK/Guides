@@ -33,6 +33,7 @@ export class LoginPageComponent implements OnInit {
 
       if (response.user && response.user.isActivate) {
         if (response.user) {
+          console.log(response.user);
           this.userService.user = response.user;
           this.auth.token = response.token;
           console.log(response.token);
