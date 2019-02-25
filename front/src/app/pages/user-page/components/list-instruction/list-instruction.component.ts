@@ -9,7 +9,7 @@ import {Tag} from '../../../../shared/model/Tag';
 
 @Component({
   selector: 'app-list-instruction',
-  styleUrls: ['./list-instruction.component.css'],
+  styleUrls: ['./list-instruction.component.scss'],
   templateUrl: './list-instruction.component.html',
   animations: [
     trigger('detailExpand', [

@@ -9,6 +9,7 @@ import {UserPageRouteGuard} from '../guards/UserPageRouteGuard';
 import {AdminPageRouteGuard} from '../guards/AdminPageRouteGuard';
 import {InstructionPageComponent} from '../../pages/instruction-page/instruction-page.component';
 import {UserProfileComponent} from '../../pages/user-profile/user-profile.component';
+import {SettingPageComponent} from '../../pages/setting-page/setting-page.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'admin/:id', component: AdminPageComponent, canActivate: [AdminPageRouteGuard]},
   {path: 'instruction/:id', component: InstructionPageComponent},
   {path: 'profile/:id', component: UserProfileComponent},
+  {path: 'settings', component: SettingPageComponent},
 ];
 
 

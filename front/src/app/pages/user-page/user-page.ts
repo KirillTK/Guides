@@ -7,7 +7,7 @@ import {forkJoin} from 'rxjs';
 @Component({
   selector: 'app-user',
   templateUrl: './user-page.html',
-  styleUrls: ['./user-page.css']
+  styleUrls: ['./user-page.scss']
 })
 export class UserPageComponent implements OnInit {
 

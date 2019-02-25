@@ -3,6 +3,8 @@ import {UserService} from './shared/services/User.service';
 import {Router} from '@angular/router';
 import {AuthService} from './shared/services/AuthService';
 import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ThemeService} from './shared/services/Theme.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +16,10 @@ export class AppComponent implements AfterViewChecked, OnInit {
   public isAuthenticated = false;
   public userID: string;
   public isAdmin: boolean;
+  isDarkTheme: Observable<boolean>;
 
-  constructor(private userService: UserService, private route: Router, private auth: AuthService) {
+
+  constructor(private userService: UserService, private route: Router, private auth: AuthService, private themeService: ThemeService) {
   }
 
   ngAfterViewChecked(): void {
@@ -39,7 +43,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
 
   ngOnInit(): void {
-
+    this.isDarkTheme = this.themeService.isDarkTheme;
   }
 
   logout() {

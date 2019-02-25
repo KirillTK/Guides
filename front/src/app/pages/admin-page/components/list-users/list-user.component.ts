@@ -14,7 +14,7 @@ export interface User {
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
-  styleUrls: ['./list-users.component.css']
+  styleUrls: ['./list-users.component.scss']
 })
 export class ListUsersComponent implements OnInit {
 

@@ -7,7 +7,7 @@ import {RegistrationResponse} from '../../shared/model/RegistrationResponse';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration-page.html',
-  styleUrls: ['./registration-page.css']
+  styleUrls: ['./registration-page.scss']
 })
 export class RegistrationPageComponent implements OnInit {
 
