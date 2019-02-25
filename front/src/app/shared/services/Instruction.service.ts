@@ -15,8 +15,8 @@ export class InstructionService {
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 
-  getUserInstructions(id: string) {
-    return this.http.get(`/api/getUserInstructions`);
+  getUserInstructions(id: string): Observable<Instruction[]> {
+    return this.http.get<Instruction[]>(`/api/getUserInstructions/${id}`);
   }
 
   postInstruction(instruction) {

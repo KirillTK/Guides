@@ -43,5 +43,9 @@ export class UserService {
     return this.http.get('/api/logout');
   }
 
+  getUserById(id: string): Observable<string> {
+    return this.http.get<string>(`/api/getUserInfo/${id}`);
+  }
+
 
 }
