@@ -79,7 +79,7 @@ app.get('/api/verify/:token', async (req, res) => {
 app.get('/api/isLoggedin/:token', (req, res) => {
   // if (req.session.user._id === req.params.token) {
 
-  if (req.session) {
+  if (req.session.user) {
     console.log(req.session.user._id, req.params.token);
     if (req.session.user._id === req.params.token) {
       res.json({status: !!req.session.user, user: req.session.user, token: req.session.id})
@@ -179,6 +179,55 @@ app.get('/api/getComments/:idInstruction', async (req, res) => {
   res.json(comments);
 });
 
+
+app.get('/api/admin/getListUsers', async (req, res) => {
+  if (req.session.user.isAdmin) {
+    const users = await User.find({});
+    res.json(users);
+  } else {
+    res.json({status: false});
+  }
+});
+
+app.delete('/api/admin/deleteUser/:uid', async (req, res) => {
+  if (req.session.user) {
+    if (req.session.user.isAdmin) {
+      const uid = req.params.uid;
+      await User.deleteOne({_id: uid});
+      const users = await User.find({});
+      res.json(users);
+    } else res.json({status: false});
+  } else {
+    res.json({status: false});
+  }
+});
+
+app.put('/api/admin/updateRole', async (req, res) => {
+  if (req.session.user) {
+    if (req.session.user.isAdmin) {
+      const {_id} = req.body;
+      await User.updateOne({_id: _id}, req.body);
+      const users = await User.find({});
+      res.json(users);
+    } else res.json({status: false});
+  } else {
+    res.json({status: false});
+  }
+});
+
+
+app.put('/api/admin/blockUser', async (req, res) => {
+  if (req.session.user) {
+    if (req.session.user.isAdmin) {
+      const {_id} = req.body;
+      await User.updateOne({_id: _id}, req.body);
+      const users = await User.find({});
+      res.json(users);
+    } else res.json({status: false});
+  } else {
+    res.json({status: false});
+  }
+});
 
 server.listen(3000, () => console.log('listen 3000 port'));
 
