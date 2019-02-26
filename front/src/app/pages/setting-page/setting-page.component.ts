@@ -10,12 +10,13 @@ import {Observable} from 'rxjs';
 })
 export class SettingPageComponent implements OnInit {
 
-  isDarkTheme: Observable<boolean>;
+  isDarkTheme: boolean;
 
-  constructor(private themeService: ThemeService) { }
+  constructor(private themeService: ThemeService) {
+  }
 
   ngOnInit() {
-    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme = this.themeService.returnTheme();
   }
 
   toggleDarkTheme(checked: boolean) {
