@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LandingPageComponent} from './pages/langing-page/landing-page';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './shared/modules/AppRoutingModule';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
@@ -38,10 +38,15 @@ import {InstructionPageComponent} from './pages/instruction-page/instruction-pag
 import {UserProfileComponent} from './pages/user-profile/user-profile.component';
 import {AdminService} from './shared/services/Admin.service';
 import {SettingPageComponent} from './pages/setting-page/setting-page.component';
-import {ThemeService} from './shared/services/Theme.service';
+import {SettingsService} from './shared/services/Settings.service';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const config: InputFileConfig = {};
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -77,7 +82,14 @@ const config: InputFileConfig = {};
     AutosizeModule,
     InputFileModule.forRoot(config),
     CloudinaryModule.forRoot(Cloudinary, {cloud_name: 'kirilltk'}),
-    FlexLayoutModule
+    FlexLayoutModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     FileService,
@@ -87,7 +99,7 @@ const config: InputFileConfig = {};
     InstructionService,
     AuthService,
     AdminService,
-    ThemeService
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

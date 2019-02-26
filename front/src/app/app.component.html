@@ -1,8 +1,8 @@
-<div [ngClass]="{'dark-theme': isDarkTheme | async}"  >
+<div [ngClass]="{'dark-theme': isDarkTheme | async}">
     <div class="mat-app-background" fxLayout="column" fxFlexFill>
         <mat-toolbar color="primary">
             <mat-toolbar-row class="toolbar-container">
-                <span [routerLink]="['/']">Custom Toolbar</span>
+                <span [routerLink]="['/']">{{'LANDING_PAGE.TITLE'|translate}}</span>
                 <span class="spacer"></span>
 
                 <button mat-button [matMenuTriggerFor]="menu" *ngIf="isAuthenticated">Menu</button>

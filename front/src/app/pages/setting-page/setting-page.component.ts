@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {OverlayContainer} from '@angular/cdk/overlay';
-import {ThemeService} from '../../shared/services/Theme.service';
-import {Observable} from 'rxjs';
+import {SettingsService} from '../../shared/services/Settings.service';
+import {LANGUAGES} from '../../shared/model/Languages';
 
 @Component({
   selector: 'app-setting-page',
@@ -10,17 +9,26 @@ import {Observable} from 'rxjs';
 })
 export class SettingPageComponent implements OnInit {
 
-  isDarkTheme: boolean;
+  languages = LANGUAGES;
 
-  constructor(private themeService: ThemeService) {
+  isDarkTheme: boolean;
+  language: string;
+
+
+  constructor(private settings: SettingsService) {
   }
 
   ngOnInit() {
-    this.isDarkTheme = this.themeService.returnTheme();
+    this.isDarkTheme = this.settings.returnTheme();
+    this.language = this.settings.returnLanguage();
   }
 
   toggleDarkTheme(checked: boolean) {
-    this.themeService.setDarkTheme(checked);
+    this.settings.setDarkTheme(checked);
+  }
+
+  changeClient(lang: string) {
+    this.settings.setLanguage(lang);
   }
 
 
