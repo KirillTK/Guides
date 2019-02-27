@@ -1,9 +1,9 @@
 <mat-tab-group *ngIf="isLoaded">
-    <mat-tab label="List of instructions ">
+    <mat-tab label="{{'USER_PAGE.LIST_INSTRUCTIONS_TAB'|translate}}">
         <app-list-instruction [tags]="tags" [themes]="themes"></app-list-instruction>
         <!--<app-instruction></app-instruction>-->
     </mat-tab>
-    <mat-tab label="Write new instruction">
+    <mat-tab label="{{'USER_PAGE.WRITE_INSTR_TAB'|translate}}">
         <app-write-instruction [tags]="tags" [themes]="themes"></app-write-instruction>
     </mat-tab>
 </mat-tab-group>

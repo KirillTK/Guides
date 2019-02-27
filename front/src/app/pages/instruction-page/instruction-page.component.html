@@ -13,7 +13,7 @@
         <div class="instruction-description"><p>{{instruction.description}} </p></div>
     </section>
 
-    <h2>Steps:</h2>
+    <h2>{{'INSTRUCTION_PAGE.STEPS'|translate}}</h2>
     <mat-vertical-stepper>
         <mat-step *ngFor="let step of instruction.steps;let i = index" [label]="i" [completed]="false">
             <ng-template matStepLabel>{{step.stepTitle}}</ng-template>
@@ -28,7 +28,7 @@
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Write review
+                        {{'INSTRUCTION_PAGE.WRITE_REVIEW'|translate}}
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
@@ -43,13 +43,13 @@
 
 
                 <mat-action-row>
-                    <button mat-button color="primary" [disabled]="reviewForm.invalid">Publish</button>
+                    <button mat-button color="primary" [disabled]="reviewForm.invalid">{{'INSTRUCTION_PAGE.PUBLISH'|translate}}</button>
                 </mat-action-row>
             </mat-expansion-panel>
         </form>
     </mat-accordion>
 
-    <h2>Comments:</h2>
+    <h2>{{'INSTRUCTION_PAGE.COMMENTS'|translate}}</h2>
 
     <section class="comments">
         <div class="comment" *ngFor="let comment of comments">

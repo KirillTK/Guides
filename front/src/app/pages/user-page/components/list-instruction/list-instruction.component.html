@@ -1,7 +1,7 @@
 <section class="container" *ngIf="isLoaded">
 
     <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{'USER_PAGE.FILTER'|translate}}">
     </mat-form-field>
 
 

@@ -4,7 +4,8 @@
 
 <form class="search-form">
     <mat-form-field class="search-field">
-        <input type="text" placeholder="Instruction" aria-label="Number" matInput [matAutocomplete]="auto">
+        <input type="text" placeholder="{{'LANDING_PAGE.SEARCH'|translate}}" aria-label="Number" matInput
+               [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let option of options" [value]="option">
                 {{option}}
