@@ -5,10 +5,10 @@
 <form class="search-form">
     <mat-form-field class="search-field">
         <input type="text" placeholder="{{'LANDING_PAGE.SEARCH'|translate}}" aria-label="Number" matInput
-               [matAutocomplete]="auto">
+               [matAutocomplete]="auto" #searchBox>
         <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of options" [value]="option">
-                {{option}}
+            <mat-option *ngFor="let option of options" [routerLink]="['/instruction',option._id]">
+                {{option.name}}
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>

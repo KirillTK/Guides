@@ -9,7 +9,7 @@ const _ = require('lodash');
 const http = require('http');
 const server = http.createServer(app);
 const WebsocketServer = require('ws').Server;
-
+// const mexp = require('mongoose-elasticsearch-xp');
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -63,7 +63,7 @@ app.post('/api/registration', async (req, res) => {
   }
 
   const user = new User(req.body);
-  sendEmail(user._id);
+  sendEmail(user._id, user.email);
   const result = await user.save();
   res.json({success: true, message: 'We send email to verify you account!'});
 });
@@ -227,6 +227,101 @@ app.put('/api/admin/blockUser', async (req, res) => {
   } else {
     res.json({status: false});
   }
+});
+//
+// Instruction.createMapping({
+//   "settings": {
+//     "number_of_shards": 1,
+//     "number_of_replicas": 0,
+//     "analysis": {
+//       "filter": {
+//         "nGram_filter": {
+//           "type": "nGram",
+//           "min_gram": 2,
+//           "max_gram": 20,
+//           "token_chars": [
+//             "letter",
+//             "digit",
+//             "punctuation",
+//             "symbol"
+//           ]
+//         }
+//       },
+//       "analyzer": {
+//         "nGram_analyzer": {
+//           "type": "custom",
+//           "tokenizer": "whitespace",
+//           "filter": [
+//             "lowercase",
+//             "asciifolding",
+//             "nGram_filter"
+//           ]
+//         },
+//         "whitespace_analyzer": {
+//           "type": "custom",
+//           "tokenizer": "whitespace",
+//           "filter": [
+//             "lowercase",
+//             "asciifolding"
+//           ]
+//         }
+//       }
+//     }
+//   },
+//   "mappings": {
+//     "movie": {
+//       "_all": {
+//         "analyzer": "nGram_analyzer",
+//         "search_analyzer": "whitespace_analyzer"
+//       },
+//       "properties": {
+//         "_id": {
+//           "type" :"text",
+//           "index": true
+//         }
+//       }
+//     }
+//   }
+// }, function (err, mapping) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(mapping);
+//   }
+// });
+
+// const stream = Instruction.synchronize();
+// let count = 0;
+// stream.on('data', () => {
+//   count++;
+// });
+//
+// stream.on('close', () => {
+//   console.log('Indexed' + count + 'documents');
+// });
+//
+// stream.on('error', (error) => {
+//   console.log(error)
+// });
+//
+
+app.get('/api/search/:text', async (req, res) => {
+  const searchText = req.params.text;
+  // Instruction.search({
+  //   "multi_match" : {
+  //     "query":    searchText,
+  //     "type":     "phrase",
+  //     "fields":   [ "title", "excerpt", "body", "risk_challenges", "curated_url" ],
+  //     "slop":     10
+  //   }
+  // }, function (err, results) {
+  //   res.json(results);
+  // });
+  // Instruction.search( searchText, (error, results) => {
+  //   res.json(results);
+  // });
+  const results = await Instruction.find({ "name" : { $regex: searchText, $options: 'i' }});
+  res.json(results);
 });
 
 server.listen(3000, () => console.log('listen 3000 port'));

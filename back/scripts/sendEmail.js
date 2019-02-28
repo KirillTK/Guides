@@ -1,7 +1,7 @@
 const emailConfig = require('./emailConfig');
 const nodemailer = require('nodemailer');
 
-const sendEmail = async (token) => {
+const sendEmail = async (token, email) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     secure: false,
@@ -16,10 +16,10 @@ const sendEmail = async (token) => {
   });
 
   let mailOptions = {
-    from: '"Kirill Tkachov" <starpatrik06@gmail.com', // sender address
-    to: "starpatrik06@gmail.com", // list of receivers
-    subject: "Verify account", // Subject line
-    text: "Please verify account", // plain text body
+    from: '"Kirill Tkachov" <starpatrik06@gmail.com',
+    to: email,
+    subject: "Verify account",
+    text: "Please verify account",
     html: `<a href='http://localhost:3000/api/verify/${token}'>Go to link</a>`
   };
 

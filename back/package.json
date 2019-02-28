@@ -16,7 +16,10 @@
     "express-session": "^1.15.6",
     "express-ws": "^4.0.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongoosastic": "^4.4.1",
     "mongoose": "^5.4.13",
+    "mongoose-regex-search": "^0.7.0",
     "nodemailer": "^5.1.1",
     "socket.io": "^2.2.0",
     "ws": "^6.1.4"

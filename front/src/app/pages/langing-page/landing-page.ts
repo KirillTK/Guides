@@ -1,30 +1,31 @@
-import {Component} from '@angular/core';
-import {FileService} from '../../shared/services/File.service';
-import {AngularFireStorage} from '@angular/fire/storage';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AjaxResponse} from 'rxjs/ajax';
+import {Instruction} from '../../shared/model/Instruction';
+import {InstructionService} from '../../shared/services/Instruction.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.scss']
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit {
   public rate = 3.34;
   public tag;
-  options: string[] = ['One', 'Two', 'Three'];
+  options: Instruction[];
   public items = [1, 2, 3, 4];
 
+  @ViewChild('searchBox') searchBox: ElementRef;
 
-  constructor(private file: FileService, private storage: AngularFireStorage) {
+
+  constructor(private instruction: InstructionService) {
   }
 
-  upload(event) {
-    const file = event.target.files[0];
-    const filePath = Math.random().toString(36).substring(2);
-    const task = this.storage.upload(filePath, file).then(() => {
-      const ref = this.storage.ref(filePath);
-      const downloadURL = ref.getDownloadURL().subscribe(url => {
-        console.log(url);
-      });
+  ngOnInit(): void {
+
+    const typeahead = this.instruction.getSearchObserver(this.searchBox);
+
+    typeahead.subscribe((response: AjaxResponse) => {
+      this.options = response.response;
     });
   }
 

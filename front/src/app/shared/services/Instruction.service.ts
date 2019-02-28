@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {fromEvent, Observable} from 'rxjs';
 import {Theme} from '../model/Theme';
 import {Tag} from '../model/Tag';
 import {Instruction} from '../model/Instruction';
 import {Comment} from '../model/Comment';
 import {AuthService} from './AuthService';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';
+import {ajax} from 'rxjs/ajax';
 
 
 @Injectable()
@@ -50,6 +52,16 @@ export class InstructionService {
 
   getCommentsByIdInstruction(id: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`/api/getComments/${id}`);
+  }
+
+  getSearchObserver(element: ElementRef) {
+    return fromEvent(element.nativeElement, 'input').pipe(
+      map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+      filter(text => text.length > 1),
+      debounceTime(10),
+      distinctUntilChanged(),
+      switchMap((text) => ajax(`/api/search/${text}`))
+    );
   }
 
 }
