@@ -43,26 +43,29 @@
 
 
                 <mat-action-row>
-                    <button mat-button color="primary" [disabled]="reviewForm.invalid">{{'INSTRUCTION_PAGE.PUBLISH'|translate}}</button>
+                    <button mat-button color="primary"
+                            [disabled]="reviewForm.invalid">{{'INSTRUCTION_PAGE.PUBLISH'|translate}}</button>
                 </mat-action-row>
             </mat-expansion-panel>
         </form>
     </mat-accordion>
 
-    <h2>{{'INSTRUCTION_PAGE.COMMENTS'|translate}}</h2>
+    <div>
+        <h2>{{'INSTRUCTION_PAGE.COMMENTS'|translate}} {{comments.length}}</h2>
 
-    <section class="comments">
-        <div class="comment" *ngFor="let comment of comments">
-            <div class="user-info">
-                <a [routerLink]="['/profile',comment.userID]">{{comment.userName}}</a>
-                <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
-                        [readonly]="true"></rating>
+        <section class="comments">
+            <div class="comment" *ngFor="let comment of comments">
+                <div class="user-info">
+                    <a [routerLink]="['/profile',comment.userID]">{{comment.userName}}</a>
+                    <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
+                            [readonly]="true"></rating>
+                </div>
+                <p>{{comment.comment}}</p>
             </div>
-            <p>{{comment.comment}}</p>
-        </div>
 
-    </section>
+        </section>
 
+    </div>
 
 </section>
 

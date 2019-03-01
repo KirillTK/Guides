@@ -78,7 +78,7 @@
                 <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
             </div>
             <p mat-line>
-                <span>{{instruction.description}}</span>
+                <span>{{instruction.lastEdited}}</span>
             </p>
 
             <rating [(ngModel)]="instruction.score" mat-line

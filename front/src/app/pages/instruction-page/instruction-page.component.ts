@@ -96,6 +96,7 @@ export class InstructionPageComponent implements OnInit {
     Object.keys(this.reviewForm.controls).forEach(control => {
       this.reviewForm.controls[control].setErrors(null);
     });
+    this.isHidden = true;
   }
 
 }
