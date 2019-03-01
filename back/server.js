@@ -320,8 +320,18 @@ app.get('/api/search/:text', async (req, res) => {
   // Instruction.search( searchText, (error, results) => {
   //   res.json(results);
   // });
-  const results = await Instruction.find({ "name" : { $regex: searchText, $options: 'i' }});
+  const results = await Instruction.find({"name": {$regex: searchText, $options: 'i'}});
   res.json(results);
+});
+
+app.get('/api/getTopRatedInstructions', async (req, res) => {
+  const instructions = await Instruction.find({}).sort('-score').limit(5);
+  res.json(instructions);
+});
+
+app.get('/api/getLatestInstructions', async (req, res) => {
+  const instructions = await Instruction.find({}).sort({lastEdited: 'desc'}).limit(5);
+  res.json(instructions);
 });
 
 server.listen(3000, () => console.log('listen 3000 port'));

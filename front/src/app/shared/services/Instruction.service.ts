@@ -64,4 +64,12 @@ export class InstructionService {
     );
   }
 
+  getTopRatedInstructions(): Observable<Instruction[]> {
+    return this.http.get<Instruction[]>('/api/getTopRatedInstructions');
+  }
+
+  getLatestInstructions(): Observable<Instruction[]> {
+    return this.http.get<Instruction[]>('/api/getLatestInstructions');
+  }
+
 }

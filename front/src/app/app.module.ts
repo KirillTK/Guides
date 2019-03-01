@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {LandingPageComponent} from './pages/langing-page/landing-page';
+import {LandingPageComponent} from './pages/landing-page/landing-page';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './shared/modules/AppRoutingModule';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
@@ -42,6 +42,9 @@ import {SettingsService} from './shared/services/Settings.service';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {DragScrollModule} from 'ngx-drag-scroll/lib';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { TagsComponent } from './pages/landing-page/components/tags/tags.component';
 
 const config: InputFileConfig = {};
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -62,7 +65,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ListUsersComponent,
     InstructionPageComponent,
     UserProfileComponent,
-    SettingPageComponent
+    SettingPageComponent,
+    TagsComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    DragScrollModule,
+    TagCloudModule
   ],
   providers: [
     FileService,

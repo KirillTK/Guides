@@ -1,0 +1,42 @@
+.example-card {
+  width: 30%;
+  max-width: 300px;
+  min-width: 100px;
+  margin-top: 20px;
+}
+
+.instruction-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.search-form {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.search-field {
+  width: 100%;
+}
+
+//word-break: break-word;
+//overflow: hidden;
+
+.mat-card-header-text {
+  width: 100%;
+  text-align: center;
+}
+
+.mat-list-base .mat-list-item .mat-list-avatar, .mat-list-base .mat-list-option .mat-list-avatar {
+    width: 90px;
+    height: 90px;
+}
+
+
+.instruction-title {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}

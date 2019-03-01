@@ -37,7 +37,7 @@ const InstructionSchema = new mongoose.Schema({
   score: {type: Number, default: 0},
   author: String,
   description: String,
-  lastEdited: {type: String, default: moment().format('MMMM Do YYYY')}
+  lastEdited: {type: String, default: moment().format('MMMM Do YYYY, h:mm:ss a')}
 });
 
 // InstructionSchema.index({name: 'text', author: 'text'});

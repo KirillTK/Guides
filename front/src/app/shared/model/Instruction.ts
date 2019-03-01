@@ -1,5 +1,4 @@
 import {Tag} from './Tag';
-import {Comment} from './Comment';
 import {InstructionStep} from './InstructionStep';
 
 export interface Instruction {
@@ -14,5 +13,6 @@ export interface Instruction {
   score: number;
   // comments: Comment[];
   author: string;
+  lastEdited: string;
 }
 
