@@ -46,6 +46,7 @@ import {DragScrollModule} from 'ngx-drag-scroll/lib';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TagsComponent } from './pages/landing-page/components/tags/tags.component';
 import { CardInstructionsComponent } from './shared/components/card-instructions/card-instructions.component';
+import { TimeInAppPipe } from './shared/pipes/time-in-app/time-in-app.pipe';
 
 const config: InputFileConfig = {};
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -68,7 +69,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     UserProfileComponent,
     SettingPageComponent,
     TagsComponent,
-    CardInstructionsComponent
+    CardInstructionsComponent,
+    TimeInAppPipe
   ],
   imports: [
     BrowserModule,

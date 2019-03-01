@@ -1,5 +1,5 @@
 .app-class .mat-list-item {
-    height: auto;
+  height: auto;
 }
 
 .user_profile_container {
@@ -7,52 +7,57 @@
 }
 
 .spinner {
-    width: 15%;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .instruction_item {
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .tags {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .tag {
-    font-size: 1.3em;
+  font-size: 1.3em;
 }
 
 .mat-list-icon {
-    color: #ec407a;
-    font-size: 1.2em;
+  color: #ec407a;
+  font-size: 1.2em;
 }
 
 .item {
-    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    margin-bottom: 20px;
+  -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
 }
 
 
 @media only screen and (max-device-width: 600px) {
-    .tag, .stars {
-        font-size: 0.7em;
-    }
+  .tag, .stars {
+    font-size: 0.7em;
+  }
 }
 
 .not-found {
-    font-size: 2em;
-    text-align: center;
+  font-size: 2em;
+  text-align: center;
+}
+
+
+.user-info {
+    margin-bottom: 20px;
 }

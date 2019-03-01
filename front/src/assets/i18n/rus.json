@@ -51,7 +51,9 @@
   },
   "USER_PROFILE_PAGE": {
     "LIST_INSTRUCTIONS": "Список инструкций",
-    "NOT_FOUND": "Этот пользователь не найден"
+    "NOT_FOUND": "Этот пользователь не найден",
+    "DAYS": " дней",
+    "REGISTERED": "Зарегестрирован: "
   },
   "CARD_INSTRUCTIONS_COMP": {
     "NO_INSTRUCTIONS": "Нет инструкций"

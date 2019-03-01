@@ -120,8 +120,8 @@ app.get('/api/getUserInstructions/:uid', async (req, res) => {
 app.get('/api/getUserInfo/:uid', async (req, res) => {
   const uid = req.params.uid;
   const user = await User.findOne({_id: uid});
-  if (user){
-    res.json(user.email);
+  if (user) {
+    res.json({email: user.email, date: user.date});
   } else {
     res.json(false);
   }
