@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-list>
+  <mat-list *ngIf="instructions.length > 0">
     <mat-list-item *ngFor="let instruction of instructions">
       <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
       <div mat-line>
@@ -21,4 +21,8 @@
       </rating>
     </mat-list-item>
   </mat-list>
+
+  <h2 *ngIf="instructions.length === 0" class="no-instructions">
+    {{'CARD_INSTRUCTIONS_COMP.NO_INSTRUCTIONS'|translate}}
+  </h2>
 </mat-card>

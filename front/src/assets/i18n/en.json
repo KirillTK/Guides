@@ -52,5 +52,8 @@
   "USER_PROFILE_PAGE": {
     "LIST_INSTRUCTIONS": "List of instructions",
     "NOT_FOUND": "This user is not found"
+  },
+  "CARD_INSTRUCTIONS_COMP": {
+    "NO_INSTRUCTIONS": "No instructions"
   }
 }
