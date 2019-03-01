@@ -1,29 +1,17 @@
 <section class="user_profile_container" *ngIf="isLoaded">
-    <h2>{{userEmail}}</h2>
 
-    <mat-list class="app-class">
-        <h3 mat-subheader>{{'USER_PROFILE_PAGE.LIST_INSTRUCTIONS'|translate}}</h3>
-        <mat-list-item *ngFor="let instruction of instructions" class="item">
-            <section class="instruction_item">
-                <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
+    <div *ngIf="!isNotFounded">
+        <h2>{{userEmail}}</h2>
 
-                <h4>{{instruction.name}}</h4>
+        <app-card-instructions [instructions]="instructions"></app-card-instructions>
 
-                <section class="tags">
-                    <button mat-button color="primary" *ngFor="let tag of instruction.tags"
-                            class="tag">{{tag.value}}</button>
-                </section>
 
-                <rating [(ngModel)]="instruction.score" [titles]="['one', 'two', 'three', 'four', 'five']"
-                        [readonly]="true" class="stars"></rating>
-            </section>
+    </div>
 
-            <button mat-button color="warn" [routerLink]="['/instruction',instruction._id]" style="margin-left: auto;">
-                <mat-icon>label</mat-icon>
-            </button>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-    </mat-list>
+    <div *ngIf="isNotFounded">
+        <h2 class="not-found">{{'USER_PROFILE_PAGE.LIST_INSTRUCTIONS'|translate}}</h2>
+    </div>
+
 
 </section>
 

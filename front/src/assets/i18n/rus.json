@@ -50,6 +50,7 @@
     "POST": "Опубликовать"
   },
   "USER_PROFILE_PAGE": {
-    "LIST_INSTRUCTIONS": "List of instructions"
+    "LIST_INSTRUCTIONS": "Список инструкций",
+    "NOT_FOUND": "Этот пользователь не найден"
   }
 }

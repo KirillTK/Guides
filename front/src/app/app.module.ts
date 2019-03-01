@@ -45,6 +45,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {DragScrollModule} from 'ngx-drag-scroll/lib';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TagsComponent } from './pages/landing-page/components/tags/tags.component';
+import { CardInstructionsComponent } from './shared/components/card-instructions/card-instructions.component';
 
 const config: InputFileConfig = {};
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -66,7 +67,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InstructionPageComponent,
     UserProfileComponent,
     SettingPageComponent,
-    TagsComponent
+    TagsComponent,
+    CardInstructionsComponent
   ],
   imports: [
     BrowserModule,

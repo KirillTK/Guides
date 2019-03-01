@@ -120,7 +120,11 @@ app.get('/api/getUserInstructions/:uid', async (req, res) => {
 app.get('/api/getUserInfo/:uid', async (req, res) => {
   const uid = req.params.uid;
   const user = await User.findOne({_id: uid});
-  res.json(user.email);
+  if (user){
+    res.json(user.email);
+  } else {
+    res.json(false);
+  }
 });
 
 app.get('/api/getThemes', async (req, res) => {

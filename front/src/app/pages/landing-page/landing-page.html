@@ -1,7 +1,3 @@
-<!--<span>Landing page</span>-->
-<!--<input type="file" (change)="upload($event)" accept=".png,.jpg" />-->
-
-
 <form class="search-form">
     <mat-form-field class="search-field">
         <input type="text" placeholder="{{'LANDING_PAGE.SEARCH'|translate}}" aria-label="Number" matInput
@@ -14,81 +10,17 @@
     </mat-form-field>
 </form>
 
-<!--<div>-->
-<!--<angular-tag-cloud-->
-<!--[data]="data" style="margin: 0 auto;">-->
-<!--</angular-tag-cloud>-->
-<!--</div>-->
-
 <app-tags></app-tags>
 
 
 <h2>{{'LANDING_PAGE.TOP_INSTRUCTIONS'|translate}}</h2>
 
 
-<!--<drag-scroll style="height: 500px;" [scrollbar-hidden]="true" [drag-scroll-y-disabled]="true">-->
-<!--<mat-card class="example-card" *ngFor="let instruction of topInstructions"-->
-<!--style="margin-left: 30px;" drag-scroll-item>-->
-<!--<mat-card-header>-->
-<!--<mat-card-subtitle>{{instruction.name}}</mat-card-subtitle>-->
-<!--</mat-card-header>-->
-
-<!--<img mat-card-image [src]="instructtagion.imgHref" [alt]="instruction.name">-->
-<!--<mat-card-actions>-->
-<!--<rating [(ngModel)]="instruction.score"-->
-<!--[float]="true"-->
-<!--[titles]="['one', 'two', 'three', 'four', 'five']">-->
-<!--</rating>-->
-<!--</mat-card-actions>-->
-<!--</mat-card>-->
-
-<!--</drag-scroll>-->
-
-
-<mat-card>
-    <mat-list>
-        <mat-list-item *ngFor="let instruction of topInstructions">
-            <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
-            <div mat-line>
-                <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
-            </div>
-
-            <p mat-line>
-                <span>{{instruction.description}}</span>
-            </p>
-
-            <rating [(ngModel)]="instruction.score" mat-line
-                    [float]="true"
-                    [readonly]="true"
-                    [titles]="['one', 'two', 'three', 'four', 'five']">
-            </rating>
-        </mat-list-item>
-    </mat-list>
-</mat-card>
-
+<app-card-instructions [instructions]="topInstructions"></app-card-instructions>
 
 <h2>{{'LANDING_PAGE.LATEST_INSTRUCTIONS'|translate}}</h2>
 
-
-<mat-card>
-    <mat-list>
-        <mat-list-item *ngFor="let instruction of topInstructions">
-            <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
-            <div mat-line>
-                <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
-            </div>
-            <p mat-line>
-                <span>{{instruction.lastEdited}}</span>
-            </p>
-
-            <rating [(ngModel)]="instruction.score" mat-line
-                    [float]="true"
-                    [readonly]="true"
-                    [titles]="['one', 'two', 'three', 'four', 'five']">
-            </rating>
-        </mat-list-item>
-    </mat-list>
-</mat-card>
+<app-card-instructions [instructions]="latestInstructions" [isNeedDateField]="true"></app-card-instructions>
 
 
 <a [routerLink]="['/user/5c69afac0385f31f2081914c']" mat-button class="navigation-btn">User</a>
