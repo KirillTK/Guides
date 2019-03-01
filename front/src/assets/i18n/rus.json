@@ -7,7 +7,9 @@
     "ADMIN": "Администратор",
     "LOG_OUT": "Выйти",
     "MENU": "Меню",
-    "SEARCH": "Поиск"
+    "SEARCH": "Поиск",
+    "TOP_INSTRUCTIONS": "Популярные инструкции:",
+    "LATEST_INSTRUCTIONS": "Последнии инструкции:"
   },
   "INSTRUCTION_PAGE": {
     "STEPS": "Шаги:",

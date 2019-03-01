@@ -7,7 +7,9 @@
     "ADMIN": "Admin page",
     "LOG_OUT": "Log out",
     "MENU": "Menu",
-    "SEARCH": "Search"
+    "SEARCH": "Search",
+    "TOP_INSTRUCTIONS": "Top instructions:",
+    "LATEST_INSTRUCTIONS": "Latest updated instructions:"
   },
   "INSTRUCTION_PAGE": {
     "STEPS": "Steps:",
