@@ -74,9 +74,11 @@
     <mat-list>
         <mat-list-item *ngFor="let instruction of topInstructions">
             <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
-            <h3 mat-line>{{instruction.name}}</h3>
-            <p mat-line>
+            <div mat-line>
                 <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
+            </div>
+            <p mat-line>
+                <span>{{instruction.description}}</span>
             </p>
 
             <rating [(ngModel)]="instruction.score" mat-line

@@ -2,7 +2,7 @@
     <div class="mat-app-background" fxLayout="column" fxFlexFill>
         <mat-toolbar color="primary">
             <mat-toolbar-row class="toolbar-container">
-                <span [routerLink]="['/']">{{'LANDING_PAGE.TITLE'|translate}}</span>
+                <a [routerLink]="['/']" class="title">{{'LANDING_PAGE.TITLE'|translate}}</a>
                 <span class="spacer"></span>
 
                 <button mat-button [matMenuTriggerFor]="menu"
