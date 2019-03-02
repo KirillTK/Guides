@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Instruction} from '../../shared/model/Instruction';
@@ -7,6 +7,8 @@ import {UserService} from '../../shared/services/User.service';
 import {AuthService} from '../../shared/services/AuthService';
 import {Comment} from '../../shared/model/Comment';
 import {forkJoin} from 'rxjs';
+import {FileService} from '../../shared/services/File.service';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-instruction-page',
@@ -22,12 +24,14 @@ export class InstructionPageComponent implements OnInit {
   isHidden: boolean;
   private idInstruction: string;
   public comments: Comment[];
+  @ViewChild('pdfData') pdfData: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private instructionService: InstructionService,
               private user: UserService,
               private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              private file: FileService) {
   }
 
   ngOnInit() {
@@ -97,6 +101,13 @@ export class InstructionPageComponent implements OnInit {
       this.reviewForm.controls[control].setErrors(null);
     });
     this.isHidden = true;
+  }
+
+  savePDF() {
+    this.file.getPDF(this.idInstruction).subscribe(data => {
+      const blob = new Blob([data], {type: 'application/pdf'});
+      saveAs(blob, `${this.instruction.name}.pdf`);
+    });
   }
 
 }

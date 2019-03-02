@@ -1,28 +1,31 @@
 <mat-card>
-  <mat-list *ngIf="instructions.length > 0">
-    <mat-list-item *ngFor="let instruction of instructions">
-      <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
-      <div mat-line>
-        <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
-      </div>
+  <div *ngIf="instructions">
+    <mat-list *ngIf="instructions.length > 0">
+      <mat-list-item *ngFor="let instruction of instructions">
+        <img mat-list-avatar [src]="instruction.imgHref" alt="Desc 1">
+        <div mat-line>
+          <a [routerLink]="['/instruction',instruction._id]" class="instruction-title">{{instruction.name}}</a>
+        </div>
 
-      <p mat-line *ngIf="!isNeedDateField">
-        <span>{{instruction.description}}</span>
-      </p>
+        <p mat-line *ngIf="!isNeedDateField">
+          <span>{{instruction.description}}</span>
+        </p>
 
-      <p mat-line *ngIf="isNeedDateField">
-        <span>{{instruction.lastEdited}}</span>
-      </p>
+        <p mat-line *ngIf="isNeedDateField">
+          <span>{{instruction.lastEdited}}</span>
+        </p>
 
-      <rating [(ngModel)]="instruction.score" mat-line
-              [float]="true"
-              [readonly]="true"
-              [titles]="['one', 'two', 'three', 'four', 'five']">
-      </rating>
-    </mat-list-item>
-  </mat-list>
+        <rating [(ngModel)]="instruction.score" mat-line
+                [float]="true"
+                [readonly]="true"
+                [titles]="['one', 'two', 'three', 'four', 'five']">
+        </rating>
+      </mat-list-item>
+    </mat-list>
 
-  <h2 *ngIf="instructions.length === 0" class="no-instructions">
-    {{'CARD_INSTRUCTIONS_COMP.NO_INSTRUCTIONS'|translate}}
-  </h2>
+    <h2 *ngIf="instructions.length === 0" class="no-instructions">
+      {{'CARD_INSTRUCTIONS_COMP.NO_INSTRUCTIONS'|translate}}
+    </h2>
+  </div>
+
 </mat-card>

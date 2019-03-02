@@ -8,6 +8,16 @@
 
 .instruction_image_container {
     width: 30%;
+
+    div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+
+        button.mat-stroked-button {
+            width: 100%;
+        }
+    }
 }
 
 .instruction_image {
@@ -65,6 +75,9 @@
     margin: 0 auto;
 }
 
+mat-stroked-button {
+    width: 100%;
+}
 
 
 @media only screen and (max-device-width: 600px){
