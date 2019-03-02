@@ -1,6 +1,6 @@
 import {ElementRef, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {fromEvent, Observable} from 'rxjs';
+import {fromEvent, Observable, Subject} from 'rxjs';
 import {Theme} from '../model/Theme';
 import {Tag} from '../model/Tag';
 import {Instruction} from '../model/Instruction';
@@ -8,13 +8,25 @@ import {Comment} from '../model/Comment';
 import {AuthService} from './AuthService';
 import {debounceTime, distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';
 import {ajax} from 'rxjs/ajax';
-
+import * as socketIo from 'socket.io-client';
 
 @Injectable()
 export class InstructionService {
 
+  private _userInstructions: Subject<Instruction[]> = new Subject<Instruction[]>();
+  userInstructions = this._userInstructions.asObservable();
+
+  socket = socketIo('http://localhost:3000');
 
   constructor(private http: HttpClient, private auth: AuthService) {
+    this.socket.on('newInstruction', (instructions: Instruction[]) => {
+      console.log(instructions);
+      this.setUserInstructions(instructions);
+    });
+  }
+
+  setUserInstructions(instructions: Instruction[]) {
+    this._userInstructions.next(instructions);
   }
 
   getUserInstructions(id: string): Observable<Instruction[]> {
@@ -24,6 +36,10 @@ export class InstructionService {
   postInstruction(instruction) {
     console.log('auth token', this.auth.token);
     return this.http.post(`/api/postInstruction/${this.auth.token}`, instruction);
+  }
+
+  getUserFreshInstructions(idUser) {
+    this.socket.emit('addInstruction', idUser);
   }
 
   getThemeInstruction(): Observable<Theme[]> {

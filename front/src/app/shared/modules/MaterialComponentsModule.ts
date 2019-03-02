@@ -8,7 +8,7 @@ import {
   MatListModule, MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
-  MatSelectModule, MatSlideToggleModule,
+  MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
   MatSortModule, MatStepperModule,
   MatTableModule,
   MatTabsModule,
@@ -36,7 +36,8 @@ import {NgModule} from '@angular/core';
     MatStepperModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ],
   exports: [
     MatToolbarModule,
@@ -57,7 +58,8 @@ import {NgModule} from '@angular/core';
     MatStepperModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialComponentsModule {

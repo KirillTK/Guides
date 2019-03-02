@@ -20,7 +20,7 @@ import {Tag} from '../../../../shared/model/Tag';
     ]),
   ],
 })
-export class ListInstructionComponent {
+export class ListInstructionComponent implements OnInit {
 
   public isLoaded = false;
   @Input() themes: Theme[];
@@ -69,5 +69,12 @@ export class ListInstructionComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.isLoaded = true;
+  }
+
+  ngOnInit(): void {
+    this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
+      console.log('hi', instructions);
+      this.initTable(instructions);
+    });
   }
 }
