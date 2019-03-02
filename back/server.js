@@ -10,6 +10,7 @@ const http = require('http');
 const server = http.createServer(app);
 const WebsocketServer = require('ws').Server;
 // const mexp = require('mongoose-elasticsearch-xp');
+const generatePDF = require('./scripts/generatePDF');
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -336,6 +337,12 @@ app.get('/api/getTopRatedInstructions', async (req, res) => {
 app.get('/api/getLatestInstructions', async (req, res) => {
   const instructions = await Instruction.find({}).sort({lastEdited: 'desc'}).limit(5);
   res.json(instructions);
+});
+
+app.get('/api/getPDF/:id', async (req, res) => {
+  const instruction = await Instruction.findOne({_id: req.params.id});
+  const doc = generatePDF(instruction, res);
+  doc.end();
 });
 
 server.listen(3000, () => console.log('listen 3000 port'));
