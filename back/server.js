@@ -11,6 +11,7 @@ const server = http.createServer(app);
 const WebsocketServer = require('ws').Server;
 // const mexp = require('mongoose-elasticsearch-xp');
 const generatePDF = require('./scripts/generatePDF');
+const socketIo = require('socket.io');
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -359,3 +360,19 @@ server.listen(3000, () => console.log('listen 3000 port'));
 //     ws.send(JSON.stringify(_.uniq(_tags)));
 //   });
 // });
+
+const io = socketIo(server);
+
+
+io.on('connection', (socket) => {
+  socket.on('postReview', async (instructionID) => {
+    const reviews = await Comment.find({instructionID: instructionID});
+    io.emit('reviews', reviews);
+  });
+
+  socket.on('addInstruction', async (uid) => {
+    const instructions = await Instruction.find({idUser: uid});
+    io.emit('newInstruction', instructions);
+  });
+
+});
