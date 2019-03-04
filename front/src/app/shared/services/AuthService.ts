@@ -1,9 +1,13 @@
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
-  private loggedInStatus = false;
+
+  private _loggedInStatus: Subject<boolean> = new Subject<boolean>();
+  loggedInStatus = this._loggedInStatus.asObservable();
+  // private loggedInStatus = false;
   private _token: string;
 
   get token(): string {
@@ -18,7 +22,7 @@ export class AuthService {
   }
 
   setLoggedIn(value: boolean) {
-    this.loggedInStatus = value;
+    this._loggedInStatus.next(value);
   }
 
   get isLoggedIn() {

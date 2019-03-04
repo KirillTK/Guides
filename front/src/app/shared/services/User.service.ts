@@ -6,10 +6,8 @@ import {UserProfile} from '../../pages/user-profile/user-profile.component';
 import {LoginResponse} from '../model/LoginResponse';
 import {AuthService} from './AuthService';
 
-interface IsLoggedIn {
+export interface IsLoggedIn {
   status: boolean;
-  user: User;
-  token?: string;
 }
 
 @Injectable()
@@ -34,12 +32,12 @@ export class UserService {
     return this.http.post('/api/registration', user);
   }
 
-  loginUser(user: User): Observable<User> {
-    return this.http.post<User>('/api/login', user);
+  loginUser(user: User): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('/api/login', user);
   }
 
-  isLoggedIn(id: string): Observable<IsLoggedIn> {
-    return this.http.get<IsLoggedIn>(`/api/isLoggedin/${id}`);
+  isLoggedIn(): Observable<IsLoggedIn> {
+    return this.http.get<IsLoggedIn>('/api/isLoggedin');
   }
 
   logOut() {

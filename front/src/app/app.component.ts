@@ -1,8 +1,7 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {UserService} from './shared/services/User.service';
+import {Component, OnInit} from '@angular/core';
+import {IsLoggedIn, UserService} from './shared/services/User.service';
 import {Router} from '@angular/router';
 import {AuthService} from './shared/services/AuthService';
-import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {SettingsService} from './shared/services/Settings.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -12,13 +11,14 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewChecked, OnInit {
+export class AppComponent implements OnInit {
   title = 'Exam-Front';
   public isAuthenticated = false;
   public userID: string;
   public isAdmin: boolean;
   isDarkTheme: Observable<boolean>;
   language: Observable<string>;
+  authentication: Observable<boolean>;
 
 
   constructor(private userService: UserService,
@@ -34,25 +34,6 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   }
 
-  ngAfterViewChecked(): void {
-    // this.userService.isLoggedIn().subscribe(response => {
-    //   this.auth.setLoggedIn(response.status);
-    //   if (response.user) {
-    //     this.userService.user = response.user;
-    //     this.userID = response.user._id;
-    //     this.auth.token = response.token;
-    //   }
-    //   this.isAuthenticated = response.status;
-    // });
-    if (this.auth.isLoggedIn) {
-      this.userID = this.userService.user._id;
-      this.isAuthenticated = true;
-      this.isAdmin = this.userService.user.isAdmin;
-    } else {
-      this.isAuthenticated = false;
-    }
-  }
-
 
   ngOnInit(): void {
     this.settings.loadLanguage();
@@ -61,6 +42,9 @@ export class AppComponent implements AfterViewChecked, OnInit {
     this.isDarkTheme.subscribe(result => this.settings.loadTheme());
     this.language = this.settings.language;
     this.language.subscribe(() => this.settings.loadLanguage());
+    this.authentication = this.auth.loggedInStatus;
+    this.authentication.subscribe(isAuth => this.isAuthenticated = isAuth);
+    this.userService.isLoggedIn().subscribe((status: IsLoggedIn) => this.auth.setLoggedIn(status.status));
   }
 
   logout() {
