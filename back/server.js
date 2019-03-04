@@ -10,10 +10,10 @@ const Instruction = require('./models/instruction');
 const Comment = require('./models/comment');
 const admin = require('./api/admin');
 const instruction = require('./api/instruction');
-const user = require('./api/user');
+// const user = require('./api/user');
+const passport = require('passport');
 const comments = require('./api/comment');
-
-
+const cookieParser = require('cookie-parser');
 
 
 app.use(session({
@@ -24,13 +24,22 @@ app.use(session({
 
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://admin:kirill201299@ds253104.mlab.com:53104/testdatabase', {useNewUrlParser: true}).then(() => console.log('Mongoose up!'));
+require('./passport')(passport);
+app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(session({
+  secret: 'anystringoftext',
+  saveUninitialized: true,
+  resave: true
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', admin);
 app.use('/', instruction);
-app.use('/', user);
 app.use('/', comments);
+require('./api/user')(app, passport);
 
 
 server.listen(3000, () => console.log('listen 3000 port'));

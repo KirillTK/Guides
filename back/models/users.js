@@ -3,7 +3,7 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 
 const UserSchema = new mongoose.Schema({
-  email: String,
+  email: { type: String, unique: true },
   password: String,
   isActivate: {type: Boolean, default: false},
   isAdmin: {type: Boolean, default: false},
