@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../model/User';
 import {Observable} from 'rxjs';
 import {UserProfile} from '../../pages/user-profile/user-profile.component';
+import {LoginResponse} from '../model/LoginResponse';
+import {AuthService} from './AuthService';
 
 interface IsLoggedIn {
   status: boolean;
@@ -32,8 +34,8 @@ export class UserService {
     return this.http.post('/api/registration', user);
   }
 
-  loginUser(user: User) {
-    return this.http.post('/api/login', user);
+  loginUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/login', user);
   }
 
   isLoggedIn(id: string): Observable<IsLoggedIn> {

@@ -10,6 +10,7 @@ import {AdminPageRouteGuard} from '../guards/AdminPageRouteGuard';
 import {InstructionPageComponent} from '../../pages/instruction-page/instruction-page.component';
 import {UserProfileComponent} from '../../pages/user-profile/user-profile.component';
 import {SettingPageComponent} from '../../pages/setting-page/setting-page.component';
+import {InstructionsByTagPageComponent} from '../../pages/instructions-by-tag-page/instructions-by-tag-page.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'instruction/:id', component: InstructionPageComponent},
   {path: 'profile/:id', component: UserProfileComponent},
   {path: 'settings', component: SettingPageComponent},
+  {path: 'instructions/:tag', component: InstructionsByTagPageComponent}
 ];
 
 

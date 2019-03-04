@@ -88,4 +88,8 @@ export class InstructionService {
     return this.http.get<Instruction[]>('/api/getLatestInstructions');
   }
 
+  getInstructionsByTag(tag: string, page: number) {
+    return this.http.get<Instruction[]>(`/api/getInstructionsByTag/${tag}/${page}`);
+  }
+
 }

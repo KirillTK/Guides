@@ -43,13 +43,16 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {DragScrollModule} from 'ngx-drag-scroll/lib';
-import { TagCloudModule } from 'angular-tag-cloud-module';
-import { TagsComponent } from './pages/landing-page/components/tags/tags.component';
-import { CardInstructionsComponent } from './shared/components/card-instructions/card-instructions.component';
-import { TimeInAppPipe } from './shared/pipes/time-in-app.pipe';
-import { RoundScorePipe } from './shared/pipes/round-score.pipe';
+import {TagCloudModule} from 'angular-tag-cloud-module';
+import {TagsComponent} from './pages/landing-page/components/tags/tags.component';
+import {CardInstructionsComponent} from './shared/components/card-instructions/card-instructions.component';
+import {TimeInAppPipe} from './shared/pipes/time-in-app.pipe';
+import {RoundScorePipe} from './shared/pipes/round-score.pipe';
+import {InstructionsByTagPageComponent} from './pages/instructions-by-tag-page/instructions-by-tag-page.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 const config: InputFileConfig = {};
+
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
@@ -72,7 +75,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TagsComponent,
     CardInstructionsComponent,
     TimeInAppPipe,
-    RoundScorePipe
+    RoundScorePipe,
+    InstructionsByTagPageComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +105,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       }
     }),
     DragScrollModule,
-    TagCloudModule
+    TagCloudModule,
+    InfiniteScrollModule
   ],
   providers: [
     FileService,
