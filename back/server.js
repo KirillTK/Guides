@@ -138,7 +138,7 @@ app.get('/api/getTags', async (req, res) => {
   const instructions = await Instruction.find({});
   const tags = _.flattenDeep(instructions.map((inst) => inst.tags));
   const _tags = _.map(tags, tag => _.pick(tag, ['display', 'value']));
-  res.json(_.uniq(_tags));
+  res.json(_.uniqBy(_tags, 'display'));
 });
 
 app.delete('/api/deleteInstruction/:id/:token', async (req, res) => {
@@ -344,6 +344,12 @@ app.get('/api/getPDF/:id', async (req, res) => {
   const instruction = await Instruction.findOne({_id: req.params.id});
   const doc = generatePDF(instruction, res);
   doc.end();
+});
+
+app.get('/api/getInstructionsByTag/:tag/:page', async (req, res) => {
+  const {tag, page} = req.params;
+  const instructions = await Instruction.find({'tags.value': tag}).skip(+page).limit(8);
+  res.json(instructions);
 });
 
 server.listen(3000, () => console.log('listen 3000 port'));
