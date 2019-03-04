@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
         req.logIn(passportUser, (err) => {
           if (err) next();
-          res.json(passportUser)
+          res.json({success: true});
         });
       }
     })(req, res, next);
@@ -48,11 +48,10 @@ module.exports = function (app, passport) {
   });
 
 
-  app.get('/api/logout', function (req, res) {
+  app.get('/api/logout', (req, res) => {
     console.log(req.user);
     console.log(req.isAuthenticated());
     req.logout();
-    res.redirect('/');
   });
 
 
@@ -64,15 +63,9 @@ module.exports = function (app, passport) {
   });
 
 
-  app.get('/api/isLoggedin/:token', (req, res) => {
-    // if (req.session.user._id === req.params.token) {
-    if (req.session.user) {
-      console.log(req.session.user._id, req.params.token);
-      if (req.session.user._id === req.params.token) {
-        res.json({status: !!req.session.user, user: req.session.user, token: req.session.id})
-      } else {
-        res.json({status: false})
-      }
+  app.get('/api/isLoggedin', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json({status: true})
     } else {
       res.json({status: false})
     }
@@ -90,35 +83,3 @@ module.exports = function (app, passport) {
   });
 
 };
-
-
-// app.post('/api/login', async (req, res) => {
-//   const user = await User.findOne(req.body);
-//   if (!user) {
-//     res.json({success: false, message: 'Incorrect details'});
-//     return;
-//   }
-//
-//   if (!user.isActivate) {
-//     res.json({success: false, message: 'Please verify you account'});
-//     return;
-//   }
-//
-//   req.session.user = user;
-//   res.json({user: user, success: true, message: 'correct details', token: req.session.id});
-// });
-//
-// app.post('/api/registration', async (req, res) => {
-//   console.log(req.body);
-//   const existingUser = await User.findOne({email: req.body.email});
-//   if (existingUser) {
-//     res.json({success: false, message: 'Email already in use'});
-//     return;
-//   }
-//
-//   const user = new User(req.body);
-//   sendEmail(user._id, user.email);
-//   const result = await user.save();
-//   res.json({success: true, message: 'We send email to verify you account!'});
-// });
-// module.exports = app;
