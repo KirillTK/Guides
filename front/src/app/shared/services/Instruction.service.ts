@@ -34,8 +34,7 @@ export class InstructionService {
   }
 
   postInstruction(instruction) {
-    console.log('auth token', this.auth.token);
-    return this.http.post(`/api/postInstruction/${this.auth.token}`, instruction);
+    return this.http.post(`/api/postInstruction`, instruction);
   }
 
   getUserFreshInstructions(idUser) {
@@ -51,11 +50,11 @@ export class InstructionService {
   }
 
   deleteInstruction(id: string): Observable<Instruction[]> {
-    return this.http.delete<Instruction[]>(`/api/deleteInstruction/${id}/${this.auth.token}`);
+    return this.http.delete<Instruction[]>(`/api/deleteInstruction/${id}`);
   }
 
   updateInstruction(id: string, instruction: Instruction) {
-    return this.http.put(`/api/updateInstruction/${id}/${this.auth.token}`, instruction);
+    return this.http.put(`/api/updateInstruction/${id}`, instruction);
   }
 
   getInstructionById(id: string) {

@@ -60,7 +60,7 @@ export class InstructionComponent implements OnInit {
     }
   }
 
-  postInstruction(): void {
+  updateInstruction(): void {
     this.instructionService.updateInstruction(this.instruction._id, this.instructionForm.value).subscribe();
   }
 
