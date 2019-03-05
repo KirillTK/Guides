@@ -62,7 +62,7 @@ export class InstructionService {
   }
 
   postComment(comment: Comment) {
-    return this.http.post(`/api/postComment/${this.auth.token}`, comment);
+    return this.http.post(`/api/postComment`, comment);
   }
 
   getCommentsByIdInstruction(id: string): Observable<Comment[]> {

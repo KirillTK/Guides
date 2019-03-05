@@ -12,6 +12,11 @@ import {saveAs} from 'file-saver';
 import * as socketIo from 'socket.io-client';
 import {MatSnackBar} from '@angular/material';
 
+export interface WebsocketResponse {
+  comments: Comment[];
+  instruction: Instruction;
+}
+
 @Component({
   selector: 'app-instruction-page',
   templateUrl: './instruction-page.component.html',
@@ -41,8 +46,10 @@ export class InstructionPageComponent implements OnInit {
   ngOnInit() {
 
 
-    this.socket.on('reviews', (comm: Comment[]) => {
-      this.comments = comm;
+    this.socket.on('reviews', (response: WebsocketResponse) => {
+      console.log(response.comments, response.instruction);
+      this.comments = response.comments;
+      this.instruction = response.instruction;
     });
 
     this.reviewForm = new FormGroup({
@@ -58,8 +65,7 @@ export class InstructionPageComponent implements OnInit {
       this.instruction = results[0];
       this.comments = results[1];
       console.log(this.comments);
-      // this.isHidden = this.checkInstruction();
-      this.isHidden = false;
+      this.isHidden = this.checkInstruction();
       this.isLoaded = true;
     });
   }
@@ -114,7 +120,7 @@ export class InstructionPageComponent implements OnInit {
     Object.keys(this.reviewForm.controls).forEach(control => {
       this.reviewForm.controls[control].setErrors(null);
     });
-    // this.isHidden = true;
+    this.isHidden = true;
   }
 
   savePDF() {
