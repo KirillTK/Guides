@@ -52,6 +52,10 @@ module.exports = function (app, passport) {
     console.log(req.user);
     console.log(req.isAuthenticated());
     req.logout();
+    req.session.destroy();
+    console.log('here');
+    console.log(req.user);
+    console.log(req.isAuthenticated());
   });
 
 
@@ -65,6 +69,7 @@ module.exports = function (app, passport) {
 
   app.get('/api/isLoggedin', (req, res) => {
     if (req.isAuthenticated()) {
+      console.log(req.user);
       res.json({status: true, user: req.user})
     } else {
       res.json({status: false})

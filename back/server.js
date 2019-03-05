@@ -14,6 +14,7 @@ const instruction = require('./api/instruction');
 const passport = require('passport');
 const comments = require('./api/comment');
 const cookieParser = require('cookie-parser');
+const {guardInstructionApi} = require('./api/guard');
 
 
 app.use(session({
@@ -49,11 +50,13 @@ const io = socketIo(server);
 
 io.on('connection', (socket) => {
   socket.on('postReview', async (instructionID) => {
-    const reviews = await Comment.find({instructionID: instructionID});
-    io.emit('reviews', reviews);
+    const comments = await Comment.find({instructionID: instructionID});
+    const instruction = await Instruction.findById(instructionID);
+    io.emit('reviews', {comments, instruction});
   });
 
   socket.on('addInstruction', async (uid) => {
+    console.log(uid);
     const instructions = await Instruction.find({idUser: uid});
     io.emit('newInstruction', instructions);
   });

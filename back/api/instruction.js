@@ -7,7 +7,6 @@ const _ = require('lodash');
 const {guardInstructionApi} = require('./guard');
 
 
-
 router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
   const instruction = new Instruction(req.body);
   const i = await instruction.save();
@@ -16,6 +15,7 @@ router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
 
 router.get('/api/getUserInstructions/:uid', async (req, res) => {
   const uid = req.params.uid;
+  console.log(uid);
   const instructions = await Instruction.find({idUser: uid});
   res.json(instructions)
 });
