@@ -18,21 +18,22 @@ export class UserPageRouteGuard implements CanActivate {
     //   this.router.navigate(['/login']);
     // }
 
-    if ((this.auth.isLoggedIn && this.user.user._id === next.params.id) || (this.auth.isLoggedIn && this.user.user.isAdmin)) {
-      return true;
-    }
-
-    return this.user.isLoggedIn(next.params.id).pipe(map(res => {
-      console.log(res);
-      if (res.status) {
-        this.auth.setLoggedIn(true);
-        this.user.user = res.user;
-        this.auth.token = res.token;
-        return true;
-      } else {
-        this.router.navigate(['login']);
-        return false;
-      }
-    }));
+    // if ((this.auth.isLoggedIn && this.user.user._id === next.params.id) || (this.auth.isLoggedIn && this.user.user.isAdmin)) {
+    //   return true;
+    // }
+    //
+    // return this.user.isLoggedIn(next.params.id).pipe(map(res => {
+    //   console.log(res);
+    //   if (res.status) {
+    //     this.auth.setLoggedIn(true);
+    //     this.user.user = res.user;
+    //     this.auth.token = res.token;
+    //     return true;
+    //   } else {
+    //     this.router.navigate(['login']);
+    //     return false;
+    //   }
+    // }));
+    return true;
   }
 }

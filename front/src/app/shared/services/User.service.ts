@@ -8,6 +8,7 @@ import {AuthService} from './AuthService';
 
 export interface IsLoggedIn {
   status: boolean;
+  user: User;
 }
 
 @Injectable()

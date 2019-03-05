@@ -38,13 +38,24 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.settings.loadLanguage();
     this.settings.loadTheme();
+
     this.isDarkTheme = this.settings.isDarkTheme;
     this.isDarkTheme.subscribe(result => this.settings.loadTheme());
+
     this.language = this.settings.language;
     this.language.subscribe(() => this.settings.loadLanguage());
+
     this.authentication = this.auth.loggedInStatus;
     this.authentication.subscribe(isAuth => this.isAuthenticated = isAuth);
-    this.userService.isLoggedIn().subscribe((status: IsLoggedIn) => this.auth.setLoggedIn(status.status));
+
+    this.userService.isLoggedIn().subscribe((status: IsLoggedIn) => {
+      if (status.status) {
+        this.userID = status.user._id;
+        this.isAdmin = status.user.isAdmin;
+        this.userService.user = status.user;
+      }
+      this.auth.setLoggedIn(status.status);
+    });
   }
 
   logout() {

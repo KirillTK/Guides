@@ -31,9 +31,9 @@ export class LoginPageComponent implements OnInit {
     const registrationUser: User = this.loginForm.value;
     this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
-
       if (response.success) {
         this.auth.setLoggedIn(true);
+        this.userService.user = response.user;
         this.route.navigate(['/']);
       } else {
         this.showUserAlert(response.message);
