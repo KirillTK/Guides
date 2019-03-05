@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
         req.logIn(passportUser, (err) => {
           if (err) next();
-          res.json({success: true});
+          res.json({success: true, user: passportUser});
         });
       }
     })(req, res, next);
@@ -65,7 +65,7 @@ module.exports = function (app, passport) {
 
   app.get('/api/isLoggedin', (req, res) => {
     if (req.isAuthenticated()) {
-      res.json({status: true})
+      res.json({status: true, user: req.user})
     } else {
       res.json({status: false})
     }

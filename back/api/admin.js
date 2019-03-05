@@ -1,14 +1,14 @@
 const express = require('express');
 const User = require('../models/users');
 const router = express.Router();
+const {guardAdminApi} = require('./guard');
 
-router.get('/api/admin/getListUsers', async (req, res) => {
-  if (req.session.user.isAdmin) {
-    const users = await User.find({});
-    res.json(users);
-  } else {
-    res.json({status: false});
-  }
+
+router.get('/api/admin/getListUsers', guardAdminApi, async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+  // res.json({status: false});
+  // }
 });
 
 router.delete('/api/admin/deleteUser/:uid', async (req, res) => {

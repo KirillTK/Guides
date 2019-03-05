@@ -4,16 +4,14 @@ const Theme = require('../models/theme');
 const router = express.Router();
 const generatePDF = require('../scripts/generatePDF');
 const _ = require('lodash');
+const {guardInstructionApi} = require('./guard');
 
 
-router.post('/api/postInstruction/:token', async (req, res) => {
-  if (req.session.id === req.params.token) {
-    const instruction = new Instruction(req.body);
-    const i = await instruction.save();
-    res.json({status: true, message: 'posted'});
-  } else {
-    res.json({status: false, message: 'invalid token'});
-  }
+
+router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
+  const instruction = new Instruction(req.body);
+  const i = await instruction.save();
+  res.json({status: true, message: 'posted'});
 });
 
 router.get('/api/getUserInstructions/:uid', async (req, res) => {
@@ -34,24 +32,16 @@ router.get('/api/getTags', async (req, res) => {
   res.json(_.uniqBy(_tags, 'display'));
 });
 
-router.delete('/api/deleteInstruction/:id/:token', async (req, res) => {
-  if (req.session.id === req.params.token) {
-    await Instruction.deleteOne({_id: req.params.id});
-    const uid = req.session.user._id;
-    const instructions = await Instruction.find({idUser: uid});
-    res.json(instructions)
-  } else {
-    res.json({status: false});
-  }
+router.delete('/api/deleteInstruction/:id', guardInstructionApi, async (req, res) => {
+  await Instruction.deleteOne({_id: req.params.id});
+  const {uid} = req.user;
+  const instructions = await Instruction.find({idUser: uid});
+  res.json(instructions)
 });
 
-router.put('/api/updateInstruction/:id/:token', async (req, res) => {
-  if (req.session.id === req.params.token) {
-    const result = await Instruction.updateOne({_id: req.params.id}, req.body);
-    res.json({status: true});
-  } else {
-    res.json({status: false});
-  }
+router.put('/api/updateInstruction/:id', guardInstructionApi, async (req, res) => {
+  const result = await Instruction.updateOne({_id: req.params.id}, req.body);
+  res.json({status: true});
 });
 
 router.get('/api/getInstructionById/:id', async (req, res) => {
