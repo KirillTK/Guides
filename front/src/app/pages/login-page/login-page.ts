@@ -32,8 +32,8 @@ export class LoginPageComponent implements OnInit {
     this.userService.loginUser(registrationUser).subscribe((response: LoginResponse) => {
 
       if (response.success) {
-        this.auth.setLoggedIn(true);
         this.userService.user = response.user;
+        this.auth.setLoggedIn({isAuth: true, user: response.user});
         this.route.navigate(['/']);
       } else {
         this.showUserAlert(response.message);
