@@ -33,4 +33,11 @@ router.put('/api/admin/blockUser', guardAdminApi, async (req, res) => {
   res.json(users);
 });
 
+router.put('/api/admin/activateUser', guardAdminApi, async (req, res) => {
+  const {_id} = req.body;
+  await User.updateOne({_id: _id}, req.body);
+  const users = await User.find({});
+  res.json(users);
+});
+
 module.exports = router;
