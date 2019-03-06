@@ -126,8 +126,15 @@ export class WriteInstructionComponent implements OnInit {
         console.log(this.steps.controls[control].controls[index]);
         this.steps.controls[control].controls[index].setErrors(null);
       });
-
     });
+    this.deleteSteps();
+  }
+
+
+  private deleteSteps(): void {
+    while (this.steps.length !== 1) {
+      this.deleteStep();
+    }
   }
 
   private showPostedAlert(): void {

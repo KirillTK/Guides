@@ -41,7 +41,6 @@ export class InstructionComponent implements OnInit {
   private initFormArray() {
     const {steps} = this.instruction;
     for (let i = 1; i < steps.length; i++) {
-      console.log(steps[i].stepTitle, steps[i].descriptionTitle);
       this.steps.push(this.formBuilder.group({
         stepTitle: [steps[i].stepTitle, Validators.compose([Validators.required, Validators.minLength(3)])],
         descriptionTitle: [steps[i].descriptionTitle, Validators.compose([Validators.required, Validators.minLength(5)])]

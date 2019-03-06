@@ -35,9 +35,6 @@ export class ListInstructionComponent implements OnInit {
   constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
     const id: string = this.route.snapshot.paramMap.get('id');
     this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
-      // this.dataSource = new MatTableDataSource(instructions);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
       this.initTable(instructions);
       this.isLoaded = true;
     });
@@ -53,6 +50,7 @@ export class ListInstructionComponent implements OnInit {
 
   deleteInstruction(event: Event, instruction: Instruction) {
     this.instructionService.deleteInstruction(instruction._id).subscribe((instructions: Instruction[]) => {
+      console.log('here', instructions);
       this.initTable(instructions);
     });
     event.stopPropagation();
@@ -73,7 +71,6 @@ export class ListInstructionComponent implements OnInit {
 
   ngOnInit(): void {
     this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
-      console.log('hi', instructions);
       this.initTable(instructions);
     });
   }
