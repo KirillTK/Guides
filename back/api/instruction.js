@@ -34,8 +34,8 @@ router.get('/api/getTags', async (req, res) => {
 
 router.delete('/api/deleteInstruction/:id', guardInstructionApi, async (req, res) => {
   await Instruction.deleteOne({_id: req.params.id});
-  const {uid} = req.user;
-  const instructions = await Instruction.find({idUser: uid});
+  const {_id} = req.user;
+  const instructions = await Instruction.find({idUser: _id});
   res.json(instructions)
 });
 
