@@ -18,7 +18,7 @@ export interface User {
 })
 export class ListUsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['email', 'isActivate', 'isAdmin', 'action'];
+  displayedColumns: string[] = ['position', 'email', 'isActivate', 'isAdmin'];
   dataSource;
   selection = new SelectionModel<User>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -65,26 +65,38 @@ export class ListUsersComponent implements OnInit {
     console.log(element);
   }
 
-  blockUser(user: User): void {
-    user.isActivate = !user.isActivate;
-    this.admin.blockUser(user).subscribe((users: User[]) => {
-      this.initTable(users);
-    });
-    console.log('block', user);
-  }
-
-  deleteUser(user: User): void {
-    console.log('delete', user);
-    this.admin.deleteUser(user._id).subscribe((users: User[]) => {
-      this.initTable(users);
+  blockUser(): void {
+    this.selection.selected.forEach((user: User) => {
+      user.isActivate = false;
+      this.admin.blockUser(user).subscribe((users: User[]) => {
+        this.initTable(users);
+      });
     });
   }
 
-  changeRole(user: User): void {
-    console.log('set admin', user);
-    user.isAdmin = !user.isAdmin;
-    this.admin.changeRole(user).subscribe((users: User[]) => {
-      this.initTable(users);
+  activateUser(): void {
+    this.selection.selected.forEach((user: User) => {
+      user.isActivate = true;
+      this.admin.activateUser(user).subscribe((users: User[]) => {
+        this.initTable(users);
+      });
+    });
+  }
+
+  deleteUser(): void {
+    this.selection.selected.forEach((user: User) => {
+      this.admin.deleteUser(user._id).subscribe((users: User[]) => {
+        this.initTable(users);
+      });
+    });
+  }
+
+  changeRole(): void {
+    this.selection.selected.forEach((user: User) => {
+      user.isAdmin = !user.isAdmin;
+      this.admin.changeRole(user).subscribe((users: User[]) => {
+        this.initTable(users);
+      });
     });
   }
 
@@ -93,5 +105,13 @@ export class ListUsersComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.isLoaded = true;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
