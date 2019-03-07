@@ -3,6 +3,7 @@ import {InstructionService} from '../../shared/services/Instruction.service';
 import {Theme} from '../../shared/model/Theme';
 import {Tag} from '../../shared/model/Tag';
 import {forkJoin} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -15,7 +16,8 @@ export class UserPageComponent implements OnInit {
   public tags: Tag[];
   public isLoaded: boolean;
 
-  constructor(private instruction: InstructionService) {
+  constructor(private instruction: InstructionService, private route: Router) {
+    this.route.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {

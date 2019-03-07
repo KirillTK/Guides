@@ -6,9 +6,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {ActivatedRoute} from '@angular/router';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
-import * as socketIo from 'socket.io-client';
 import {MatSnackBar} from '@angular/material';
-import {Comment} from '../../../../shared/model/Comment';
 
 @Component({
   selector: 'app-write-instruction',
@@ -22,9 +20,6 @@ export class WriteInstructionComponent implements OnInit {
   @Input() themes: Theme[];
   @Input() tags: Tag[];
 
-  // socket = socketIo('http://localhost:3000');
-
-
   constructor(private formBuilder: FormBuilder,
               private instructionService: InstructionService,
               private user: UserService,
@@ -35,13 +30,6 @@ export class WriteInstructionComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    // this.socket.on('newInstruction', (data) => {
-    //   console.log(data);
-    // });
-    //
-    // this.socket.emit('addInstruction', {});
-
     this.instructionForm = this.formBuilder.group({
       imageInstruction: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -95,8 +83,7 @@ export class WriteInstructionComponent implements OnInit {
           steps,
           imgHref: imageUrl,
           idUser,
-          description,
-          author: this.user.user.email
+          description
         }).subscribe(() => this.instructionService.getUserFreshInstructions(idUser));
       });
     });

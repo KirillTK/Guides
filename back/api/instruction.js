@@ -1,6 +1,7 @@
 const express = require('express');
 const Instruction = require('../models/instruction');
 const Theme = require('../models/theme');
+const User = require('../models/users');
 const router = express.Router();
 const generatePDF = require('../scripts/generatePDF');
 const _ = require('lodash');
@@ -8,6 +9,10 @@ const {guardInstructionApi} = require('./guard');
 
 
 router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
+  const {idUser} = req.body;
+  const user = await User.findById(idUser);
+  console.log('user', user);
+  req.body.author = user.email;
   const instruction = new Instruction(req.body);
   const i = await instruction.save();
   res.json({status: true, message: 'posted'});
@@ -33,9 +38,10 @@ router.get('/api/getTags', async (req, res) => {
 });
 
 router.delete('/api/deleteInstruction/:id', guardInstructionApi, async (req, res) => {
-  await Instruction.deleteOne({_id: req.params.id});
-  const {_id} = req.user;
-  const instructions = await Instruction.find({idUser: _id});
+  const {id} = req.params;
+  const instruction = await Instruction.findById(id);
+  await Instruction.deleteOne({_id: id});
+  const instructions = await Instruction.find({idUser: instruction.idUser});
   res.json(instructions)
 });
 

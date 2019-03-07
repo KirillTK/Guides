@@ -73,4 +73,13 @@ export class AppComponent implements OnInit {
     this.route.navigate(['/']);
   }
 
+  // toProfile() {
+  //   this.route.params.subscribe(params => {
+  //     this.param = params[];
+  //     this.initialiseState();
+  //   });
+  // }
+  //
+  // resetComponentState
+
 }

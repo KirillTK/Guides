@@ -48,8 +48,7 @@
 
         <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="!element.isActivate ? 'is_disable': ''"><a class="email"
-                                                                                                         [routerLink]="['/user',element._id]">{{element.email}}</a>
+            <td mat-cell *matCellDef="let element" [ngClass]="!element.isActivate ? 'is_disable': ''"><a class="email" (click)="goToProfile($event,element._id)">{{element.email}}</a>
             </td>
         </ng-container>
 

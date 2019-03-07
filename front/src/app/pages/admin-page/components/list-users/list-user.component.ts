@@ -3,6 +3,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {User} from '../../../../shared/model/User';
 import {AdminService} from '../../../../shared/services/Admin.service';
+import {Router} from '@angular/router';
 
 
 export interface User {
@@ -25,7 +26,7 @@ export class ListUsersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public isLoaded = false;
 
-  constructor(private admin: AdminService) {
+  constructor(private admin: AdminService, private route: Router) {
   }
 
   ngOnInit() {
@@ -113,5 +114,10 @@ export class ListUsersComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  goToProfile(event: Event, uid: string) {
+    this.route.navigate(['/user', uid]);
+    event.stopPropagation();
   }
 }
