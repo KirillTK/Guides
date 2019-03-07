@@ -7,8 +7,9 @@
             <div class="instruction_image_container">
                 <img [src]="instruction.imgHref" [alt]="instruction.name" class="instruction_image">
                 <div>
-                    <button mat-stroked-button color="warn" (click)="savePDF()">Save</button>
-                    <div>
+                    <button mat-stroked-button color="warn" (click)="savePDF()"><mat-icon>cloud_download</mat-icon></button>
+                    <div class="instruction_info">
+                        <a [routerLink]="['/profile',instruction.idUser]">{{instruction.author}}</a>
                         <rating [(ngModel)]="instruction.score"
                                 [readonly]="true"
                                 [float]="true"
