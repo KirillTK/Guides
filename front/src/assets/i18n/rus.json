@@ -42,12 +42,14 @@
     "DESCRIPTION": "Описание",
     "THEME": "Тема",
     "TAG": "Тэг",
+    "TAGS": "Тэги",
     "STEPS": "Шаги:",
     "TITLE_STEP": "Заголовок шага",
     "DESCRIPTION_STEP": "Описание шага",
     "UPDATE_BTN": "Обновить",
     "FILTER": "Фильтр",
-    "POST": "Опубликовать"
+    "POST": "Опубликовать",
+    "PICTURE": "Картинка"
   },
   "USER_PROFILE_PAGE": {
     "LIST_INSTRUCTIONS": "Список инструкций",

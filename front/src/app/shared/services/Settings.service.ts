@@ -76,4 +76,12 @@ export class SettingsService {
     }
     return 'en';
   }
+
+  getTranslationForPaginator(): string {
+    const {language} = JSON.parse(this.storage.getItem('language'));
+    if (language === 'rus') {
+      return 'Элементов на странице:';
+    }
+    return 'Items per page:';
+  }
 }

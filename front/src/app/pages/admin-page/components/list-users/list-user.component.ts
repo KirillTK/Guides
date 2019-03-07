@@ -4,6 +4,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {User} from '../../../../shared/model/User';
 import {AdminService} from '../../../../shared/services/Admin.service';
 import {Router} from '@angular/router';
+import {SettingsService} from '../../../../shared/services/Settings.service';
 
 
 export interface User {
@@ -26,10 +27,11 @@ export class ListUsersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public isLoaded = false;
 
-  constructor(private admin: AdminService, private route: Router) {
+  constructor(private admin: AdminService, private route: Router, private settings: SettingsService) {
   }
 
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
     this.admin.getListUsers().subscribe((users: User[]) => {
       console.log(users);
       this.initTable(users);

@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
+import {SettingsService} from '../../../../shared/services/Settings.service';
 
 @Component({
   selector: 'app-list-instruction',
@@ -32,8 +33,7 @@ export class ListInstructionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
-
+  constructor(private instructionService: InstructionService, private route: ActivatedRoute, private settings: SettingsService) {
   }
 
   applyFilter(filterValue: string) {
@@ -66,6 +66,7 @@ export class ListInstructionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
     const id: string = this.route.snapshot.paramMap.get('id');
     this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
       this.initTable(instructions);

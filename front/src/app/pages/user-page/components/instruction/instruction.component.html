@@ -32,7 +32,7 @@
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags" [(ngModel)]="instruction.tags" placeholder="{{'USER_PAGE.TAG'|translate}}">
+        <tag-input class="tag-input" formControlName="tags" [(ngModel)]="instruction.tags" placeholder="{{'USER_PAGE.TAG'|translate}}" secondaryPlaceholder="{{'USER_PAGE.TAGS'|translate}}" theme='minimal'>
             <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
             </tag-input-dropdown>
         </tag-input>

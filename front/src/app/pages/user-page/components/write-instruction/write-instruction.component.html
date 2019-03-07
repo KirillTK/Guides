@@ -3,16 +3,12 @@
     <form [formGroup]="instructionForm" (submit)="postInstruction()">
         <section class="instruction-description">
             <div class="instruction_img">
-                <!--<file-drop headertext="Drop image here" (onFileDrop)="dropped($event)"-->
-                <!--(onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" *ngIf="!url">-->
-                <!--</file-drop>-->
 
                 <input-file
-                        placeholder="Pictures"
+                        placeholder="{{'USER_PAGE.PICTURE'|translate}}"
                         formControlName="imageInstruction">
                 </input-file>
 
-                <!--<img *ngIf="url" [src]="url" class="img">-->
             </div>
 
             <div class="info">
@@ -34,7 +30,7 @@
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags" placeholder="{{'USER_PAGE.TAG'|translate}}">
+        <tag-input class="tag-input" formControlName="tags" placeholder="{{'USER_PAGE.TAG'|translate}}" secondaryPlaceholder="{{'USER_PAGE.TAGS'|translate}}" theme='minimal'>
             <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
             </tag-input-dropdown>
         </tag-input>
