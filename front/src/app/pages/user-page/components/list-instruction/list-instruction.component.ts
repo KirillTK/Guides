@@ -33,11 +33,7 @@ export class ListInstructionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
-    const id: string = this.route.snapshot.paramMap.get('id');
-    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
-      this.initTable(instructions);
-      this.isLoaded = true;
-    });
+
   }
 
   applyFilter(filterValue: string) {
@@ -70,6 +66,11 @@ export class ListInstructionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const id: string = this.route.snapshot.paramMap.get('id');
+    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
+      this.initTable(instructions);
+    });
+
     this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
       this.initTable(instructions);
     });
