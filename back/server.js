@@ -13,6 +13,7 @@ const instruction = require('./api/instruction');
 // const user = require('./api/user');
 const passport = require('passport');
 const comments = require('./api/comment');
+const likes = require('./api/likes');
 const cookieParser = require('cookie-parser');
 const {guardInstructionApi} = require('./api/guard');
 
@@ -40,6 +41,7 @@ app.use(passport.session());
 app.use('/', admin);
 app.use('/', instruction);
 app.use('/', comments);
+app.use('/', likes);
 require('./api/user')(app, passport);
 
 
@@ -59,6 +61,12 @@ io.on('connection', (socket) => {
     console.log(uid);
     const instructions = await Instruction.find({idUser: uid});
     io.emit('newInstruction', instructions);
+  });
+
+  socket.on('likeComment', async (instructionID) => {
+    console.log('instruction id', instructionID);
+    const comments = await Comment.find({instructionID: instructionID});
+    io.emit('comments', comments);
   });
 
 });

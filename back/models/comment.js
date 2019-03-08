@@ -6,7 +6,8 @@ const CommentSchema = new mongoose.Schema({
   userName: String,
   userID: String,
   score: Number,
-  instructionID: String
+  instructionID: String,
+  likes: {type: Number, default: 0}
 });
 
 const Comment = mongoose.model('comments', CommentSchema);
