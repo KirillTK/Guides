@@ -71,9 +71,8 @@
                 </button>
             </div>
 
-            <!--<button mat-stroked-button color="primary" class="post-btn"-->
-                    <!--[disabled]="instructionForm.invalid">{{'USER_PAGE.POST'|translate}}</button>-->
-            <button mat-stroked-button color="primary" class="post-btn">{{'USER_PAGE.POST'|translate}}</button>
+            <button mat-stroked-button color="primary" class="post-btn"
+                    [disabled]="instructionForm.invalid">{{'USER_PAGE.POST'|translate}}</button>
         </section>
 
 
