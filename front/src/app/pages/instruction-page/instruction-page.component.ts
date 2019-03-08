@@ -11,6 +11,7 @@ import {FileService} from '../../shared/services/File.service';
 import {saveAs} from 'file-saver';
 import * as socketIo from 'socket.io-client';
 import {MatSnackBar} from '@angular/material';
+import {CommentService} from '../../shared/services/comment.service';
 
 export interface WebsocketResponse {
   comments: Comment[];
@@ -40,7 +41,8 @@ export class InstructionPageComponent implements OnInit {
               private auth: AuthService,
               private router: Router,
               private file: FileService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private comment: CommentService) {
   }
 
   ngOnInit() {
@@ -50,6 +52,10 @@ export class InstructionPageComponent implements OnInit {
       console.log(response.comments, response.instruction);
       this.comments = response.comments;
       this.instruction = response.instruction;
+    });
+
+    this.socket.on('comments', (response: Comment[]) => {
+      this.comments = response;
     });
 
     this.reviewForm = new FormGroup({
@@ -128,6 +134,10 @@ export class InstructionPageComponent implements OnInit {
       const blob = new Blob([data], {type: 'application/pdf'});
       saveAs(blob, `${this.instruction.name}.pdf`);
     });
+  }
+
+  likeComment(commentID: string) {
+    this.comment.likeComment(commentID, this.idInstruction).subscribe(() => this.socket.emit('likeComment', this.idInstruction));
   }
 
 }

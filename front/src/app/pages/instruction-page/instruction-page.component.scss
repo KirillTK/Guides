@@ -69,6 +69,13 @@
 .user-info {
     display: flex;
     flex-direction: column;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 .user-info > a {
@@ -76,7 +83,7 @@
     font-weight: bold;
     outline: none;
     text-decoration: none;
-    color: black;
+    color: inherit;
 }
 
 .spinner {
@@ -95,4 +102,8 @@ mat-stroked-button {
     .stars {
         font-size: 0.7em;
     }
+}
+
+.count-like {
+    padding-left: 10px;
 }
