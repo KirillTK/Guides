@@ -5,6 +5,8 @@ import {User} from '../../../../shared/model/User';
 import {AdminService} from '../../../../shared/services/Admin.service';
 import {Router} from '@angular/router';
 import {SettingsService} from '../../../../shared/services/Settings.service';
+import {UserService} from '../../../../shared/services/User.service';
+import {AuthService} from '../../../../shared/services/AuthService';
 
 
 export interface User {
@@ -27,13 +29,16 @@ export class ListUsersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public isLoaded = false;
 
-  constructor(private admin: AdminService, private route: Router, private settings: SettingsService) {
+  constructor(private admin: AdminService,
+              private route: Router,
+              private settings: SettingsService,
+              private user: UserService,
+              private auth: AuthService) {
   }
 
   ngOnInit() {
     this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
     this.admin.getListUsers().subscribe((users: User[]) => {
-      console.log(users);
       this.initTable(users);
     });
   }
@@ -50,30 +55,17 @@ export class ListUsersComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  // block() {
-  //   this.selection.selected.forEach((user: any) => {
-  //
-  //   });
-  //   this.selection.clear();
-  // }
-
-  // deleteUser() {
-  //   this.selection.selected.forEach((user: any) => {
-  //
-  //   });
-  //   this.selection.clear();
-  // }
-
-  action(element) {
-    console.log(element);
-  }
-
   blockUser(): void {
     this.selection.selected.forEach((user: User) => {
       user.isActivate = false;
+
       this.admin.blockUser(user).subscribe((users: User[]) => {
         this.initTable(users);
       });
+
+      if (this.isSelectedUserInSystem(user)) {
+        this.logout();
+      }
     });
   }
 
@@ -100,6 +92,9 @@ export class ListUsersComponent implements OnInit {
       this.admin.changeRole(user).subscribe((users: User[]) => {
         this.initTable(users);
       });
+      if (this.isSelectedUserInSystem(user)) {
+        this.logout();
+      }
     });
   }
 
@@ -121,5 +116,15 @@ export class ListUsersComponent implements OnInit {
   goToProfile(event: Event, uid: string) {
     this.route.navigate(['/user', uid]);
     event.stopPropagation();
+  }
+
+  private isSelectedUserInSystem(user: User): boolean {
+    return this.user.user._id === user._id;
+  }
+
+  private logout() {
+    this.auth.setLoggedIn({isAuth: false});
+    this.user.logOut().subscribe();
+    this.route.navigate(['/']);
   }
 }

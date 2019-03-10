@@ -30,9 +30,6 @@ export class AppComponent implements OnInit {
     translate.addLangs(['en', 'rus']);
     translate.setDefaultLang('en');
 
-    // const browserLang = translate.getBrowserLang();
-    // translate.use(browserLang.match(/en|rus/) ? browserLang : 'rus');
-
   }
 
 
@@ -72,14 +69,5 @@ export class AppComponent implements OnInit {
     this.userService.logOut().subscribe();
     this.route.navigate(['/']);
   }
-
-  // toProfile() {
-  //   this.route.params.subscribe(params => {
-  //     this.param = params[];
-  //     this.initialiseState();
-  //   });
-  // }
-  //
-  // resetComponentState
 
 }
