@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
@@ -8,6 +8,7 @@ import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
 import {SettingsService} from '../../../../shared/services/Settings.service';
 import * as socketIo from 'socket.io-client';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -23,7 +24,7 @@ import * as socketIo from 'socket.io-client';
     ]),
   ],
 })
-export class ListInstructionComponent implements OnInit {
+export class ListInstructionComponent implements OnInit, OnDestroy {
 
   public isLoaded = false;
   @Input() themes: Theme[];
@@ -36,6 +37,8 @@ export class ListInstructionComponent implements OnInit {
   columnsToDisplay = ['name', 'theme', 'score', 'activity'];
   expandedElement: Instruction | null;
 
+  private instructionsSubscription: Subscription;
+  private changeInstructionSubscription: Subscription;
 
   constructor(private instructionService: InstructionService, private route: ActivatedRoute, private settings: SettingsService) {
   }
@@ -66,16 +69,24 @@ export class ListInstructionComponent implements OnInit {
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
     const id: string = this.route.snapshot.paramMap.get('id');
-    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
-      this.initTable(instructions);
-    });
+    this.instructionsSubscription = this.instructionService
+      .getUserInstructions(id)
+      .subscribe((instructions: Instruction[]) => {
+        this.initTable(instructions);
+      });
 
-    this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
-      this.initTable(instructions);
-    });
+    this.changeInstructionSubscription = this.instructionService.userInstructions
+      .subscribe((instructions: Instruction[]) => {
+        this.initTable(instructions);
+      });
 
     this.socket.on('userInstructions', (response: Instruction[]) => {
       this.initTable(response);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.instructionsSubscription) { this.instructionsSubscription.unsubscribe(); }
+    if (this.changeInstructionSubscription) { this.changeInstructionSubscription.unsubscribe(); }
   }
 }

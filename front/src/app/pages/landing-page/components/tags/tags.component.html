@@ -1,4 +1,3 @@
-<!--<button mat-button *ngFor="let tag of tags|async">{{tag.value}}</button>-->
 <section class="tags-section">
     <a mat-raised-button [routerLink]="['instructions',tag.value]" *ngFor="let tag of tags|async">{{tag.value}}</a>
 </section>

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IsLoggedIn, UserService} from './shared/services/User.service';
 import {Router} from '@angular/router';
 import {AuthService} from './shared/services/AuthService';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {SettingsService} from './shared/services/Settings.service';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthState} from './shared/model/AuthState';
@@ -12,14 +12,19 @@ import {AuthState} from './shared/model/AuthState';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Exam-Front';
-  public isAuthenticated = false;
-  public userID: string;
-  public isAdmin: boolean;
+  isAuthenticated = false;
+  userID: string;
+  isAdmin: boolean;
   isDarkTheme: Observable<boolean>;
   language: Observable<string>;
   authentication: Observable<AuthState>;
+
+  private authenticationSubscription: Subscription;
+  private isLoggedInSubscription: Subscription;
+  private languageSubscription: Subscription;
+  private darkThemeSubscription: Subscription;
 
 
   constructor(private userService: UserService,
@@ -38,13 +43,13 @@ export class AppComponent implements OnInit {
     this.settings.loadTheme();
 
     this.isDarkTheme = this.settings.isDarkTheme;
-    this.isDarkTheme.subscribe(result => this.settings.loadTheme());
+    this.darkThemeSubscription = this.isDarkTheme.subscribe(result => this.settings.loadTheme());
 
     this.language = this.settings.language;
-    this.language.subscribe(() => this.settings.loadLanguage());
+    this.languageSubscription = this.language.subscribe(() => this.settings.loadLanguage());
 
     this.authentication = this.auth.loggedInStatus;
-    this.authentication.subscribe((state: AuthState) => {
+    this.authenticationSubscription = this.authentication.subscribe((state: AuthState) => {
       if (state.isAuth) {
         this.userID = state.user._id;
         this.isAdmin = state.user.isAdmin;
@@ -52,7 +57,7 @@ export class AppComponent implements OnInit {
       this.isAuthenticated = state.isAuth;
     });
 
-    this.userService.isLoggedIn().subscribe((status: IsLoggedIn) => {
+    this.isLoggedInSubscription = this.userService.isLoggedIn().subscribe((status: IsLoggedIn) => {
       if (status.status) {
         this.userID = status.user._id;
         this.isAdmin = status.user.isAdmin;
@@ -62,6 +67,13 @@ export class AppComponent implements OnInit {
         this.auth.setLoggedIn({isAuth: status.status});
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authenticationSubscription) { this.authenticationSubscription.unsubscribe(); }
+    if (this.isLoggedInSubscription) { this.isLoggedInSubscription.unsubscribe(); }
+    if (this.languageSubscription) { this.languageSubscription.unsubscribe(); }
+    if (this.darkThemeSubscription) { this.darkThemeSubscription.unsubscribe(); }
   }
 
   logout() {

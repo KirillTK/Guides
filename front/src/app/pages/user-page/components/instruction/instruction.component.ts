@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
@@ -6,20 +6,23 @@ import {Tag} from '../../../../shared/model/Tag';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import * as socketIo from 'socket.io-client';
 import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-instruction',
   templateUrl: './instruction.component.html',
   styleUrls: ['./instruction.component.scss']
 })
-export class InstructionComponent implements OnInit {
+export class InstructionComponent implements OnInit, OnDestroy {
 
   @Input() instruction: Instruction;
   @Input() themes: Theme[];
   @Input() tags: Tag[];
-  public instructionForm: FormGroup;
-  public steps: FormArray;
+  instructionForm: FormGroup;
+  steps: FormArray;
   socket = socketIo('http://localhost:3000');
+
+  private updateInstructionSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private instructionService: InstructionService, private route: ActivatedRoute) {
   }
@@ -39,6 +42,10 @@ export class InstructionComponent implements OnInit {
     this.instructionForm.patchValue(this.instruction);
     this.instructionForm.controls.imageInstruction.setValue(this.instruction.imgHref);
     this.initFormArray();
+  }
+
+  ngOnDestroy(): void {
+    if (this.updateInstructionSubscription) { this.updateInstructionSubscription.unsubscribe(); }
   }
 
   private initFormArray() {
@@ -63,7 +70,8 @@ export class InstructionComponent implements OnInit {
 
   updateInstruction(): void {
     const uid = this.route.snapshot.paramMap.get('id');
-    this.instructionService.updateInstruction(this.instruction._id, this.instructionForm.value)
+    this.updateInstructionSubscription = this.instructionService
+      .updateInstruction(this.instruction._id, this.instructionForm.value)
       .subscribe(() => this.socket.emit('updateInstruction', uid));
   }
 

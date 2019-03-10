@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {User} from '../../../../shared/model/User';
@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {SettingsService} from '../../../../shared/services/Settings.service';
 import {UserService} from '../../../../shared/services/User.service';
 import {AuthService} from '../../../../shared/services/AuthService';
+import {Subscription} from 'rxjs';
 
 
 export interface User {
@@ -20,7 +21,7 @@ export interface User {
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.scss']
 })
-export class ListUsersComponent implements OnInit {
+export class ListUsersComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['position', 'email', 'isActivate', 'isAdmin'];
   dataSource;
@@ -28,6 +29,11 @@ export class ListUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public isLoaded = false;
+  private listUsersSubscription: Subscription;
+  private activateUserSubscription: Subscription;
+  private blockUserSubscription: Subscription;
+  private deleteUserSubscription: Subscription;
+  private changeRoleUserSubscription: Subscription;
 
   constructor(private admin: AdminService,
               private route: Router,
@@ -38,9 +44,10 @@ export class ListUsersComponent implements OnInit {
 
   ngOnInit() {
     this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
-    this.admin.getListUsers().subscribe((users: User[]) => {
-      this.initTable(users);
-    });
+    this.listUsersSubscription = this.admin.getListUsers()
+      .subscribe((users: User[]) => {
+        this.initTable(users);
+      });
   }
 
   isAllSelected() {
@@ -59,9 +66,10 @@ export class ListUsersComponent implements OnInit {
     this.selection.selected.forEach((user: User) => {
       user.isActivate = false;
 
-      this.admin.blockUser(user).subscribe((users: User[]) => {
-        this.initTable(users);
-      });
+      this.blockUserSubscription = this.admin.blockUser(user)
+        .subscribe((users: User[]) => {
+          this.initTable(users);
+        });
 
       if (this.isSelectedUserInSystem(user)) {
         this.logout();
@@ -72,26 +80,29 @@ export class ListUsersComponent implements OnInit {
   activateUser(): void {
     this.selection.selected.forEach((user: User) => {
       user.isActivate = true;
-      this.admin.activateUser(user).subscribe((users: User[]) => {
-        this.initTable(users);
-      });
+      this.activateUserSubscription = this.admin.activateUser(user)
+        .subscribe((users: User[]) => {
+          this.initTable(users);
+        });
     });
   }
 
   deleteUser(): void {
     this.selection.selected.forEach((user: User) => {
-      this.admin.deleteUser(user._id).subscribe((users: User[]) => {
-        this.initTable(users);
-      });
+      this.deleteUserSubscription = this.admin.deleteUser(user._id)
+        .subscribe((users: User[]) => {
+          this.initTable(users);
+        });
     });
   }
 
   changeRole(): void {
     this.selection.selected.forEach((user: User) => {
       user.isAdmin = !user.isAdmin;
-      this.admin.changeRole(user).subscribe((users: User[]) => {
-        this.initTable(users);
-      });
+      this.changeRoleUserSubscription = this.admin.changeRole(user)
+        .subscribe((users: User[]) => {
+          this.initTable(users);
+        });
       if (this.isSelectedUserInSystem(user)) {
         this.logout();
       }
@@ -126,5 +137,13 @@ export class ListUsersComponent implements OnInit {
     this.auth.setLoggedIn({isAuth: false});
     this.user.logOut().subscribe();
     this.route.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.listUsersSubscription) {this.listUsersSubscription.unsubscribe(); }
+    if (this.activateUserSubscription) {this.activateUserSubscription.unsubscribe(); }
+    if (this.blockUserSubscription) {this.blockUserSubscription.unsubscribe(); }
+    if (this.deleteUserSubscription) {this.deleteUserSubscription.unsubscribe(); }
+    if (this.changeRoleUserSubscription) {this.changeRoleUserSubscription.unsubscribe(); }
   }
 }
