@@ -3,7 +3,6 @@ const User = require('./users');
 
 const LikeSchema = new mongoose.Schema({
   commentID: {type: mongoose.Schema.Types.ObjectId, ref: 'comments'},
-  // userLike: {type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true, dropDups: true}
   userLike: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
