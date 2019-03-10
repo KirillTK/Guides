@@ -25,7 +25,7 @@ app.use(session({
 }));
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://admin:kirill201299@ds253104.mlab.com:53104/testdatabase', {useNewUrlParser: true}).then(() => console.log('Mongoose up!'));
+mongoose.connect('mongodb://admin:kirill201299@ds163835.mlab.com:63835/itransition', {useNewUrlParser: true}).then(() => console.log('Mongoose up!'));
 require('./passport')(passport);
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('likeComment', async (instructionID) => {
-    console.log('instruction id', instructionID);
+    // console.log('instruction id', instructionID);
     const comments = await Comment.find({instructionID: instructionID});
     io.emit('comments', comments);
   });
