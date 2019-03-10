@@ -10,7 +10,7 @@ import {Tag} from '../../../../shared/model/Tag';
 @Component({
   selector: 'app-write-instruction',
   templateUrl: './write-instruction.component.html',
-  styleUrls: ['./write-instruction.component.css']
+  styleUrls: ['./write-instruction.component.scss']
 })
 export class WriteInstructionComponent implements OnInit {
 

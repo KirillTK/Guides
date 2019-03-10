@@ -2,14 +2,17 @@
 
     <form [formGroup]="loginForm" (submit)="submitLogin()" class="login-form">
         <mat-form-field>
-            <input matInput placeholder="Email" type="email" formControlName="email">
-            <mat-error *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">Invalid email
+            <input matInput placeholder="{{'LOGIN_PAGE.EMAIL'|translate}}" type="email" formControlName="email">
+            <mat-error
+                    *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">{{'LOGIN_PAGE.INVALID_EMAIL'|translate}}
             </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Password" type="password" formControlName="password">
-            <mat-error *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">Invalid password
+            <input matInput placeholder="{{'LOGIN_PAGE.PASSWORD'|translate}}" type="password"
+                   formControlName="password">
+            <mat-error
+                    *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">{{'LOGIN_PAGE.INVALID_PASS'|translate}}
             </mat-error>
         </mat-form-field>
 
@@ -17,7 +20,8 @@
         {{failMessage}}
         </span>
 
-        <button mat-raised-button color="primary" [disabled]="loginForm.invalid" class="submit-btn">Login</button>
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid"
+                class="submit-btn">{{'LOGIN_PAGE.LOGIN_BTN'|translate}}</button>
     </form>
 
 

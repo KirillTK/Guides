@@ -1,0 +1,53 @@
+{
+  "LANDING_PAGE": {
+    "TITLE": "ХЗ как назвать",
+    "SIGN_IN_BTN": "Войти",
+    "SIGN_UP_BTN": "Регистрация",
+    "PROFILE": "Профиль",
+    "ADMIN": "Администратор",
+    "LOG_OUT": "Выйти",
+    "MENU": "Меню",
+    "SEARCH": "Поиск"
+  },
+  "INSTRUCTION_PAGE": {
+    "STEPS": "Шаги:",
+    "COMMENTS": "Комментарии:",
+    "WRITE_REVIEW": "Написать отзыв",
+    "PUBLISH": "Опубликовать"
+  },
+  "LOGIN_PAGE": {
+    "EMAIL": "Email",
+    "PASSWORD": "Пароль",
+    "INVALID_EMAIL": "Неволидный email",
+    "INVALID_PASS": "Неволидный пароль",
+    "LOGIN_BTN": "Логин"
+  },
+  "REGISTRATION_PAGE": {
+    "EMAIL": "Email",
+    "PASSWORD": "Пароль",
+    "INVALID_EMAIL": "Неволидный email",
+    "INVALID_PASS": "Неволидный пароль",
+    "REGISTER_BTN": "Создать аккаунт"
+  },
+  "SETTINGS_PAGE": {
+    "DARK_THEME": "Темная тема",
+    "LANGUAGE": "Язык"
+  },
+  "USER_PAGE": {
+    "LIST_INSTRUCTIONS_TAB": "Список инструкций",
+    "WRITE_INSTR_TAB": "Написать новую инструкцию",
+    "TITLE": "Заголовок",
+    "DESCRIPTION": "Описание",
+    "THEME": "Тема",
+    "TAG": "Тэг",
+    "STEPS": "Шаги:",
+    "TITLE_STEP": "Заголовок шага",
+    "DESCRIPTION_STEP": "Описание шага",
+    "UPDATE_BTN": "Обновить",
+    "FILTER": "Фильтр",
+    "POST": "Опубликовать"
+  },
+  "USER_PROFILE_PAGE": {
+    "LIST_INSTRUCTIONS": "List of instructions"
+  }
+}

@@ -2,16 +2,16 @@
 
     <form [formGroup]="registrationForm" (submit)="submitRegistration()" class="registration-form">
         <mat-form-field>
-            <input matInput placeholder="Email" type="email" formControlName="email">
-            <mat-error *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">Invalid
-                email
+            <input matInput placeholder="{{'REGISTRATION_PAGE.EMAIL'|translate}}" type="email" formControlName="email">
+            <mat-error *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">
+                {{'REGISTRATION_PAGE.INVALID_EMAIL'|translate}}
             </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Password" type="password" formControlName="password">
+            <input matInput placeholder="{{'REGISTRATION_PAGE.PASSWORD'|translate}}" type="password" formControlName="password">
             <mat-error *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched">
-                Invalid password
+                {{'REGISTRATION_PAGE.INVALID_PASS'|translate}}
             </mat-error>
         </mat-form-field>
 
@@ -19,8 +19,8 @@
         {{registrationMessage.message}}
         </span>
 
-        <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" class="submit-btn">Create an
-            account
+        <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" class="submit-btn">
+            {{'REGISTRATION_PAGE.REGISTER_BTN'|translate}}
         </button>
     </form>
 

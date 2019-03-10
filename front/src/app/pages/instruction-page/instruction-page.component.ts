@@ -11,7 +11,7 @@ import {forkJoin} from 'rxjs';
 @Component({
   selector: 'app-instruction-page',
   templateUrl: './instruction-page.component.html',
-  styleUrls: ['./instruction-page.component.css']
+  styleUrls: ['./instruction-page.component.scss']
 })
 export class InstructionPageComponent implements OnInit {
 

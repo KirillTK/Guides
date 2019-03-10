@@ -1,0 +1,53 @@
+{
+  "LANDING_PAGE": {
+    "TITLE": "asjdk",
+    "SIGN_IN_BTN": "Sign in",
+    "SIGN_UP_BTN": "Sign up",
+    "PROFILE": "Profile",
+    "ADMIN": "Admin page",
+    "LOG_OUT": "Log out",
+    "MENU": "Menu",
+    "SEARCH": "Search"
+  },
+  "INSTRUCTION_PAGE": {
+    "STEPS": "Steps:",
+    "COMMENTS": "Comments:",
+    "WRITE_REVIEW": "Write review",
+    "PUBLISH": "Publish"
+  },
+  "LOGIN_PAGE": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "INVALID_EMAIL": "Invalid email",
+    "INVALID_PASS": "Invalid password",
+    "LOGIN_BTN": "Login"
+  },
+  "REGISTRATION_PAGE": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "INVALID_EMAIL": "Invalid email",
+    "INVALID_PASS": "Invalid password",
+    "REGISTER_BTN": "Create an account"
+  },
+  "SETTINGS_PAGE": {
+    "DARK_THEME": "Dark theme",
+    "LANGUAGE": "Language"
+  },
+  "USER_PAGE": {
+    "LIST_INSTRUCTIONS_TAB": "List of instructions",
+    "WRITE_INSTR_TAB": "Write new instruction",
+    "TITLE": "Title",
+    "DESCRIPTION": "Description",
+    "THEME": "Theme",
+    "TAG": "Tag",
+    "STEPS": "Steps:",
+    "TITLE_STEP": "Title step",
+    "DESCRIPTION_STEP": "Description step",
+    "UPDATE_BTN": "Update",
+    "FILTER": "Filter",
+    "POST": "Post"
+  },
+  "USER_PROFILE_PAGE": {
+    "LIST_INSTRUCTIONS": "List of instructions"
+  }
+}

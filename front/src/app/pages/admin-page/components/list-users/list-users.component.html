@@ -70,3 +70,5 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+
+<mat-spinner *ngIf="!isLoaded" class="spinner"></mat-spinner>

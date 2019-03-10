@@ -17,15 +17,16 @@
 
             <div class="info">
                 <mat-form-field class="info-item">
-                    <input matInput placeholder="Title" formControlName="title">
+                    <input matInput placeholder="{{'USER_PAGE.TITLE'|translate}}" formControlName="title">
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <textarea matInput placeholder="Description" autosize formControlName="description"></textarea>
+                    <textarea matInput placeholder="{{'USER_PAGE.DESCRIPTION'|translate}}" autosize
+                              formControlName="description"></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="info-item">
-                    <mat-select placeholder="Theme" formControlName="theme">
+                    <mat-select placeholder="{{'USER_PAGE.THEME'|translate}}" formControlName="theme">
                         <mat-option [value]="option.value" *ngFor="let option of themes">{{option.value}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -33,13 +34,13 @@
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags">
+        <tag-input class="tag-input" formControlName="tags" placeholder="{{'USER_PAGE.TAG'|translate}}">
             <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
             </tag-input-dropdown>
         </tag-input>
 
 
-        <span class="steps-title">Steps:</span>
+        <span class="steps-title">{{'USER_PAGE.STEPS'|translate}}</span>
 
         <section class="steps-container">
             <div class="step" *ngFor="let step of instructionForm.get('steps').controls;let i = index"
@@ -49,11 +50,12 @@
                     <span class="number-item">{{i + 1}}:</span>
                     <div class="step-values">
                         <mat-form-field class="step-item">
-                            <input matInput placeholder="Title step" formControlName="stepTitle">
+                            <input matInput placeholder="{{'USER_PAGE.TITLE_STEP'|translate}}"
+                                   formControlName="stepTitle">
                         </mat-form-field>
 
                         <mat-form-field class="step-item">
-                            <textarea matInput placeholder="Description step" autosize
+                            <textarea matInput placeholder="{{'USER_PAGE.DESCRIPTION_STEP'|translate}}" autosize
                                       formControlName="descriptionTitle"></textarea>
                         </mat-form-field>
 
@@ -73,7 +75,8 @@
                 </button>
             </div>
 
-            <button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">Post</button>
+            <button mat-stroked-button color="primary" class="post-btn"
+                    [disabled]="instructionForm.invalid">{{'USER_PAGE.POST'|translate}}</button>
         </section>
 
 

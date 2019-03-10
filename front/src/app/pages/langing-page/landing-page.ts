@@ -5,7 +5,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 @Component({
   selector: 'app-root',
   templateUrl: './landing-page.html',
-  styleUrls: ['./landing-page.css']
+  styleUrls: ['./landing-page.scss']
 })
 export class LandingPageComponent {
   public rate = 3.34;

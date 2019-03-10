@@ -8,7 +8,7 @@ import {InstructionService} from '../../../../shared/services/Instruction.servic
 @Component({
   selector: 'app-instruction',
   templateUrl: './instruction.component.html',
-  styleUrls: ['./instruction.component.css']
+  styleUrls: ['./instruction.component.scss']
 })
 export class InstructionComponent implements OnInit {
 
