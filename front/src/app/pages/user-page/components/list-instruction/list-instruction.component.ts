@@ -7,6 +7,8 @@ import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
 import {SettingsService} from '../../../../shared/services/Settings.service';
+import * as socketIo from 'socket.io-client';
+
 
 @Component({
   selector: 'app-list-instruction',
@@ -26,12 +28,14 @@ export class ListInstructionComponent implements OnInit {
   public isLoaded = false;
   @Input() themes: Theme[];
   @Input() tags: Tag[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
+  socket = socketIo('http://localhost:3000');
   dataSource: MatTableDataSource<Instruction>;
   columnsToDisplay = ['name', 'theme', 'score', 'activity'];
   expandedElement: Instruction | null;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+
 
   constructor(private instructionService: InstructionService, private route: ActivatedRoute, private settings: SettingsService) {
   }
@@ -46,14 +50,8 @@ export class ListInstructionComponent implements OnInit {
 
   deleteInstruction(event: Event, instruction: Instruction) {
     this.instructionService.deleteInstruction(instruction._id).subscribe((instructions: Instruction[]) => {
-      console.log('here', instructions);
       this.initTable(instructions);
     });
-    event.stopPropagation();
-  }
-
-  goToInstruction(event: Event, instruction: Instruction) {
-
     event.stopPropagation();
   }
 
@@ -74,6 +72,10 @@ export class ListInstructionComponent implements OnInit {
 
     this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
       this.initTable(instructions);
+    });
+
+    this.socket.on('userInstructions', (response: Instruction[]) => {
+      this.initTable(response);
     });
   }
 }

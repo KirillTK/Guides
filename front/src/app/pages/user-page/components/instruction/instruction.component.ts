@@ -1,9 +1,11 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
+import * as socketIo from 'socket.io-client';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-instruction',
@@ -17,8 +19,9 @@ export class InstructionComponent implements OnInit {
   @Input() tags: Tag[];
   public instructionForm: FormGroup;
   public steps: FormArray;
+  socket = socketIo('http://localhost:3000');
 
-  constructor(private formBuilder: FormBuilder, private instructionService: InstructionService) {
+  constructor(private formBuilder: FormBuilder, private instructionService: InstructionService, private route: ActivatedRoute) {
   }
 
 
@@ -48,7 +51,6 @@ export class InstructionComponent implements OnInit {
     }
   }
 
-
   addStep(): void {
     this.steps.push(this.createStepFormControl());
   }
@@ -60,7 +62,9 @@ export class InstructionComponent implements OnInit {
   }
 
   updateInstruction(): void {
-    this.instructionService.updateInstruction(this.instruction._id, this.instructionForm.value).subscribe();
+    const uid = this.route.snapshot.paramMap.get('id');
+    this.instructionService.updateInstruction(this.instruction._id, this.instructionForm.value)
+      .subscribe(() => this.socket.emit('updateInstruction', uid));
   }
 
   createStepFormControl(): FormGroup {
@@ -69,22 +73,5 @@ export class InstructionComponent implements OnInit {
       descriptionTitle: new FormControl(null, [Validators.required, Validators.minLength(5)])
     });
   }
-
-  disableForm() {
-    this.instructionForm.reset();
-    Object.keys(this.instructionForm.controls).forEach((key) => {
-      this.instructionForm.get(key).disable();
-    });
-  }
-
-  enableForm() {
-    Object.keys(this.instructionForm.controls).forEach((key) => {
-      this.instructionForm.get(key).enable();
-    });
-  }
-
-  loadDataToForm(): void {
-  }
-
 
 }

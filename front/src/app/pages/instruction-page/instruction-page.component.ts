@@ -1,5 +1,5 @@
-import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute,  Router} from '@angular/router';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Instruction} from '../../shared/model/Instruction';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
