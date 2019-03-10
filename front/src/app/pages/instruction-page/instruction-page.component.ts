@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Instruction} from '../../shared/model/Instruction';
@@ -7,6 +7,10 @@ import {UserService} from '../../shared/services/User.service';
 import {AuthService} from '../../shared/services/AuthService';
 import {Comment} from '../../shared/model/Comment';
 import {forkJoin} from 'rxjs';
+import {FileService} from '../../shared/services/File.service';
+import {saveAs} from 'file-saver';
+import * as socketIo from 'socket.io-client';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-instruction-page',
@@ -22,15 +26,24 @@ export class InstructionPageComponent implements OnInit {
   isHidden: boolean;
   private idInstruction: string;
   public comments: Comment[];
+  @ViewChild('pdfData') pdfData: ElementRef;
+  socket = socketIo('http://localhost:3000');
 
   constructor(private route: ActivatedRoute,
               private instructionService: InstructionService,
               private user: UserService,
               private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              private file: FileService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
+
+
+    this.socket.on('reviews', (comm: Comment[]) => {
+      this.comments = comm;
+    });
 
     this.reviewForm = new FormGroup({
       comment: new FormControl(null, [Validators.required, Validators.minLength(5)]),
@@ -45,7 +58,8 @@ export class InstructionPageComponent implements OnInit {
       this.instruction = results[0];
       this.comments = results[1];
       console.log(this.comments);
-      this.isHidden = this.checkInstruction();
+      // this.isHidden = this.checkInstruction();
+      this.isHidden = false;
       this.isLoaded = true;
     });
   }
@@ -62,7 +76,11 @@ export class InstructionPageComponent implements OnInit {
       instructionID: this.idInstruction,
       userName: this.user.user.email,
       userID: this.user.user._id
-    }).subscribe(() => this.resetForm());
+    }).subscribe(() => {
+      this.socket.emit('postReview', this.idInstruction);
+      this.snackBar.open('Published!', '', {duration: 2000});
+      this.resetForm();
+    });
     console.log(this.reviewForm.value);
   }
 
@@ -95,6 +113,14 @@ export class InstructionPageComponent implements OnInit {
     this.reviewForm.reset();
     Object.keys(this.reviewForm.controls).forEach(control => {
       this.reviewForm.controls[control].setErrors(null);
+    });
+    // this.isHidden = true;
+  }
+
+  savePDF() {
+    this.file.getPDF(this.idInstruction).subscribe(data => {
+      const blob = new Blob([data], {type: 'application/pdf'});
+      saveAs(blob, `${this.instruction.name}.pdf`);
     });
   }
 

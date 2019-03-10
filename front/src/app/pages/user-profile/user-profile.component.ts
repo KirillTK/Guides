@@ -5,6 +5,11 @@ import {forkJoin} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {Instruction} from '../../shared/model/Instruction';
 
+export interface UserProfile {
+  email: string;
+  date: string;
+}
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -13,8 +18,9 @@ import {Instruction} from '../../shared/model/Instruction';
 export class UserProfileComponent implements OnInit {
 
   public instructions: Instruction[];
-  public userEmail: string;
+  public userProfile: UserProfile;
   public isLoaded = false;
+  public isNotFounded: boolean;
 
   constructor(private user: UserService, private instruction: InstructionService, private route: ActivatedRoute) {
   }
@@ -24,10 +30,14 @@ export class UserProfileComponent implements OnInit {
     const userInfo = this.user.getUserById(uid);
     const instructions = this.instruction.getUserInstructions(uid);
     forkJoin(userInfo, instructions).subscribe(result => {
-      this.userEmail = result[0];
-      this.instructions = result[1];
-      console.log(this.instructions);
+      if (result[0]) {
+        this.userProfile = result[0];
+        this.instructions = result[1];
+      } else {
+        this.isNotFounded = true;
+      }
       this.isLoaded = true;
+
     });
   }
 

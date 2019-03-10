@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LandingPageComponent} from '../../pages/langing-page/landing-page';
+import {LandingPageComponent} from '../../pages/landing-page/landing-page';
 import {LoginPageComponent} from '../../pages/login-page/login-page';
 import {RegistrationPageComponent} from '../../pages/registration-page/registration-page';
 import {UserPageComponent} from '../../pages/user-page/user-page';
@@ -10,6 +10,7 @@ import {AdminPageRouteGuard} from '../guards/AdminPageRouteGuard';
 import {InstructionPageComponent} from '../../pages/instruction-page/instruction-page.component';
 import {UserProfileComponent} from '../../pages/user-profile/user-profile.component';
 import {SettingPageComponent} from '../../pages/setting-page/setting-page.component';
+import {InstructionsByTagPageComponent} from '../../pages/instructions-by-tag-page/instructions-by-tag-page.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'instruction/:id', component: InstructionPageComponent},
   {path: 'profile/:id', component: UserProfileComponent},
   {path: 'settings', component: SettingPageComponent},
+  {path: 'instructions/:tag', component: InstructionsByTagPageComponent}
 ];
 
 

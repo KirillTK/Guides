@@ -1,9 +1,18 @@
-<mat-slide-toggle [checked]="isDarkTheme"
-                  (change)="toggleDarkTheme($event.checked)">{{'SETTINGS_PAGE.DARK_THEME'|translate}}</mat-slide-toggle>
+<div class="settings">
+    <mat-slide-toggle [checked]="isDarkTheme"
+                      (change)="toggleDarkTheme($event.checked)">{{'SETTINGS_PAGE.DARK_THEME'|translate}}</mat-slide-toggle>
 
-<mat-select placeholder="{{'SETTINGS_PAGE.LANGUAGE'|translate}}" (selectionChange)="changeClient($event.value)"
-            [(ngModel)]="language">
-    <mat-option [value]="lang.value" *ngFor="let lang of languages">{{lang.title}}</mat-option>
-</mat-select>
+    <mat-select placeholder="{{'SETTINGS_PAGE.LANGUAGE'|translate}}" (selectionChange)="changeClient($event.value)"
+                [(ngModel)]="language" style="width: 300px">
+        <mat-option [value]="lang.value" *ngFor="let lang of languages">
+            <div>
+                <span>{{lang.title}}</span>
+                <img [src]="lang.href" width="50" height="40px">
+            </div>
+
+        </mat-option>
+    </mat-select>
+</div>
+
 
 

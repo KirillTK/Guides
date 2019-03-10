@@ -9,7 +9,9 @@ const _ = require('lodash');
 const http = require('http');
 const server = http.createServer(app);
 const WebsocketServer = require('ws').Server;
-
+// const mexp = require('mongoose-elasticsearch-xp');
+const generatePDF = require('./scripts/generatePDF');
+const socketIo = require('socket.io');
 
 const originsWhitelist = [
   'http://localhost:4200'
@@ -63,7 +65,7 @@ app.post('/api/registration', async (req, res) => {
   }
 
   const user = new User(req.body);
-  sendEmail(user._id);
+  sendEmail(user._id, user.email);
   const result = await user.save();
   res.json({success: true, message: 'We send email to verify you account!'});
 });
@@ -120,7 +122,11 @@ app.get('/api/getUserInstructions/:uid', async (req, res) => {
 app.get('/api/getUserInfo/:uid', async (req, res) => {
   const uid = req.params.uid;
   const user = await User.findOne({_id: uid});
-  res.json(user.email);
+  if (user) {
+    res.json({email: user.email, date: user.date});
+  } else {
+    res.json(false);
+  }
 });
 
 app.get('/api/getThemes', async (req, res) => {
@@ -132,7 +138,7 @@ app.get('/api/getTags', async (req, res) => {
   const instructions = await Instruction.find({});
   const tags = _.flattenDeep(instructions.map((inst) => inst.tags));
   const _tags = _.map(tags, tag => _.pick(tag, ['display', 'value']));
-  res.json(_.uniq(_tags));
+  res.json(_.uniqBy(_tags, 'display'));
 });
 
 app.delete('/api/deleteInstruction/:id/:token', async (req, res) => {
@@ -228,6 +234,123 @@ app.put('/api/admin/blockUser', async (req, res) => {
     res.json({status: false});
   }
 });
+//
+// Instruction.createMapping({
+//   "settings": {
+//     "number_of_shards": 1,
+//     "number_of_replicas": 0,
+//     "analysis": {
+//       "filter": {
+//         "nGram_filter": {
+//           "type": "nGram",
+//           "min_gram": 2,
+//           "max_gram": 20,
+//           "token_chars": [
+//             "letter",
+//             "digit",
+//             "punctuation",
+//             "symbol"
+//           ]
+//         }
+//       },
+//       "analyzer": {
+//         "nGram_analyzer": {
+//           "type": "custom",
+//           "tokenizer": "whitespace",
+//           "filter": [
+//             "lowercase",
+//             "asciifolding",
+//             "nGram_filter"
+//           ]
+//         },
+//         "whitespace_analyzer": {
+//           "type": "custom",
+//           "tokenizer": "whitespace",
+//           "filter": [
+//             "lowercase",
+//             "asciifolding"
+//           ]
+//         }
+//       }
+//     }
+//   },
+//   "mappings": {
+//     "movie": {
+//       "_all": {
+//         "analyzer": "nGram_analyzer",
+//         "search_analyzer": "whitespace_analyzer"
+//       },
+//       "properties": {
+//         "_id": {
+//           "type" :"text",
+//           "index": true
+//         }
+//       }
+//     }
+//   }
+// }, function (err, mapping) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(mapping);
+//   }
+// });
+
+// const stream = Instruction.synchronize();
+// let count = 0;
+// stream.on('data', () => {
+//   count++;
+// });
+//
+// stream.on('close', () => {
+//   console.log('Indexed' + count + 'documents');
+// });
+//
+// stream.on('error', (error) => {
+//   console.log(error)
+// });
+//
+
+app.get('/api/search/:text', async (req, res) => {
+  const searchText = req.params.text;
+  // Instruction.search({
+  //   "multi_match" : {
+  //     "query":    searchText,
+  //     "type":     "phrase",
+  //     "fields":   [ "title", "excerpt", "body", "risk_challenges", "curated_url" ],
+  //     "slop":     10
+  //   }
+  // }, function (err, results) {
+  //   res.json(results);
+  // });
+  // Instruction.search( searchText, (error, results) => {
+  //   res.json(results);
+  // });
+  const results = await Instruction.find({"name": {$regex: searchText, $options: 'i'}});
+  res.json(results);
+});
+
+app.get('/api/getTopRatedInstructions', async (req, res) => {
+  const instructions = await Instruction.find({}).sort('-score').limit(5);
+  res.json(instructions);
+});
+
+app.get('/api/getLatestInstructions', async (req, res) => {
+  const instructions = await Instruction.find({}).sort({lastEdited: 'desc'}).limit(5);
+  res.json(instructions);
+});
+
+app.get('/api/getPDF/:id', async (req, res) => {
+  const instruction = await Instruction.findOne({_id: req.params.id});
+  const doc = generatePDF(instruction, res);
+  doc.end();
+});
+
+app.get('/api/getInstructionsByTag/:tag/:page', async (req, res) => {
+  const {tag, page} = req.params;
+  const instructions = await Instruction.find({'tags.value': tag}).skip(+page).limit(8);
+  res.json(instructions);
+});
 
 server.listen(3000, () => console.log('listen 3000 port'));
 
@@ -243,3 +366,19 @@ server.listen(3000, () => console.log('listen 3000 port'));
 //     ws.send(JSON.stringify(_.uniq(_tags)));
 //   });
 // });
+
+const io = socketIo(server);
+
+
+io.on('connection', (socket) => {
+  socket.on('postReview', async (instructionID) => {
+    const reviews = await Comment.find({instructionID: instructionID});
+    io.emit('reviews', reviews);
+  });
+
+  socket.on('addInstruction', async (uid) => {
+    const instructions = await Instruction.find({idUser: uid});
+    io.emit('newInstruction', instructions);
+  });
+
+});

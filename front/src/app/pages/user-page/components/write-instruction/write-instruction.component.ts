@@ -6,6 +6,9 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {ActivatedRoute} from '@angular/router';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
+import * as socketIo from 'socket.io-client';
+import {MatSnackBar} from '@angular/material';
+import {Comment} from '../../../../shared/model/Comment';
 
 @Component({
   selector: 'app-write-instruction',
@@ -19,16 +22,26 @@ export class WriteInstructionComponent implements OnInit {
   @Input() themes: Theme[];
   @Input() tags: Tag[];
 
+  // socket = socketIo('http://localhost:3000');
+
 
   constructor(private formBuilder: FormBuilder,
               private instructionService: InstructionService,
               private user: UserService,
               private storage: AngularFireStorage,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private snackBar: MatSnackBar) {
   }
 
 
   ngOnInit(): void {
+
+    // this.socket.on('newInstruction', (data) => {
+    //   console.log(data);
+    // });
+    //
+    // this.socket.emit('addInstruction', {});
+
     this.instructionForm = this.formBuilder.group({
       imageInstruction: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -65,13 +78,16 @@ export class WriteInstructionComponent implements OnInit {
   postInstruction(): void {
     const {imageInstruction} = this.instructionForm.value;
     const idUser = this.route.snapshot.paramMap.get('id');
-    console.log(idUser);
+    const {description, theme, tags, steps, title} = this.instructionForm.value;
+    this.resetForm();
+    console.log(description, theme, tags, steps, title);
+    this.showPostedAlert();
     const file = imageInstruction[0].file;
     const filePath = Math.random().toString(36).substring(2);
     const task = this.storage.upload(filePath, file).then(() => {
       const ref = this.storage.ref(filePath);
       const downloadURL = ref.getDownloadURL().subscribe((imageUrl: string) => {
-        const {description, theme, tags, steps, title} = this.instructionForm.value;
+
         this.instructionService.postInstruction({
           name: title,
           theme,
@@ -81,7 +97,7 @@ export class WriteInstructionComponent implements OnInit {
           idUser,
           description,
           author: this.user.user.email
-        }).subscribe(() => this.resetForm());
+        }).subscribe(() => this.instructionService.getUserFreshInstructions(idUser));
       });
     });
   }
@@ -112,6 +128,10 @@ export class WriteInstructionComponent implements OnInit {
       });
 
     });
+  }
+
+  private showPostedAlert(): void {
+    this.snackBar.open('Posted!', '', {duration: 2000});
   }
 
 }

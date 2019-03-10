@@ -7,7 +7,9 @@
     "ADMIN": "Администратор",
     "LOG_OUT": "Выйти",
     "MENU": "Меню",
-    "SEARCH": "Поиск"
+    "SEARCH": "Поиск",
+    "TOP_INSTRUCTIONS": "Популярные инструкции:",
+    "LATEST_INSTRUCTIONS": "Последнии инструкции:"
   },
   "INSTRUCTION_PAGE": {
     "STEPS": "Шаги:",
@@ -18,9 +20,9 @@
   "LOGIN_PAGE": {
     "EMAIL": "Email",
     "PASSWORD": "Пароль",
-    "INVALID_EMAIL": "Неволидный email",
-    "INVALID_PASS": "Неволидный пароль",
-    "LOGIN_BTN": "Логин"
+    "INVALID_EMAIL": "Невалидный email",
+    "INVALID_PASS": "Невалидный пароль",
+    "LOGIN_BTN": "Войти-"
   },
   "REGISTRATION_PAGE": {
     "EMAIL": "Email",
@@ -48,6 +50,12 @@
     "POST": "Опубликовать"
   },
   "USER_PROFILE_PAGE": {
-    "LIST_INSTRUCTIONS": "List of instructions"
+    "LIST_INSTRUCTIONS": "Список инструкций",
+    "NOT_FOUND": "Этот пользователь не найден",
+    "DAYS": " дней",
+    "REGISTERED": "Зарегестрирован: "
+  },
+  "CARD_INSTRUCTIONS_COMP": {
+    "NO_INSTRUCTIONS": "Нет инструкций"
   }
 }

@@ -4,6 +4,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize, take} from 'rxjs/operators';
 import {UploadTaskSnapshot} from '@angular/fire/storage/interfaces';
 import {Cloudinary} from '@cloudinary/angular-5.x';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
 @Injectable()
@@ -11,7 +12,7 @@ export class FileService {
 
   public downloadURL;
 
-  constructor(public afStorage: AngularFireStorage, private cloudinary: Cloudinary) {
+  constructor(public afStorage: AngularFireStorage, private cloudinary: Cloudinary, private http: HttpClient) {
   }
 
   uploadFile(file) {
@@ -23,5 +24,11 @@ export class FileService {
 
   uploadFileCloudinary() {
     // this.cloudinary.cloudinaryInstance.
+  }
+
+  getPDF(id: string) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+    return this.http.get(`/api/getPDF/${id}`, {headers, responseType: 'blob'});
   }
 }

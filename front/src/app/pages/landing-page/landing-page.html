@@ -1,0 +1,28 @@
+<form class="search-form">
+    <mat-form-field class="search-field">
+        <input type="text" placeholder="{{'LANDING_PAGE.SEARCH'|translate}}" aria-label="Number" matInput
+               [matAutocomplete]="auto" #searchBox>
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of options" [routerLink]="['/instruction',option._id]">
+                {{option.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
+
+<app-tags></app-tags>
+
+
+<h2>{{'LANDING_PAGE.TOP_INSTRUCTIONS'|translate}}</h2>
+
+
+<app-card-instructions [instructions]="topInstructions"></app-card-instructions>
+
+<h2>{{'LANDING_PAGE.LATEST_INSTRUCTIONS'|translate}}</h2>
+
+<app-card-instructions [instructions]="latestInstructions" [isNeedDateField]="true"></app-card-instructions>
+
+
+<a [routerLink]="['/user/5c69afac0385f31f2081914c']" mat-button class="navigation-btn">User</a>
+<a [routerLink]="['/admin/5c69afac0385f31f2081914c']" mat-button class="navigation-btn">Admin</a>
+
