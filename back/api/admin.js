@@ -6,7 +6,6 @@ const {guardAdminApi} = require('./guard');
 
 
 router.get('/api/admin/getListUsers', guardAdminApi, async (req, res) => {
-  console.log('here');
   const users = await User.find({});
   res.json(users);
 });

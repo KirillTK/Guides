@@ -10,7 +10,6 @@ module.exports = function (app, passport) {
 
     return passport.authenticate('local-login', {session: false}, (err, passportUser, info) => {
 
-      // console.log(passportUser);
       if (info) {
         res.json({success: false, message: info});
       }
@@ -49,13 +48,8 @@ module.exports = function (app, passport) {
 
 
   app.get('/api/logout', (req, res) => {
-    console.log(req.user);
-    console.log(req.isAuthenticated());
     req.logout();
     req.session.destroy();
-    console.log('here');
-    console.log(req.user);
-    console.log(req.isAuthenticated());
   });
 
 
@@ -69,7 +63,6 @@ module.exports = function (app, passport) {
 
   app.get('/api/isLoggedin', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log(req.user);
       res.json({status: true, user: req.user})
     } else {
       res.json({status: false})

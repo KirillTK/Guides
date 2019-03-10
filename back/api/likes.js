@@ -9,7 +9,6 @@ const {guardInstructionApi} = require('./guard');
 
 router.post('/api/likeComment', guardInstructionApi, async (req, res, next) => {
   const {commentID, instructionID} = req.body;
-  console.log(commentID, req.user._id);
   const _like = {
     commentID,
     userLike: req.user._id

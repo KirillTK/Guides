@@ -11,7 +11,6 @@ const {guardInstructionApi} = require('./guard');
 router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
   const {idUser} = req.body;
   const user = await User.findById(idUser);
-  console.log('user', user);
   req.body.author = user.email;
   const instruction = new Instruction(req.body);
   const i = await instruction.save();
@@ -20,7 +19,6 @@ router.post('/api/postInstruction', guardInstructionApi, async (req, res) => {
 
 router.get('/api/getUserInstructions/:uid', async (req, res) => {
   const uid = req.params.uid;
-  console.log(uid);
   const instructions = await Instruction.find({idUser: uid});
   res.json(instructions)
 });
@@ -46,7 +44,8 @@ router.delete('/api/deleteInstruction/:id', guardInstructionApi, async (req, res
 });
 
 router.put('/api/updateInstruction/:id', guardInstructionApi, async (req, res) => {
-  const result = await Instruction.updateOne({_id: req.params.id}, req.body);
+  const {id} = req.params;
+  const instruction = await Instruction.updateOne({_id: id}, req.body);
   res.json({status: true});
 });
 

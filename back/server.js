@@ -58,15 +58,18 @@ io.on('connection', (socket) => {
   });
 
   socket.on('addInstruction', async (uid) => {
-    console.log(uid);
     const instructions = await Instruction.find({idUser: uid});
     io.emit('newInstruction', instructions);
   });
 
   socket.on('likeComment', async (instructionID) => {
-    // console.log('instruction id', instructionID);
     const comments = await Comment.find({instructionID: instructionID});
     io.emit('comments', comments);
+  });
+
+  socket.on('updateInstruction', async (uid) => {
+    const instructions = await Instruction.find({idUser: uid});
+    io.emit('userInstructions', instructions);
   });
 
 });

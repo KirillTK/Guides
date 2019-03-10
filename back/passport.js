@@ -2,7 +2,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/users');
 
 
-module.exports = function (passport) {
+module.exports = (passport) => {
 
 
   passport.serializeUser((user, done) => {
@@ -60,7 +60,7 @@ module.exports = function (passport) {
       passwordField: 'password',
       passReqToCallback: true
     },
-    function (req, email, password, done) {
+    (req, email, password, done) => {
       process.nextTick(function () {
         User.findOne({email: email}, (err, user) => {
           if (err)
