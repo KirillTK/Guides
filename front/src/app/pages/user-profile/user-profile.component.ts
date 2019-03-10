@@ -21,14 +21,15 @@ export class UserProfileComponent implements OnInit {
   public userProfile: UserProfile;
   public isLoaded = false;
   public isNotFounded: boolean;
+  public uid: string;
 
   constructor(private user: UserService, private instruction: InstructionService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    const uid: string = this.route.snapshot.paramMap.get('id');
-    const userInfo = this.user.getUserById(uid);
-    const instructions = this.instruction.getUserInstructions(uid);
+    this.uid = this.route.snapshot.paramMap.get('id');
+    const userInfo = this.user.getUserById(this.uid);
+    const instructions = this.instruction.getUserInstructions(this.uid);
     forkJoin(userInfo, instructions).subscribe(result => {
       if (result[0]) {
         this.userProfile = result[0];

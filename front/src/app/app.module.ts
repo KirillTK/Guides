@@ -51,6 +51,7 @@ import {RoundScorePipe} from './shared/pipes/round-score.pipe';
 import {InstructionsByTagPageComponent} from './pages/instructions-by-tag-page/instructions-by-tag-page.component';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {TextareaAutosizeModule} from 'ngx-textarea-autosize';
+import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 
 const config: InputFileConfig = {};
 
@@ -77,7 +78,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CardInstructionsComponent,
     TimeInAppPipe,
     RoundScorePipe,
-    InstructionsByTagPageComponent
+    InstructionsByTagPageComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

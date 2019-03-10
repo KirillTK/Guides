@@ -1,0 +1,16 @@
+<section *ngIf="isLoaded" class="container">
+  <div *ngIf="!isNotFounded">
+
+    <section class="user-info">
+      <h2>{{profile.email}}</h2>
+      <span>{{'USER_PROFILE_PAGE.REGISTERED'|translate}} {{profile.date|timeInApp}} {{'USER_PROFILE_PAGE.DAYS'|translate}} </span>
+    </section>
+
+    <div *ngIf="isNotFounded">
+      <h2 class="not-found">{{'USER_PROFILE_PAGE.LIST_INSTRUCTIONS'|translate}}</h2>
+    </div>
+  </div>
+</section>
+
+
+
