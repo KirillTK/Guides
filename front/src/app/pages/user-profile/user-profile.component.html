@@ -1,21 +1,6 @@
 <section class="user_profile_container" *ngIf="isLoaded">
-
-    <div *ngIf="!isNotFounded">
-        <section class="user-info">
-            <h2>{{userProfile.email}}</h2>
-            <span>{{'USER_PROFILE_PAGE.REGISTERED'|translate}} {{userProfile.date|timeInApp}} {{'USER_PROFILE_PAGE.DAYS'|translate}} </span>
-        </section>
-
-        <app-card-instructions [instructions]="instructions"></app-card-instructions>
-
-
-    </div>
-
-    <div *ngIf="isNotFounded">
-        <h2 class="not-found">{{'USER_PROFILE_PAGE.LIST_INSTRUCTIONS'|translate}}</h2>
-    </div>
-
-
+    <app-user-info [uid]="uid"></app-user-info>
+    <app-card-instructions [instructions]="instructions"></app-card-instructions>
 </section>
 
 <mat-spinner *ngIf="!isLoaded" class="spinner"></mat-spinner>

@@ -15,18 +15,13 @@ export class AdminPageRouteGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (this.auth.isLoggedIn && this.user.user._id === next.params.id && this.user.user.isAdmin) {
-      return true;
-    }
-
-    return this.user.isLoggedIn(next.params.id).pipe(map(res => {
-      if (res.status && res.user.isAdmin) {
-        this.auth.setLoggedIn(true);
+    return this.user.isLoggedIn().pipe(map(res => {
+      if (res.status && (next.params.id === res.user._id && res.user.isAdmin)) {
+        this.auth.setLoggedIn({isAuth: res.status, user: res.user});
         this.user.user = res.user;
-        this.auth.token = res.token;
         return true;
       } else {
-        this.router.navigate(['login']);
+        this.router.navigate(['/']);
         return false;
       }
     }));

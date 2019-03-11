@@ -1,3 +1,5 @@
+<app-user-info [uid]="uid"></app-user-info>
+
 <mat-tab-group *ngIf="isLoaded">
     <mat-tab label="{{'USER_PAGE.LIST_INSTRUCTIONS_TAB'|translate}}">
         <app-list-instruction [tags]="tags" [themes]="themes"></app-list-instruction>

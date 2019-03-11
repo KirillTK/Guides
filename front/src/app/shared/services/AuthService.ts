@@ -1,24 +1,19 @@
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {AuthState} from '../model/AuthState';
 
 @Injectable()
 export class AuthService {
 
-  private loggedInStatus = false;
-  private _token: string;
 
-  get token(): string {
-    return this._token;
-  }
-
-  set token(value: string) {
-    this._token = value;
-  }
+  private _loggedInStatus: Subject<AuthState> = new Subject<AuthState>();
+  loggedInStatus = this._loggedInStatus.asObservable();
 
   constructor() {
   }
 
-  setLoggedIn(value: boolean) {
-    this.loggedInStatus = value;
+  setLoggedIn(value: AuthState) {
+    this._loggedInStatus.next(value);
   }
 
   get isLoggedIn() {

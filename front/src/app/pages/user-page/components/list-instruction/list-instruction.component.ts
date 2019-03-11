@@ -6,6 +6,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Instruction} from '../../../../shared/model/Instruction';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
+import {SettingsService} from '../../../../shared/services/Settings.service';
+import * as socketIo from 'socket.io-client';
+
 
 @Component({
   selector: 'app-list-instruction',
@@ -25,22 +28,16 @@ export class ListInstructionComponent implements OnInit {
   public isLoaded = false;
   @Input() themes: Theme[];
   @Input() tags: Tag[];
-
-  dataSource: MatTableDataSource<Instruction>;
-  columnsToDisplay = ['name', 'theme', 'score', 'activity'];
-  expandedElement: Instruction | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private instructionService: InstructionService, private route: ActivatedRoute) {
-    const id: string = this.route.snapshot.paramMap.get('id');
-    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
-      // this.dataSource = new MatTableDataSource(instructions);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
-      this.initTable(instructions);
-      this.isLoaded = true;
-    });
+  socket = socketIo('http://localhost:3000');
+  dataSource: MatTableDataSource<Instruction>;
+  columnsToDisplay = ['name', 'theme', 'score', 'activity'];
+  expandedElement: Instruction | null;
+
+
+  constructor(private instructionService: InstructionService, private route: ActivatedRoute, private settings: SettingsService) {
   }
 
   applyFilter(filterValue: string) {
@@ -58,11 +55,6 @@ export class ListInstructionComponent implements OnInit {
     event.stopPropagation();
   }
 
-  goToInstruction(event: Event, instruction: Instruction) {
-
-    event.stopPropagation();
-  }
-
 
   private initTable(instructions: Instruction[]) {
     this.dataSource = new MatTableDataSource(instructions);
@@ -72,9 +64,18 @@ export class ListInstructionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
-      console.log('hi', instructions);
+    this.paginator._intl.itemsPerPageLabel = this.settings.getTranslationForPaginator();
+    const id: string = this.route.snapshot.paramMap.get('id');
+    this.instructionService.getUserInstructions(id).subscribe((instructions: Instruction[]) => {
       this.initTable(instructions);
+    });
+
+    this.instructionService.userInstructions.subscribe((instructions: Instruction[]) => {
+      this.initTable(instructions);
+    });
+
+    this.socket.on('userInstructions', (response: Instruction[]) => {
+      this.initTable(response);
     });
   }
 }

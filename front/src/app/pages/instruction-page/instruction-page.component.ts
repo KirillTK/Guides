@@ -1,5 +1,5 @@
-import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute,  Router} from '@angular/router';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Instruction} from '../../shared/model/Instruction';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,6 +11,12 @@ import {FileService} from '../../shared/services/File.service';
 import {saveAs} from 'file-saver';
 import * as socketIo from 'socket.io-client';
 import {MatSnackBar} from '@angular/material';
+import {CommentService} from '../../shared/services/comment.service';
+
+export interface WebsocketResponse {
+  comments: Comment[];
+  instruction: Instruction;
+}
 
 @Component({
   selector: 'app-instruction-page',
@@ -35,14 +41,21 @@ export class InstructionPageComponent implements OnInit {
               private auth: AuthService,
               private router: Router,
               private file: FileService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private comment: CommentService) {
   }
 
   ngOnInit() {
 
 
-    this.socket.on('reviews', (comm: Comment[]) => {
-      this.comments = comm;
+    this.socket.on('reviews', (response: WebsocketResponse) => {
+      console.log(response.comments, response.instruction);
+      this.comments = response.comments;
+      this.instruction = response.instruction;
+    });
+
+    this.socket.on('comments', (response: Comment[]) => {
+      this.comments = response;
     });
 
     this.reviewForm = new FormGroup({
@@ -58,8 +71,7 @@ export class InstructionPageComponent implements OnInit {
       this.instruction = results[0];
       this.comments = results[1];
       console.log(this.comments);
-      // this.isHidden = this.checkInstruction();
-      this.isHidden = false;
+      this.isHidden = this.checkInstruction();
       this.isLoaded = true;
     });
   }
@@ -114,7 +126,7 @@ export class InstructionPageComponent implements OnInit {
     Object.keys(this.reviewForm.controls).forEach(control => {
       this.reviewForm.controls[control].setErrors(null);
     });
-    // this.isHidden = true;
+    this.isHidden = true;
   }
 
   savePDF() {
@@ -122,6 +134,10 @@ export class InstructionPageComponent implements OnInit {
       const blob = new Blob([data], {type: 'application/pdf'});
       saveAs(blob, `${this.instruction.name}.pdf`);
     });
+  }
+
+  likeComment(commentID: string) {
+    this.comment.likeComment(commentID, this.idInstruction).subscribe(() => this.socket.emit('likeComment', this.idInstruction));
   }
 
 }

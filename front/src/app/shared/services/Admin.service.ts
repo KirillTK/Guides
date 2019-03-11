@@ -25,5 +25,8 @@ export class AdminService {
     return this.http.put<User[]>('/api/admin/blockUser', user);
   }
 
+  activateUser(user: User): Observable<User[]> {
+    return this.http.put<User[]>('/api/admin/activateUser', user);
+  }
 
 }

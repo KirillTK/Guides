@@ -5,4 +5,5 @@ export interface Comment {
   userID: string;
   score: number;
   instructionID: string;
+  likes?: number;
 }

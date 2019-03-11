@@ -7,8 +7,11 @@
             <div class="instruction_image_container">
                 <img [src]="instruction.imgHref" [alt]="instruction.name" class="instruction_image">
                 <div>
-                    <button mat-stroked-button color="warn" (click)="savePDF()">Save</button>
-                    <div>
+                    <button mat-stroked-button color="warn" (click)="savePDF()">
+                        <mat-icon>cloud_download</mat-icon>
+                    </button>
+                    <div class="instruction_info">
+                        <a [routerLink]="['/profile',instruction.idUser]">{{instruction.author}}</a>
                         <rating [(ngModel)]="instruction.score"
                                 [readonly]="true"
                                 [float]="true"
@@ -67,8 +70,13 @@
             <div class="comment" *ngFor="let comment of comments">
                 <div class="user-info">
                     <a [routerLink]="['/profile',comment.userID]">{{comment.userName}}</a>
-                    <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
-                            [readonly]="true"></rating>
+                    <div>
+                        <rating [(ngModel)]="comment.score" [titles]="['one', 'two', 'three', 'four', 'five']"
+                                [readonly]="true"></rating>
+                        <button mat-button (click)="likeComment(comment._id)">
+                            <mat-icon style="color: #43a047">thumb_up</mat-icon>
+                            <span class="count-like">{{comment.likes}}</span></button>
+                    </div>
                 </div>
                 <p>{{comment.comment}}</p>
             </div>

@@ -50,6 +50,8 @@ import {TimeInAppPipe} from './shared/pipes/time-in-app.pipe';
 import {RoundScorePipe} from './shared/pipes/round-score.pipe';
 import {InstructionsByTagPageComponent} from './pages/instructions-by-tag-page/instructions-by-tag-page.component';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {TextareaAutosizeModule} from 'ngx-textarea-autosize';
+import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 
 const config: InputFileConfig = {};
 
@@ -76,7 +78,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CardInstructionsComponent,
     TimeInAppPipe,
     RoundScorePipe,
-    InstructionsByTagPageComponent
+    InstructionsByTagPageComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RatingModule,
     TagInputModule,
     FileDropModule,
-    AutosizeModule,
+    // AutosizeModule,
+    TextareaAutosizeModule,
     InputFileModule.forRoot(config),
     CloudinaryModule.forRoot(Cloudinary, {cloud_name: 'kirilltk'}),
     FlexLayoutModule,

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
-  // {comment: String, userID: String, userName: String, score: Number}
   comment: String,
   userName: String,
   userID: String,
   score: Number,
-  instructionID: String
+  instructionID: String,
+  likes: {type: Number, default: 0}
 });
 
 const Comment = mongoose.model('comments', CommentSchema);

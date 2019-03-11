@@ -1,13 +1,8 @@
-<section class="instruction-container">
+<section class="instruction-container" >
 
-    <form [formGroup]="instructionForm" (submit)="postInstruction()">
+    <form [formGroup]="instructionForm" (submit)="updateInstruction()">
         <section class="instruction-description">
             <div class="instruction_img">
-
-                <!--<input-file-->
-                <!--placeholder="Pictures"-->
-                <!--formControlName="imageInstruction">-->
-                <!--</input-file>-->
 
                 <img [src]="instruction.imgHref" alt="" class="instruction_img">
 
@@ -32,7 +27,7 @@
             </div>
         </section>
 
-        <tag-input class="tag-input" formControlName="tags" [(ngModel)]="instruction.tags" placeholder="{{'USER_PAGE.TAG'|translate}}">
+        <tag-input class="tag-input" formControlName="tags" [(ngModel)]="instruction.tags" placeholder="{{'USER_PAGE.TAG'|translate}}" secondaryPlaceholder="{{'USER_PAGE.TAGS'|translate}}" theme='minimal'>
             <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tags">
             </tag-input-dropdown>
         </tag-input>
@@ -72,8 +67,7 @@
                 </button>
             </div>
 
-            <!--<button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">Post</button>-->
-            <button mat-stroked-button color="primary" class="post-btn">{{'USER_PAGE.UPDATE_BTN'|translate}}</button>
+            <button mat-stroked-button color="primary" class="post-btn" [disabled]="instructionForm.invalid">{{'USER_PAGE.UPDATE_BTN'|translate}}</button>
 
 
         </section>
