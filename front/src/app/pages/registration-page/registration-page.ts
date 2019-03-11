@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/User.service';
 import {User} from '../../shared/model/User';
 import {RegistrationResponse} from '../../shared/model/RegistrationResponse';
+import {Subscription} from 'rxjs';
+import {templateJitUrl} from '@angular/compiler';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration-page.html',
   styleUrls: ['./registration-page.scss']
 })
-export class RegistrationPageComponent implements OnInit {
+export class RegistrationPageComponent implements OnInit, OnDestroy {
 
   public registrationForm: FormGroup;
   public registrationMessage: RegistrationResponse;
+  public registrationSubscription: Subscription;
 
   constructor(private userService: UserService) {
   }
@@ -24,12 +27,16 @@ export class RegistrationPageComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.registrationSubscription) { this.registrationSubscription.unsubscribe(); }
+  }
+
   submitRegistration(): void {
-    console.log('here', this.registrationForm.value);
     const user: User = this.registrationForm.value;
-    this.userService.registerUser(user).subscribe((response: RegistrationResponse) => {
-      this.showUserAlert(response);
-    });
+    this.registrationSubscription = this.userService.registerUser(user)
+      .subscribe((response: RegistrationResponse) => {
+        this.showUserAlert(response);
+      });
     this.resetForm();
   }
 

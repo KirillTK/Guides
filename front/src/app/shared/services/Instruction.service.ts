@@ -20,7 +20,6 @@ export class InstructionService {
 
   constructor(private http: HttpClient, private auth: AuthService) {
     this.socket.on('newInstruction', (instructions: Instruction[]) => {
-      console.log(instructions);
       this.setUserInstructions(instructions);
     });
   }

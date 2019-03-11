@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../shared/services/User.service';
 import {InstructionService} from '../../shared/services/Instruction.service';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {Instruction} from '../../shared/model/Instruction';
 
@@ -15,13 +15,15 @@ export interface UserProfile {
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
 
-  public instructions: Instruction[];
-  public userProfile: UserProfile;
-  public isLoaded = false;
-  public isNotFounded: boolean;
-  public uid: string;
+  instructions: Instruction[];
+  userProfile: UserProfile;
+  isLoaded = false;
+  isNotFounded: boolean;
+  uid: string;
+
+  private userSubscription: Subscription;
 
   constructor(private user: UserService, private instruction: InstructionService, private route: ActivatedRoute) {
   }
@@ -30,7 +32,7 @@ export class UserProfileComponent implements OnInit {
     this.uid = this.route.snapshot.paramMap.get('id');
     const userInfo = this.user.getUserById(this.uid);
     const instructions = this.instruction.getUserInstructions(this.uid);
-    forkJoin(userInfo, instructions).subscribe(result => {
+    this.userSubscription = forkJoin(userInfo, instructions).subscribe(result => {
       if (result[0]) {
         this.userProfile = result[0];
         this.instructions = result[1];
@@ -40,6 +42,12 @@ export class UserProfileComponent implements OnInit {
       this.isLoaded = true;
 
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
 }

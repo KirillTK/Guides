@@ -62,7 +62,6 @@ export class SettingsService {
     const theme = this.storage.getItem('theme');
     if (theme) {
       const {isDarkTheme} = JSON.parse(theme);
-      console.log(isDarkTheme);
       return !!isDarkTheme;
     }
     return false;

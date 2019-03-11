@@ -1,20 +1,23 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AjaxResponse} from 'rxjs/ajax';
 import {Instruction} from '../../shared/model/Instruction';
 import {InstructionService} from '../../shared/services/Instruction.service';
-import {CloudData, CloudOptions} from 'angular-tag-cloud-module';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './landing-page.html',
   styleUrls: ['./landing-page.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, OnDestroy {
 
   options: Instruction[];
-  public topInstructions: Instruction[];
-  public latestInstructions: Instruction[];
+  topInstructions: Instruction[];
+  latestInstructions: Instruction[];
+  private typeahead: Observable<AjaxResponse>;
+
+  private instructionsSubscription: Subscription;
+  private typeHeadSubscription: Subscription;
 
   @ViewChild('searchBox') searchBox: ElementRef;
 
@@ -26,17 +29,23 @@ export class LandingPageComponent implements OnInit {
     const topInstructions = this.instruction.getTopRatedInstructions();
     const latestInstructions = this.instruction.getLatestInstructions();
 
-    const typeahead = this.instruction.getSearchObserver(this.searchBox);
+    this.typeahead = this.instruction.getSearchObserver(this.searchBox);
 
-    forkJoin([topInstructions, latestInstructions]).subscribe(results => {
-      this.topInstructions = results[0];
-      this.latestInstructions = results[1];
-    });
+    this.instructionsSubscription = forkJoin([topInstructions, latestInstructions])
+      .subscribe(results => {
+        this.topInstructions = results[0];
+        this.latestInstructions = results[1];
+      });
 
-    typeahead.subscribe((response: AjaxResponse) => {
-      this.options = response.response;
-    });
+    this.typeHeadSubscription = this.typeahead
+      .subscribe((response: AjaxResponse) => {
+        this.options = response.response;
+      });
   }
 
+  ngOnDestroy(): void {
+    if (this.typeHeadSubscription) {this.typeHeadSubscription.unsubscribe(); }
+    if (this.instructionsSubscription) {this.instructionsSubscription.unsubscribe(); }
+  }
 
 }

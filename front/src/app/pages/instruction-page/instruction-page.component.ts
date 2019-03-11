@@ -1,12 +1,12 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute,  Router} from '@angular/router';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {InstructionService} from '../../shared/services/Instruction.service';
 import {Instruction} from '../../shared/model/Instruction';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/User.service';
 import {AuthService} from '../../shared/services/AuthService';
 import {Comment} from '../../shared/model/Comment';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {FileService} from '../../shared/services/File.service';
 import {saveAs} from 'file-saver';
 import * as socketIo from 'socket.io-client';
@@ -23,7 +23,7 @@ export interface WebsocketResponse {
   templateUrl: './instruction-page.component.html',
   styleUrls: ['./instruction-page.component.scss']
 })
-export class InstructionPageComponent implements OnInit {
+export class InstructionPageComponent implements OnInit, OnDestroy {
 
   public instruction: Instruction;
   public isLoaded = false;
@@ -34,6 +34,12 @@ export class InstructionPageComponent implements OnInit {
   public comments: Comment[];
   @ViewChild('pdfData') pdfData: ElementRef;
   socket = socketIo('http://localhost:3000');
+
+  private instructionInfoSubscription: Subscription;
+  private postReviewSubscription: Subscription;
+  private savePDFSubscription: Subscription;
+  private likeSubscription: Subscription;
+
 
   constructor(private route: ActivatedRoute,
               private instructionService: InstructionService,
@@ -49,7 +55,6 @@ export class InstructionPageComponent implements OnInit {
 
 
     this.socket.on('reviews', (response: WebsocketResponse) => {
-      console.log(response.comments, response.instruction);
       this.comments = response.comments;
       this.instruction = response.instruction;
     });
@@ -67,13 +72,13 @@ export class InstructionPageComponent implements OnInit {
 
     const instructions = this.instructionService.getInstructionById(this.idInstruction);
     const comments = this.instructionService.getCommentsByIdInstruction(this.idInstruction);
-    forkJoin([instructions, comments]).subscribe(results => {
-      this.instruction = results[0];
-      this.comments = results[1];
-      console.log(this.comments);
-      this.isHidden = this.checkInstruction();
-      this.isLoaded = true;
-    });
+    this.instructionInfoSubscription = forkJoin([instructions, comments])
+      .subscribe(results => {
+        this.instruction = results[0];
+        this.comments = results[1];
+        this.isHidden = this.checkInstruction();
+        this.isLoaded = true;
+      });
   }
 
 
@@ -82,7 +87,7 @@ export class InstructionPageComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     const {comment, score} = this.reviewForm.value;
-    this.instructionService.postComment({
+    this.postReviewSubscription = this.instructionService.postComment({
       comment,
       score,
       instructionID: this.idInstruction,
@@ -93,7 +98,6 @@ export class InstructionPageComponent implements OnInit {
       this.snackBar.open('Published!', '', {duration: 2000});
       this.resetForm();
     });
-    console.log(this.reviewForm.value);
   }
 
 
@@ -130,14 +134,23 @@ export class InstructionPageComponent implements OnInit {
   }
 
   savePDF() {
-    this.file.getPDF(this.idInstruction).subscribe(data => {
-      const blob = new Blob([data], {type: 'application/pdf'});
-      saveAs(blob, `${this.instruction.name}.pdf`);
-    });
+    this.savePDFSubscription = this.file.getPDF(this.idInstruction)
+      .subscribe(data => {
+        const blob = new Blob([data], {type: 'application/pdf'});
+        saveAs(blob, `${this.instruction.name}.pdf`);
+      });
   }
 
   likeComment(commentID: string) {
-    this.comment.likeComment(commentID, this.idInstruction).subscribe(() => this.socket.emit('likeComment', this.idInstruction));
+    this.likeSubscription = this.comment.likeComment(commentID, this.idInstruction)
+      .subscribe(() => this.socket.emit('likeComment', this.idInstruction));
+  }
+
+  ngOnDestroy(): void {
+    if (this.instructionInfoSubscription) {this.instructionInfoSubscription.unsubscribe(); }
+    if (this.postReviewSubscription) {this.postReviewSubscription.unsubscribe(); }
+    if (this.savePDFSubscription) {this.savePDFSubscription.unsubscribe(); }
+    if (this.likeSubscription) {this.likeSubscription.unsubscribe(); }
   }
 
 }

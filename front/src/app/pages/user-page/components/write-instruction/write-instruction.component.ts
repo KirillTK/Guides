@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {InstructionService} from '../../../../shared/services/Instruction.service';
 import {UserService} from '../../../../shared/services/User.service';
@@ -7,18 +7,23 @@ import {ActivatedRoute} from '@angular/router';
 import {Theme} from '../../../../shared/model/Theme';
 import {Tag} from '../../../../shared/model/Tag';
 import {MatSnackBar} from '@angular/material';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-write-instruction',
   templateUrl: './write-instruction.component.html',
   styleUrls: ['./write-instruction.component.scss']
 })
-export class WriteInstructionComponent implements OnInit {
+export class WriteInstructionComponent implements OnInit, OnDestroy {
 
-  public instructionForm: FormGroup;
-  public steps: FormArray;
+  instructionForm: FormGroup;
+  steps: FormArray;
   @Input() themes: Theme[];
   @Input() tags: Tag[];
+
+  private imageSubscription: Subscription;
+  private postInstructionSubscription: Subscription;
+
 
   constructor(private formBuilder: FormBuilder,
               private instructionService: InstructionService,
@@ -39,18 +44,11 @@ export class WriteInstructionComponent implements OnInit {
       steps: this.formBuilder.array([this.createStepFormControl()])
     });
     this.steps = this.instructionForm.get('steps') as FormArray;
-    console.log(this.user.user);
   }
 
-  upload(event) {
-    const file = event.target.files[0];
-    const filePath = Math.random().toString(36).substring(2);
-    const task = this.storage.upload(filePath, file).then(() => {
-      const ref = this.storage.ref(filePath);
-      const downloadURL = ref.getDownloadURL().subscribe(url => {
-        console.log(url);
-      });
-    });
+  ngOnDestroy(): void {
+    if (this.imageSubscription) { this.imageSubscription.unsubscribe(); }
+    if (this.postInstructionSubscription) { this.postInstructionSubscription.unsubscribe(); }
   }
 
   addStep(): void {
@@ -68,7 +66,6 @@ export class WriteInstructionComponent implements OnInit {
     const idUser = this.route.snapshot.paramMap.get('id');
     const {description, theme, tags, steps, title} = this.instructionForm.value;
     this.resetForm();
-    console.log(description, theme, tags, steps, title);
     this.showPostedAlert();
     const file = imageInstruction[0].file;
     const filePath = Math.random().toString(36).substring(2);
@@ -106,11 +103,9 @@ export class WriteInstructionComponent implements OnInit {
 
   private clearSteps(): void {
     Object.keys(this.steps.controls).forEach(control => {
-      console.log(this.steps.controls[control]);
       this.steps.controls[control].setErrors(null);
 
       Object.keys(this.steps.controls[control].controls).forEach(index => {
-        console.log(this.steps.controls[control].controls[index]);
         this.steps.controls[control].controls[index].setErrors(null);
       });
     });
