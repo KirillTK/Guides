@@ -1,0 +1,20 @@
+.registration-container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-btn {
+    margin-top: 20px;
+}
+
+.user-error {
+    width: 100%;
+    min-height: 15px;
+    margin: 20px auto;
+    color: red;
+}

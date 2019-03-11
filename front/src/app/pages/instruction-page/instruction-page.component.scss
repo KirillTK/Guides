@@ -1,0 +1,109 @@
+.instruction_info_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.instruction_image_container {
+    width: 30%;
+
+    div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+
+        button.mat-stroked-button {
+            width: 100%;
+        }
+
+        div.instruction_info {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            margin-top: 15px;
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.instruction_image {
+    width: 100%;
+    height: auto;
+}
+
+.instruction-description {
+    width: 60%;
+    word-wrap: break-word;
+}
+
+.title {
+    text-align: center;
+}
+
+.comments {
+    width: 100%;
+}
+
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    padding: 20px 20px;
+    margin-bottom: 20px;
+}
+
+.review-form-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.user-info > a {
+    font-size: 1.3em;
+    font-weight: bold;
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+.spinner {
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+mat-stroked-button {
+    width: 100%;
+}
+
+
+@media only screen and (max-device-width: 600px){
+    .stars {
+        font-size: 0.7em;
+    }
+}
+
+.count-like {
+    padding-left: 10px;
+}

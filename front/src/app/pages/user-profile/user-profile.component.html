@@ -1,0 +1,6 @@
+<section class="user_profile_container" *ngIf="isLoaded">
+    <app-user-info [uid]="uid"></app-user-info>
+    <app-card-instructions [instructions]="instructions"></app-card-instructions>
+</section>
+
+<mat-spinner *ngIf="!isLoaded" class="spinner"></mat-spinner>

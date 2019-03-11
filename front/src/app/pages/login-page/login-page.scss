@@ -1,0 +1,20 @@
+.login-container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-btn {
+    margin-top: 20px;
+}
+
+.no-user {
+    width: 100%;
+    min-height: 15px;
+    margin: 20px auto;
+    color: red;
+}

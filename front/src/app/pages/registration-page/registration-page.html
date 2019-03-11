@@ -1,0 +1,27 @@
+<div class="registration-container">
+
+    <form [formGroup]="registrationForm" (submit)="submitRegistration()" class="registration-form">
+        <mat-form-field>
+            <input matInput placeholder="{{'REGISTRATION_PAGE.EMAIL'|translate}}" type="email" formControlName="email">
+            <mat-error *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">
+                {{'REGISTRATION_PAGE.INVALID_EMAIL'|translate}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="{{'REGISTRATION_PAGE.PASSWORD'|translate}}" type="password" formControlName="password">
+            <mat-error *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched">
+                {{'REGISTRATION_PAGE.INVALID_PASS'|translate}}
+            </mat-error>
+        </mat-form-field>
+
+        <span class="user-error" *ngIf="registrationMessage">
+        {{registrationMessage.message}}
+        </span>
+
+        <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" class="submit-btn">
+            {{'REGISTRATION_PAGE.REGISTER_BTN'|translate}}
+        </button>
+    </form>
+
+</div>
